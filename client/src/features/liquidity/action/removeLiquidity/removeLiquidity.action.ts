@@ -36,7 +36,6 @@ export const removeLiquidity = async ({
     account,
     routerContractService,
     dexPoolContractService,
-    gasUsed: 0,
     poolAddress
   })
 

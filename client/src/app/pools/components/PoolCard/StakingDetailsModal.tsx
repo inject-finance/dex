@@ -1,7 +1,6 @@
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { authState } from '@/features/auth/auth.state'
-import { getPoolAddressCommand } from '@/features/common/commands/getPoolAddress.command'
 import { poolState } from '@/features/pool/pool.state'
 import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
 import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'

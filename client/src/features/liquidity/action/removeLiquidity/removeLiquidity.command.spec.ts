@@ -23,8 +23,7 @@ describe('When removeLiquidityCommand is called', () => {
     transactionHash: 'mockTransactionHash',
     tokenA: { address: 'mockTokenAAddress' } as Token,
     tokenB: { address: 'mockTokenBAddress' } as Token,
-    shares: 0,
-    gasUsed: 0
+    shares: 0
   } as RemoveLiquidityCommand
 
   it('and is successful', async () => {

@@ -16,7 +16,6 @@ describe('When approveToken is called', () => {
     tokenContractService,
     dexPoolContractService,
     account: { address: 'mockAccountAddress' } as User,
-    gasUsed: 0,
     transactionHash: ''
   }
 

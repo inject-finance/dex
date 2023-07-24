@@ -21,7 +21,6 @@ describe('When removeLiquidity is called', () => {
     shares: 0,
     dexPoolContractService,
     routerContractService,
-    gasUsed: 0,
     poolAddress: ''
   }
 

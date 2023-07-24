@@ -23,7 +23,6 @@ export const approveToken = async ({
     tokenContractService,
     dexPoolContractService,
     account: owner,
-    gasUsed: 0,
     transactionHash: ''
   })
 
