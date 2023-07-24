@@ -6,12 +6,6 @@ on:
     paths:
       - 'client/**'
 
-  # pull_request_target:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'client/**'
-
 jobs:
   check:
     name: 🔎 Check
@@ -20,10 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Node.js
+     - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install
@@ -34,29 +29,24 @@ jobs:
       - name: Check format
         run: yarn workspace client format:check
 
-  # test:
-  #   name: 🧪 Test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     # - uses: actions/checkout@v1
-  #     # - uses: actions/setup-node@v3
-  #     #   with:
-  #     #     node-version: lts/*
-  #     #     cache: yarn
+  test:
+    name: 🧪 Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
 
-  #     - name: Install Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: lts/*
+      - name: Install dependencies
+        run: yarn install
 
-  #     - name: Install dependencies
-  #       run: yarn install
-
-  #     - name: Run tests
-  #       run: yarn workspace client test . --watchAll=false
+      - name: Run tests
+        run: yarn workspace client test . --watchAll=false
 
   build:
     name: 👷🏼‍♂️ Build
@@ -69,6 +59,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
+          cache: yarn
 
       - name: Install dependencies
         run: yarn install

@@ -6,12 +6,6 @@ on:
     paths:
       - 'server/**'
 
-  # pull_request_target:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'server/**'
-
 jobs:
   check:
     name: 🔎 Check
