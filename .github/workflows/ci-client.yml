@@ -1,0 +1,77 @@
+name: token-service.interface.ts:1:8
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    paths:
+      - 'client/**'
+
+  # pull_request_target:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'client/**'
+
+jobs:
+  check:
+    name: 🔎 Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Format code
+        run: yarn workspace client format --write .
+
+      - name: Check format
+        run: yarn workspace client format:check
+
+  # test:
+  #   name: 🧪 Test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # - uses: actions/checkout@v1
+  #     # - uses: actions/setup-node@v3
+  #     #   with:
+  #     #     node-version: lts/*
+  #     #     cache: yarn
+
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Install Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: lts/*
+
+  #     - name: Install dependencies
+  #       run: yarn install
+
+  #     - name: Run tests
+  #       run: yarn workspace client test . --watchAll=false
+
+  build:
+    name: 👷🏼‍♂️ Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn workspace client build

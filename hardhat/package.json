@@ -1,0 +1,16 @@
+{
+  "name": "dex",
+  "version": "0.0.1",
+  "license": "ISC",
+  "scripts": {
+    "start": "npx hardhat node",
+    "clean": "npx hardhat clean",
+    "test": "npx hardhat test",
+    "compile": "npx hardhat compile",
+    "deploy:local": "npx hardhat run scripts/deploy_router.ts --network localhost",
+    "deploy:goerli": "npx hardhat run scripts/deploy_router_goerli.ts --network arbitrumGoerli",
+    "deploy:tokens": "npx hardhat run scripts/deploy_tokens.ts --network arbitrumGoerli",
+    "flat": "npx hardhat flatten contracts/PoolFactory.sol > PoolFactory.sol",
+    "co": "cd .. && yarn co"
+  }
+}

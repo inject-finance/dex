@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "license": "ISC",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "start": "nest start",
+    "dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node server/dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./server/test/jest-e2e.json",
+    "format:check": "prettier --write \"src/**/*.ts\"",
+    "typeorm": "typeorm-ts-node-esm",
+    "deploy": "yarn build && yarn start:dev",
+    "migration:create": "yarn run typeorm migration:create --",
+    "migration:generate": "yarn run typeorm migration:generate -- -d ./src/config/migrations.config.ts",
+    "migration:run": "yarn run typeorm migration:run -d ./src/config/migrations.config.ts",
+    "migration:revert": "yarn run typeorm migration:revert -d ./src/config/migrations.config.ts",
+    "terraform:init": "cd ./terraform && terraform init",
+    "terraform:plan": "cd ./terraform && terraform plan -var-file=.env",
+    "terraform:apply": "cd ./terraform && terraform apply -var-file=.env"
+  }
+}

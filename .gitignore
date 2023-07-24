@@ -1,0 +1,59 @@
+# Node.js
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+
+# Client (Next.js)
+client/.next
+node_modules
+
+# Hardhat
+hardhat/typechain-types
+
+# Server
+dist/
+server/node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Arbiscan verifying file
+hardhat/Flattened.sol
+
+# Operating Systems
+.DS_Store
+
+# Tests
+coverage/
+.nyc_output/
+
+# IDEs and Editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/
+.env*
+pgadmin-data
+.build
+.serverless
+.aws
+
+# Hardhat
+cache/
+artifacts/
+
+# Terraform
+terraform/.terraform
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate*
+variables.tf

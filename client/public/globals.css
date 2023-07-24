@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100;300;500;600;700&family=Tomorrow:wght@100;300;400;500;600;700&display=swap');
+
+:root {
+  --title-font: 'Tomorrow', sans-serif;
+  --standard-font: 'Barlow', sans-serif;
+  --bg-black: #091316;
+  --green-black: #192026;
+  --dark-green: #283336;
+  --light-black: #181818;
+  --brand-blue: #162634;
+  --light-blue: #339EA8;
+  --brand-yellow: #D9972F;
+  --light-yellow: #FDD981;
+  --grey: #3d3d3d;
+}
+
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--standard-font);
+  color: var(--white);
+}
+
+#__next {
+  height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title-font);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--bg-black);
+  border-radius: 999px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #757575;
+  border-radius: 9999px;
+  opacity: 0.4;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0dc7fa65;
+}
+
+.spinner-container {
+  position: relative;
+}
+
+.spinner-child {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #3a3a3a80;
+  top: 0;
+  z-index: 999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+html[data-theme='dark'] {
+  .spinner-child {
+    background-color: rgba(37, 37, 37, 0.5);
+  }
+}

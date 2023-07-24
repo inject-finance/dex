@@ -1,0 +1,62 @@
+name: Continuous Integration on Server
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    paths:
+      - 'server/**'
+
+  # pull_request_target:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'server/**'
+
+jobs:
+  check:
+    name: 🔎 Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Check format
+        run: yarn workspace server format:check
+
+  # test:
+  #   name: 🧪 Test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: lts/*
+  #         cache: yarn
+
+  #     - name: Install dependencies
+  #       run: yarn
+
+  #     - name: Run tests
+  #       run: yarn test --watchAll=false
+
+  build:
+    name: 👷🏼‍♂️ Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn workspace server build
