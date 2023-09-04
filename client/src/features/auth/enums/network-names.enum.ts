@@ -1,7 +1,13 @@
 export const enum NetworkNames {
   MAINNET = 'homestead',
-  GOERLI = 'goerli',
   ARBITRUM_GOERLI = 'arbitrum-goerli',
-  SEPOLIA = 'sepolia',
+  ARBITRUM = 'arbitrum',
   LOCALHOST = 'unknown'
+}
+
+export const NetworkNamesBeauty: Record<string, string> = {
+  homestead: 'MAINNET',
+  'arbitrum-goerli': 'ARBITRUM GOERLI',
+  arbitrum: 'ARBITRUM',
+  unknown: 'unknown'
 }
