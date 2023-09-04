@@ -26,10 +26,7 @@ export const PoolTable = () => {
     <div className="max-h-[340px] overflow-auto pr-5">
       {Boolean(contents.pools.length) &&
         contents.pools.map((e) => (
-          <Fragment key={e.id}>
-            <PoolCard tokenA={e.tokenA} tokenB={e.tokenB} />
-            <br />
-          </Fragment>
+          <PoolCard key={e.id} tokenA={e.tokenA} tokenB={e.tokenB} />
         ))}
 
       {!contents.pools.length && (

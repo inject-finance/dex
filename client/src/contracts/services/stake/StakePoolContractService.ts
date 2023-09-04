@@ -71,7 +71,7 @@ export class StakePoolContractService implements IStakePoolContractService {
     poolAddress: string
   ): Promise<boolean | undefined> {
     await this.init()
-    return this.contract?.stakingPoolExists(poolAddress)
+    return this.contract?.stakingPoolExists(poolAddress).catch(() => false)
   }
 
   public async getTotalRewards(poolAddress: string, metamaskAddress: string) {

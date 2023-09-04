@@ -31,7 +31,7 @@ export const PoolCard: React.FC<Props> = ({ tokenA, tokenB }) => {
 
   return (
     <div
-      className={`collapse collapse-arrow rounded-md bg-[var(--dark-green)] 
+      className={`collapse collapse-arrow rounded-md bg-[var(--dark-green)] mb-3 
       ${
         Number(contents.pendingRewards)
           ? 'opacity-40 border border-[#339ea8]/80'
@@ -46,7 +46,7 @@ export const PoolCard: React.FC<Props> = ({ tokenA, tokenB }) => {
         <Details tokenA={tokenA} tokenB={tokenB} />
 
         {isAuthenticated ? (
-          <div className="flex flex-row items-center w-full md:w-auto gap-3 pt-5">
+          <div className="flex flex-row items-center w-full gap-3 pt-5 md:w-auto">
             <OpenStakeModalButton
               isStakeable={contents.isStakeable}
               pendingRewards={contents.pendingRewards}

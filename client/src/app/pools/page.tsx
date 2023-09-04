@@ -1,8 +1,6 @@
 import poolsIcon from '@/assets/images/pools_menu_icon.png'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
-import Link from 'next/link'
+import { CreateNewPoolButton } from './components/CreateNewPoolButton'
 import { Header } from './components/Header'
 import { PoolTable } from './components/PoolTable'
 
@@ -24,23 +22,8 @@ export default function Page() {
               src={poolsIcon}
             />
           </h2>
-          <button className="group min-w-[32px]">
-            <Link className="w-full h-full" href="/create-new-pool">
-              <div
-                className="flex flex-row items-center justify-center py-1 px-2 w-full text-md rounded-full opacity-60 bg-gradient-to-br from-[var(--light-blue)] to-[var(--brand-yellow)] hover:opacity-100"
-                id="createBtn"
-              >
-                <FontAwesomeIcon
-                  className="max-h-[18px] max-w-[18px] transition ease-in-out duration-500 group-hover:rotate-90"
-                  icon={faPlus}
-                />
-                <span className="flex gap-1">
-                  <p />
-                  Create New Pool
-                </span>
-              </div>
-            </Link>
-          </button>
+
+          <CreateNewPoolButton />
         </div>
         <Header />
         <PoolTable />
