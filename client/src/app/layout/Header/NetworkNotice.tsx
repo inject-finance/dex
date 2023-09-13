@@ -45,7 +45,7 @@ export const NetworkNotice = () => {
           <span className="opacity-80 max-w-[280px] lg:max-w-none text-center">
             Connection to the <span>Arbitrum</span> Network is{' '}
             <strong className="text-[var(--light-blue)]">REQUIRED</strong> to
-            use Inject Finance. Currently you are connected to{' '}
+            use Inject Finance. You are currently connected to{' '}
             {NetworkNamesBeauty[network]}
           </span>
           <button
