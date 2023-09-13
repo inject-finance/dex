@@ -3,6 +3,14 @@ const constants = {
     url: '/api'
   },
   tokenKey: 'authToken',
+  initialTokens: {
+    tokenA: {
+      symbol: 'ETH'
+    },
+    tokenB: {
+      symbol: 'DAI'
+    }
+  },
   feesFactor: 10000,
   errors: {
     /*

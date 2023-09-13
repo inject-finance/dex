@@ -1,21 +1,39 @@
 'use client'
 import { Navbar } from '@/app/layout/Header/Navbar'
+import constants from '@/common/configuration/constants'
 import { RecoilProvider } from '@/components/RecoilProvider'
-import { poolState } from '@/features/pool/pool.state'
+import { poolState, setPoolState } from '@/features/pool/pool.state'
+import { getTokenBySymbol } from '@/features/tokens/selectors/getTokenBySymbol.selector'
 import { useEffect, type ReactNode } from 'react'
-import { resetRecoil } from 'recoil-nexus'
+import { getRecoilPromise, resetRecoil } from 'recoil-nexus'
 import { Footer } from './Footer'
 import { GlowWrapper } from './GlowWrapper'
 import { Drawer } from './Header/Drawer'
 import { NetworkNotice } from './Header/NetworkNotice'
 
 type Props = {
-  children: ReactNode
+  readonly children: ReactNode
 }
 
-export const LayoutClient: React.FC<Props> = ({ children }) => {
+export const LayoutClient = ({ children }: Props) => {
   useEffect(() => {
     resetRecoil(poolState)
+
+    getRecoilPromise(
+      getTokenBySymbol(constants.initialTokens.tokenA.symbol)
+    ).then((tokenA) => {
+      setPoolState({
+        tokenA
+      })
+    })
+
+    getRecoilPromise(
+      getTokenBySymbol(constants.initialTokens.tokenB.symbol)
+    ).then((tokenB) => {
+      setPoolState({
+        tokenB
+      })
+    })
   }, [])
 
   return (
