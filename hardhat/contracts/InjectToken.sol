@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity 0.8.18;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -15,6 +15,8 @@ contract InjectToken is ERC20, Ownable, ERC20Burnable {
     }
 
     function mint(address _to, uint256 _amount) external onlyOwner {
+        require(totalSupply() + _amount <= maxSupply, "exceeds max supply!");
         _mint(_to, _amount);
+        
     }
 }
