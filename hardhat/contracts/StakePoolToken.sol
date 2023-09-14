@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.11;
+pragma solidity 0.8.18;
 
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -10,10 +10,10 @@ import "./interfaces/ITokenPool.sol";
 
 contract StakePoolToken is Pausable, Ownable, ReentrancyGuard {
     uint public constant factor = 10000;
-    uint public constant DAY = 24 * 60 * 60;
-    uint public constant MONTH = 30 * DAY;
-    uint public constant YEAR = 12 * MONTH;
-    uint public maxDuration = 3 * MONTH;
+    uint public constant MONTH = 30 days;
+    uint public constant YEAR = 365 days;
+    
+    uint public maxDuration = 90 days;
     uint public penalty = 500; // 5% initial value
     address public injectToken;
 
@@ -117,8 +117,6 @@ contract StakePoolToken is Pausable, Ownable, ReentrancyGuard {
         poolInfo[_poolAddress].isActive = _status;
     }
 
-    // 1. Verify what happen if user wants to stake again before the previous staking period ends. 
-    
     function stakeToken(uint256 _stakeAmount, ITokenPool _poolAddress, uint _duration)
         external 
         whenNotPaused 
