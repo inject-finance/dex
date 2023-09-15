@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 type Props = {
-  text?: string
+  readonly text?: string
 }
 export const Spinner: React.FC<Props> = ({ text }) => (
   <span className="flex flex-row items-center">

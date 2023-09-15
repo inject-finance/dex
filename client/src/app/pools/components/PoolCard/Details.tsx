@@ -55,7 +55,7 @@ export const Details: React.FC<Props> = ({ tokenA, tokenB }) => {
           </div>
           <div
             className="text-center p-1 md:w-1/4 border-b border-b-[var(--light-blue)] md:border-b-0 md:border-l md:border-l-[var(--light-blue)] h-[32px] max-h-[32px] tooltip tooltip-bottom hover:cursor-pointer"
-            data-tip={`${contents.shares}`}
+            data-tip={contents.shares}
           >
             Pool Tokens
           </div>

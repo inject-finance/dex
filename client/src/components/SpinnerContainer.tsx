@@ -2,10 +2,10 @@ import React from 'react'
 import { Spinner } from './Spinner'
 
 type Props = {
-  children: React.ReactNode
-  isLoading: boolean
-  style?: any
-  text?: string
+  readonly children: React.ReactNode
+  readonly isLoading: boolean
+  readonly style?: any
+  readonly text?: string
 }
 export const SpinnerContainer = ({
   children,
