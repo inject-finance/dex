@@ -25,14 +25,15 @@ import { useRecoilCallback, useRecoilValue } from 'recoil'
 import * as yup from 'yup'
 
 type Inputs = {
+  minStakeAmount?: number
+  minReserve?: number
   initialDeposit: number
-  minReserve: number | undefined
   interestRate: number
-  minStakeAmount: number | undefined
 }
 
 const schema = yup
-  .object({
+  .object()
+  .shape({
     initialDeposit: yup.number().positive().required().label('Initial deposit'),
     minReserve: yup
       .number()
@@ -86,9 +87,9 @@ export const SetStakingPoolModal = dynamic(
               )
 
               await setStakingPool({
-                initialDeposit,
+                initialDeposit: Number(initialDeposit),
                 minStakeAmount: Number(minStakeAmount),
-                interestRate,
+                interestRate: Number(interestRate),
                 minReserve: Number(minReserve),
                 poolAddress
               })
