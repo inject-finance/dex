@@ -2,7 +2,7 @@ import { loadFixture, } from "@nomicfoundation/hardhat-network-helpers";
 import { BigNumber, utils} from 'ethers';
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import bn  from 'bignumber.js';
+import bn from 'bignumber.js';
 
 
 const initialTokens = utils.parseEther("1000");

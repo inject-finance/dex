@@ -17,12 +17,10 @@ export class BusinessException extends BaseException {
 
   getResponse(): ExceptionResponse {
     const { name, message, code } = BusinessErrors.default
-    const some = {
+    return {
       name: this.error?.name ?? name,
       message: (this.message || this.error?.message) ?? message,
       code: this.error?.code ?? code
     }
-
-    return some
   }
 }

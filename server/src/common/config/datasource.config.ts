@@ -12,6 +12,6 @@ export function getConfig() {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     migrations: ['src/migrations/*{.js,.ts}'],
-    entities: [__dirname + '/entities.config.ts']
+    entities: [`${__dirname}/entities.config.ts`]
   } as DataSourceOptions
 }
