@@ -1,5 +1,5 @@
 export const InjectTokenConstants = {
-  address: '0x288E98CaeaD8Fbe29641Ebf3C8CA560726b2bf8D',
+  address: '0x93b97109CEC2cfd8cC59Cc867EfC270422693B6a',
   abi: [
     {
       inputs: [

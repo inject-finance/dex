@@ -1,5 +1,5 @@
 export const PoolFactoryConstants = {
-  address: '0x76a1899b9c2c121B14A2095EdCdCA25129F75173',
+  address: '0x05e5E2354254c969e088B5A1BaeB7CF02697e4D1',
   abi: [
     {
       inputs: [],

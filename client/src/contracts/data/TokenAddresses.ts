@@ -1,4 +1,4 @@
-export const WETHContractAddress = '0x603c24b697d9302081f6472aa71849268c629620'
+export const WETHContractAddress = '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1'
 export const DAIContractAddress = '0xfbdea73bfd3869ede9fea4a1fa3b18f13a2d2008'
 export const LINKContractAddress = '0xa239626cAC553cda5EBe2439fCFDb8F8a38540fF'
 export const BATContractAddress = '0x637c23E735bC29B6236E2e4446B2e05601697789'
