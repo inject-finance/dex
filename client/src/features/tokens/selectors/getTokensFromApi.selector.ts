@@ -1,3 +1,4 @@
+import { Pool } from '@/common/types/Pool'
 import { Token } from '@/common/types/Token'
 import { atom, selector } from 'recoil'
 import { poolState } from '../../pool/pool.state'
@@ -48,29 +49,43 @@ export const getTokensWithoutPoolSelector = selector({
     const tokenToMatch =
       selectedToken.symbol === tokenA.symbol ? tokenB : tokenA
 
-    const data: Token[] = await fetch(
-      `/api/tokens/tokens-without-pool/${tokenToMatch.symbol}`
-    ).then((res) => res.json())
+    const pools: Pool[] = await fetch(`/api/pools`).then((res) => res.json())
+    const [tokens]: [Token[]] = await fetch(`/api/tokens`).then((res) =>
+      res.json()
+    )
 
-    const { tokens: tokensInPool } = get(getTokensInPoolSelector)
+    const tokensDone = pools
+      .map((e) => {
+        if (e.tokenA.symbol === tokenToMatch.symbol) {
+          return e.tokenB
+        }
+        if (e.tokenB.symbol === tokenToMatch.symbol) {
+          return e.tokenA
+        }
+        return undefined as unknown as Token
+      })
+      .filter(Boolean)
 
-    const tokensFiltered = await Promise.all(
-      tokensInPool.map((e) => {
-        const reserves = get(
+    const tokensToReturn = [...tokens, ...tokensDone]
+      .filter((e) =>
+        get(
           getHasReservesSelector({
             tokenA: e,
             tokenB: tokenToMatch
           })
         )
-
-        return !reserves ? e : (undefined as unknown as Token)
-      })
-    )
-
-    const tokens = [...data, ...tokensFiltered]
+          ? undefined
+          : e
+      )
+      .filter((e) => (e.symbol === tokenToMatch.symbol ? undefined : e))
+      .filter((token) => new RegExp(name, 'iu').test(token?.name))
       .filter(Boolean)
-      .filter((token) => new RegExp(name, 'iu').test(token.name))
 
-    return { tokens, tokenThatNeedMatch: tokenToMatch }
+    return {
+      tokens: Array.from(
+        new Set(tokensToReturn.map((obj) => JSON.stringify(obj)))
+      ).map((str) => JSON.parse(str)),
+      tokenThatNeedMatch: tokenToMatch
+    }
   }
 })

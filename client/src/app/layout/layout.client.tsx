@@ -10,12 +10,14 @@ import { Footer } from './Footer'
 import { GlowWrapper } from './GlowWrapper'
 import { Drawer } from './Header/Drawer'
 import { NetworkNotice } from './Header/NetworkNotice'
+import { usePathname } from 'next/navigation'
 
 type Props = {
   readonly children: ReactNode
 }
 
 export const LayoutClient = ({ children }: Props) => {
+  const pathname = usePathname()
   useEffect(() => {
     resetRecoil(poolState)
 
@@ -34,7 +36,7 @@ export const LayoutClient = ({ children }: Props) => {
         tokenB
       })
     })
-  }, [])
+  }, [pathname])
 
   return (
     <main className="h-screen">

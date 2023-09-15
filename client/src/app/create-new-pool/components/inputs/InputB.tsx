@@ -38,7 +38,7 @@ export const InputB = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col items-end justify-end gap-3 group">
-        <div className="flex justify-end items-center w-full rounded bg-[var(--green-black)] px-3 tooltip tooltip-top ease-in-out duration-300 md:max-w-[166px] border border-transparent focus-within:border-[#339ea8]/50">
+        <div className="flex justify-end items-center w-full rounded bg-[var(--green-black)] px-3 tooltip tooltip-top ease-in-out duration-300 border border-transparent focus-within:border-[#339ea8]/50">
           <FontAwesomeIcon
             className="max-w-[16px] max-h-[16px] opacity-40 group-focus-within:transition group-focus-within:ease-in group-focus-within:duration-300 group-focus-within:opacity-90"
             color="#339EA8"

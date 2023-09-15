@@ -5,10 +5,10 @@ const constants = {
   tokenKey: 'authToken',
   initialTokens: {
     tokenA: {
-      symbol: 'ETH'
+      symbol: 'XDAI'
     },
     tokenB: {
-      symbol: 'DAI'
+      symbol: 'ETH'
     }
   },
   feesFactor: 10000,

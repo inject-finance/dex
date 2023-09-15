@@ -7,6 +7,7 @@ import { DexRouterConstants } from '../../data/DexRouter.constants'
 import { createAsyncContract } from '../../utils/createContract'
 import { tokenContractService } from '../token/TokenContractService'
 import { type IRouterContractService } from './IRouterContractService'
+import { poolFactoryContractService } from '../factory/PoolFactoryContractService'
 
 export class RouterContractService implements IRouterContractService {
   private declare contract: DexRouter | null
@@ -24,6 +25,15 @@ export class RouterContractService implements IRouterContractService {
 
   public async getReserves(tokenA: Token, tokenB: Token) {
     try {
+      const pairExist = await poolFactoryContractService.pairExists(
+        tokenA.address,
+        tokenB.address
+      )
+
+      if (!pairExist) {
+        throw new Error('Pair does not exist')
+      }
+
       await this.init()
 
       const res = await this.contract?.getTokenPairReserves(
@@ -122,6 +132,7 @@ export class RouterContractService implements IRouterContractService {
     }
 
     if (tokenA.symbol !== 'ETH' && tokenB.symbol !== 'ETH') {
+      console.log({ tokenA, tokenB })
       return this.contract?.addTokenToTokenLiquidity(
         tokenA.address,
         tokenB.address,

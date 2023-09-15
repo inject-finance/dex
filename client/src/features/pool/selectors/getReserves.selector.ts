@@ -16,6 +16,7 @@ export const getHasReservesSelector = selectorFamily<boolean, TokenPair>({
     ({ tokenA, tokenB }) =>
     ({ get }) => {
       const reserves = get(getReservesSelector({ tokenA, tokenB }))
+
       return Boolean(reserves.reserveA && reserves.reserveB)
     }
 })

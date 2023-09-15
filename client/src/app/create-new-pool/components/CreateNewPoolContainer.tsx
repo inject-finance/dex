@@ -23,8 +23,9 @@ export const CreateNewPoolContainer = () => {
 
   useEffect(() => {
     if (
+      account.address &&
       account.address !==
-      process.env.NEXT_PUBLIC_ADDRESS_STAKING_OWNER?.toLocaleLowerCase()
+        process.env.NEXT_PUBLIC_ADDRESS_STAKING_OWNER?.toLocaleLowerCase()
     ) {
       router.back()
     }

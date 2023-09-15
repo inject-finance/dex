@@ -7,23 +7,25 @@ import {
   NetworkNames,
   NetworkNamesBeauty
 } from '@/features/auth/enums/network-names.enum'
+import { useRecoilValue } from 'recoil'
+import { setUiState, uiState } from '@/features/ui/ui.state'
 
 export const NetworkNotice = () => {
-  const [showNotice, setShowNotice] = useState(false)
+  const { showNetworkNotice } = useRecoilValue(uiState)
   const [network, setNetwork] = useState('')
 
   const checkNetworkConnection = async () => {
     if (typeof window === 'undefined' || !window.ethereum?.isMetaMask)
-      return setShowNotice(true)
+      return setUiState({ showNetworkNotice: true })
 
     const network = await getProvider()?.getNetwork()
 
     setNetwork(network?.name ?? '')
     if (network?.name !== NetworkNames.ARBITRUM) {
-      return setShowNotice(true)
+      return setUiState({ showNetworkNotice: true })
     }
 
-    return setShowNotice(false)
+    return setUiState({ showNetworkNotice: false })
   }
 
   useEffect(() => {
@@ -31,10 +33,10 @@ export const NetworkNotice = () => {
   }, [])
 
   const closeNotice = () => {
-    setShowNotice(false)
+    setUiState({ showNetworkNotice: false })
   }
 
-  if (showNotice) {
+  if (showNetworkNotice) {
     return (
       <div className="bg-[var(--dark-green)]">
         <div className="flex items-center justify-between w-screen h-auto lg:py-3 lg:px-5 py-2 px-5 rounded-b-sm gap-2 max-w-[1024px] m-auto">
