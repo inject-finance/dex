@@ -16,7 +16,8 @@ export const TokenIcon = ({ token }: Props) => {
       alt="token_icon"
       className="max-h-[40px] max-w-[40px]"
       height={pathname === '/pools' ? 30 : 40}
-      src={require(`@/assets/images/token-icons/${token.symbol.toLocaleLowerCase()}_icon.png`)}
+      src={`/images/token-icons/${token.symbol.toLocaleLowerCase()}_icon.png`}
+      // onError={(e) => (e.currentTarget.src = `/images/token-icons/token_placeholder.png`)}
       width={pathname === '/pools' ? 30 : 40}
     />
   )
