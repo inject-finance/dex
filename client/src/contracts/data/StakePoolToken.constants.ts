@@ -108,19 +108,6 @@ export const StakePoolTokenConstants = {
     },
     {
       "inputs": [],
-      "name": "DAY",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "MONTH",
       "outputs": [
         {

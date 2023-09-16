@@ -15,7 +15,7 @@ contract DexRouter is Ownable, ReentrancyGuard {
     IPoolFactory public factory;
     address public immutable WETH;
     uint private constant factor = 10000;
-    uint public constant _ownerFees = 10; //.1%
+    uint public ownerFees = 10; //.1%
 
     event LogSwapETHForTokens(address _sender, uint _amountIn, address _tokenOut, address _poolAddress);
     event LogSwapTokensForETH(address _sender, uint _amountIn, address _tokenIn, address _poolAddress);
@@ -45,6 +45,14 @@ contract DexRouter is Ownable, ReentrancyGuard {
         require(_weth != address(0), "not valid weth address!");
         factory = IPoolFactory(_factory);
         WETH = _weth;
+    }
+
+    function setNewOwnerFees(uint _ownerFees) 
+        external 
+        onlyOwner 
+    {
+        // 100 represents 1%
+        ownerFees = _ownerFees;
     }
 
     function setNewPoolFactory(address _factory)
@@ -80,15 +88,11 @@ contract DexRouter is Ownable, ReentrancyGuard {
 
         address poolAddress = getPairAddress(_tokenIn, _tokenOut);
 
-        uint _amountInWithOwnerFees = (_amountIn * _ownerFees)/factor;
-
-        IERC20(_tokenIn).safeTransferFrom(to, owner(), _amountInWithOwnerFees);
-
-        IERC20(_tokenIn).safeTransferFrom(to, poolAddress, (_amountIn - _amountInWithOwnerFees));
+        uint amountIn = transferTokens(_amountIn, _tokenIn, to, poolAddress);
 
         uint balanceBefore = IERC20(_tokenOut).balanceOf(to);
 
-        _swapTokensWithFees(poolAddress, to, _tokenIn, _amountIn);
+        _swapTokensWithFees(poolAddress, to, _tokenIn, amountIn);
         
         uint balanceAfter = IERC20(_tokenOut).balanceOf(to);
         uint amountOut = balanceAfter - balanceBefore;
@@ -96,6 +100,26 @@ contract DexRouter is Ownable, ReentrancyGuard {
 
         uint _fees = IDexPool(poolAddress).fees();
         emit LogSwapTokensWithFees(msg.sender, _tokenIn, _tokenOut, poolAddress, _fees, _amountIn, amountOut);
+    }
+
+    function transferTokens(uint _amountIn, address _tokenIn, address _to, address _poolAddress) 
+        internal 
+        returns (uint amountIn) 
+    {
+        uint _ownerFees;
+        (_ownerFees, amountIn) = getAmountIn(_amountIn);
+
+        IERC20(_tokenIn).safeTransferFrom(_to, owner(), _ownerFees);
+        IERC20(_tokenIn).safeTransferFrom(_to, _poolAddress, amountIn);
+    }
+
+    function getAmountIn(uint _amountIn)
+        view
+        internal 
+        returns(uint _ownerFees, uint amountIn) 
+    {
+        _ownerFees = (_amountIn * ownerFees)/factor;
+        amountIn = _amountIn - _ownerFees;
     }
 
     function swapETHForTokens(
@@ -108,7 +132,10 @@ contract DexRouter is Ownable, ReentrancyGuard {
     {
         address to = msg.sender;
         require(_tokenOut != address(0), 'Zero address not allowed!');
-        uint amountIn = msg.value;
+        uint _amountIn = msg.value;
+        uint _amountInWithOwnerFees = (_amountIn * ownerFees)/factor;
+        uint amountIn = _amountIn - _amountInWithOwnerFees;
+
         IWETH(WETH).deposit{value : amountIn}();
 
         address poolAddress = getPairAddress(WETH, _tokenOut);
@@ -138,12 +165,12 @@ contract DexRouter is Ownable, ReentrancyGuard {
     {
         address to = msg.sender;
         require(_tokenIn != address(0), 'Zero address not allowed!');
-        
+
         address poolAddress = getPairAddress(_tokenIn, WETH);
 
-        IERC20(_tokenIn).safeTransferFrom(to, poolAddress, _amountIn);
+        uint amountIn = transferTokens(_amountIn, _tokenIn, to, poolAddress);
 
-        _swapTokensWithFees(poolAddress, address(this), _tokenIn, _amountIn);
+        _swapTokensWithFees(poolAddress, address(this), _tokenIn, amountIn);
         
         uint amountOut = IERC20(WETH).balanceOf(address(this));
         require( amountOut > 0, "amountOut is zero!");
@@ -154,7 +181,7 @@ contract DexRouter is Ownable, ReentrancyGuard {
         (bool success, ) = to.call{value: amountOut}("");
         require(success, "ETH transfer failed!");
 
-        emit LogSwapTokensForETH(msg.sender, _amountIn, _tokenIn, poolAddress);
+        emit LogSwapTokensForETH(msg.sender, amountIn, _tokenIn, poolAddress);
     }
 
     function addTokenToTokenLiquidity(
@@ -358,7 +385,10 @@ contract DexRouter is Ownable, ReentrancyGuard {
         address poolAddress = getPairAddress(_tokenIn, _tokenOut);
         require(poolAddress != address(0), "pool does not exist!");
 
-        amountOut = IDexPool(poolAddress).getTokensOutAmount(_tokenIn, _amountIn);
+        uint amountIn;
+        (, amountIn) = getAmountIn(_amountIn);
+
+        amountOut = IDexPool(poolAddress).getTokensOutAmount(_tokenIn, amountIn);
     }
 
     function getPairAddress(address _token0, address _token1)
@@ -370,6 +400,11 @@ contract DexRouter is Ownable, ReentrancyGuard {
         poolAddress = IPoolFactory(factory).getPairAddress(token0, token1);
         require(poolAddress != address(0), "pool does not exist!");
     }
+
+    function withdrawEtherFees() external onlyOwner{
+        (bool status, ) = msg.sender.call{value: address(this).balance}("");
+        require (status, "transfer failed!");
+    } 
 
     receive() 
         external 

@@ -28,8 +28,8 @@ async function main() {
     const stakePoolToken = await StakePoolToken.deploy(injectToken.address)
     await stakePoolToken.deployed()
 
-    const account1 = ''
-    const account2 = ''
+    const account1 = '0xA6E91f4ad217066095C8848b59Ec2A742b680E3d'
+    const account2 = '0x49baEaA5b4006B63b51632F6cF6314910683ABaD'
     await poolFactory.addToWhitelist([account1, account2])
 
     saveFrontendFiles(PoolFactory, 'PoolFactory')
