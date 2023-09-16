@@ -49,8 +49,8 @@ export const showTransactionDetails = ({
           transactionHash
             ? `Transaction Hash: 
             <a clasName="text-[#fdd981]" href="https://${
-              showNetworkNotice ? 'goerli' : ''
-            }.arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
+              showNetworkNotice ? 'goerli.' : ''
+            }arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
               ${transactionHash}
             </a>
           `
