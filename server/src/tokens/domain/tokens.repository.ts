@@ -10,7 +10,7 @@ export class TokensRepository extends Repository<Token> {
   }
 
   async findAll({ limit, skip, value, key }: PaginationDto) {
-    const tokens = await this.find({
+    const tokens = await this.findAndCount({
       take: limit,
       skip,
       where: value?.length

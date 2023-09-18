@@ -5,12 +5,14 @@ import { SavePoolService } from '@/pools/application/savePool/savePool'
 import { FindAllPools } from '@/pools/application/findAllPools/findAllPools'
 import { PoolsController } from './infrastructure/pools.controller'
 import { FindPoolByCriteria } from '@/pools/application/findPoolByCriteria/findPoolByCriteria'
+import { FindPoolsByTokens } from './application/findPoolsByTokens/findPoolsByTokens'
 
 @Module({
   imports: [HttpModule],
   controllers: [PoolsController],
   providers: [
     SavePoolService,
+    FindPoolsByTokens,
     FindAllPools,
     FindPoolByCriteria,
     PoolsRepository

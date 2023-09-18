@@ -12,7 +12,7 @@ import { useRecoilValue } from 'recoil'
 import { resetRecoil } from 'recoil-nexus'
 
 type Props = {
-  children: ReactNode
+  readonly children: ReactNode
 }
 
 export const GlowWrapper = ({ children }: Props) => {

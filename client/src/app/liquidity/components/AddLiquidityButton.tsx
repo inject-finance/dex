@@ -18,11 +18,13 @@ import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 import { ApproveTokenButton } from './ApproveTokenButton'
+import { usePathname } from 'next/navigation'
 
 export const AddLiquidityButton = dynamic(
   () =>
     Promise.resolve(
       buttonWithAuth(() => {
+        const pathname = usePathname()
         const { tokenA, tokenB } = useRecoilValue(poolState)
         const ratio = useRecoilValue(getRatioSelector)
         const allowance = useRecoilValue(getPairAllowanceSelector)
@@ -41,7 +43,11 @@ export const AddLiquidityButton = dynamic(
 
                 await addLiquidity({
                   tokenA,
-                  tokenB: { ...tokenB, amount: String(ratio) },
+                  tokenB: {
+                    ...tokenB,
+                    amount:
+                      pathname === 'liquidity' ? String(ratio) : tokenB.amount
+                  },
                   account,
                   poolAddress
                 })

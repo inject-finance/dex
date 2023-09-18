@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common'
-import type { SelectQueryBuilder } from 'typeorm'
-import { DataSource, Repository } from 'typeorm'
-import { User } from '@/users/domain/user.entity'
 import type { PaginationDto } from '@/common/dto/pagination.dto'
 import { Role } from '@/common/enums/role.enum'
+import { User } from '@/users/domain/user.entity'
+import { Injectable } from '@nestjs/common'
+import { DataSource, Repository, SelectQueryBuilder } from 'typeorm'
 
 @Injectable()
 export class UsersRepository extends Repository<User> {

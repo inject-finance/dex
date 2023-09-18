@@ -67,39 +67,3 @@ export const TOKENS: Token[] = [
     amount: ''
   }
 ]
-
-// export const switchCoins = () => {
-//   const tokenA = getRecoil(tokenAState)
-//   const tokenB = getRecoil(tokenBState)
-//   const selectedToken = getRecoil(selectedTokenState)
-
-//   setRecoil(tokenAState, tokenB)
-
-//   setTokenAState(tokenB)
-//   setTokenBState(tokenA)
-//   setSelectedTokenState(
-//     selectedToken.symbol === tokenA.symbol ? tokenB : tokenA
-//   )
-// }
-
-// export const selectToken = (token: Token) => {
-//   const tokenA = getRecoil(tokenAState)
-//   const tokenB = getRecoil(tokenBState)
-//   const selectedToken = getRecoil(selectedTokenState)
-
-//   if (selectedToken.symbol === tokenB.symbol && token === tokenA) {
-//     switchCoins()
-//   }
-
-//   if (selectedToken.symbol === tokenA.symbol && token === tokenB) {
-//     switchCoins()
-//   }
-
-//   if (selectedToken.symbol === tokenA.symbol) {
-//     setTokenAState(token)
-//   }
-
-//   if (selectedToken.symbol === tokenB.symbol) {
-//     setTokenBState(token)
-//   }
-// }

@@ -1,15 +1,11 @@
 import { PoolsRepository } from '@/pools/domain/pools.repository'
 import { Token } from '@/tokens/domain/tokens.entity'
-import { TokensRepository } from '@/tokens/domain/tokens.repository'
 import { Injectable } from '@nestjs/common'
 import { Like } from 'typeorm'
 
 @Injectable()
 export class FindTokensInPool {
-  constructor(
-    private readonly tokensRepository: TokensRepository,
-    private readonly poolsRepository: PoolsRepository
-  ) {}
+  constructor(private readonly poolsRepository: PoolsRepository) {}
 
   async run({ tokenSymbol }: { tokenSymbol: string }) {
     const data = await this.poolsRepository.find({

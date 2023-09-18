@@ -14,7 +14,9 @@ export class TokenContractService implements ITokenContractService {
   }
 
   public async init(token: Token): Promise<void> {
-    this.contract = await createAsyncContract<IERC20>(token.address, TokenABI)
+    if (token.address) {
+      this.contract = await createAsyncContract<IERC20>(token.address, TokenABI)
+    }
   }
 
   public async approve(token: Token): Promise<ContractTransaction | undefined> {

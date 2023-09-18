@@ -81,6 +81,7 @@ export const RemoveLiquidityModal = dynamic(
               refresh(getRatioSelector)
               refresh(getBalanceSelector(tokenA))
               refresh(getBalanceSelector(tokenB))
+              refresh(poolState)
             }
           }
       )

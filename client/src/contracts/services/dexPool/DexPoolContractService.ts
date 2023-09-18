@@ -16,10 +16,12 @@ export class DexPoolContractService implements IDexPoolContractService {
   }
 
   public async init(address: string): Promise<void> {
-    this.contract = (await createAsyncContract<DexPool>(
-      address,
-      DexPoolConstants.abi
-    )) as DexPool
+    if (address) {
+      this.contract = await createAsyncContract<DexPool>(
+        address,
+        DexPoolConstants.abi
+      )
+    }
   }
 
   public approveStakePool(
@@ -46,15 +48,15 @@ export class DexPoolContractService implements IDexPoolContractService {
 
   public async getAllowance({ address }: UserAddress) {
     try {
-      const allowance = await this.contract
-        ?.allowance(address, DexRouterConstants.address)
-        .then((res) => Number(utils.formatEther(res)))
-        .catch(() => 0)
+      const allowance = await this.contract?.allowance(
+        address,
+        DexRouterConstants.address
+      )
 
       if (!allowance) {
         return 0
       }
-      return allowance
+      return Number(utils.formatEther(allowance))
     } catch (error) {
       return 0
     }

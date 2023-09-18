@@ -2,6 +2,7 @@ import { atom } from 'recoil'
 import { getRecoil, setRecoil } from 'recoil-nexus'
 
 type UiState = {
+  showNetworkNotice: boolean
   drawerIsOpen: boolean
   tokenListVisibility: boolean
   confirmationModalVisibility: boolean
@@ -14,22 +15,21 @@ type UiState = {
   redeemRewardsModalVisibility: boolean
 }
 
-const initialState: UiState = {
-  drawerIsOpen: false,
-  tokenListVisibility: false,
-  confirmationModalVisibility: false,
-  removeLiquidityModalVisibility: false,
-  tradeSettingsVisibility: false,
-  addStakingModalVisibility: false,
-  createPositionModalVisibility: false,
-  stakingDetailsModalVisibility: false,
-  setStakingPoolModalVisibility: false,
-  redeemRewardsModalVisibility: false
-}
-
 export const uiState = atom<UiState>({
   key: 'ui-state',
-  default: initialState
+  default: {
+    drawerIsOpen: false,
+    showNetworkNotice: false,
+    tokenListVisibility: false,
+    confirmationModalVisibility: false,
+    removeLiquidityModalVisibility: false,
+    tradeSettingsVisibility: false,
+    addStakingModalVisibility: false,
+    createPositionModalVisibility: false,
+    stakingDetailsModalVisibility: false,
+    setStakingPoolModalVisibility: false,
+    redeemRewardsModalVisibility: false
+  }
 })
 
 export const setUiState = (state: Partial<UiState>) => {

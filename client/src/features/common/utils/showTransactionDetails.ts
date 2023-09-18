@@ -1,6 +1,8 @@
 import { Token, TokenPair } from '@/common/types/Token'
 import Swal from 'sweetalert2'
 import { formatQuantity } from './formatQuantity'
+import { getRecoil } from 'recoil-nexus'
+import { uiState } from '@/features/ui/ui.state'
 
 type TransactionDetails = Partial<TokenPair> & {
   token?: Token
@@ -13,6 +15,7 @@ export const showTransactionDetails = ({
   tokenB,
   transactionHash
 }: TransactionDetails): void => {
+  const { showNetworkNotice } = getRecoil(uiState)
   Swal.fire({
     title: 'Transaction details',
     text: 'Operation executed successfully',
@@ -33,7 +36,6 @@ export const showTransactionDetails = ({
             `
             : ''
         }
-        <br /> 
         ${
           tokenB?.amount
             ? `
@@ -42,11 +44,13 @@ export const showTransactionDetails = ({
             `
             : ''
         }
-    
+        <br /> 
         ${
           transactionHash
             ? `Transaction Hash: 
-            <a clasName="text-[#fdd981]" href="https://goerli.arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
+            <a clasName="text-[#fdd981]" href="https://${
+              showNetworkNotice ? 'goerli.' : ''
+            }arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
               ${transactionHash}
             </a>
           `

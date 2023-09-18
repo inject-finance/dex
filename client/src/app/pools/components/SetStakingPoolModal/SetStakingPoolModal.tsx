@@ -10,7 +10,7 @@ import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress
 import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
 import { setStakingPool } from '@/features/staking/actions/setStaking/setStakingPool.action'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
-import { TOKENS } from '@/features/tokens/tokens.state'
+import { getTokenBySymbol } from '@/features/tokens/selectors/getTokenBySymbol.selector'
 import { loadingState } from '@/features/ui/loading.state'
 import {
   toggleSetStakingPoolModalVisibility,
@@ -25,14 +25,15 @@ import { useRecoilCallback, useRecoilValue } from 'recoil'
 import * as yup from 'yup'
 
 type Inputs = {
+  minStakeAmount?: number
+  minReserve?: number
   initialDeposit: number
-  minReserve: number | undefined
   interestRate: number
-  minStakeAmount: number | undefined
 }
 
 const schema = yup
-  .object({
+  .object()
+  .shape({
     initialDeposit: yup.number().positive().required().label('Initial deposit'),
     minReserve: yup
       .number()
@@ -72,8 +73,6 @@ export const SetStakingPoolModal = dynamic(
         reset()
       }, [reset, tokenA, tokenB])
 
-      // const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
-
       const onSubmit = useRecoilCallback(
         ({ refresh, snapshot }) =>
           async ({
@@ -88,9 +87,9 @@ export const SetStakingPoolModal = dynamic(
               )
 
               await setStakingPool({
-                initialDeposit,
+                initialDeposit: Number(initialDeposit),
                 minStakeAmount: Number(minStakeAmount),
-                interestRate,
+                interestRate: Number(interestRate),
                 minReserve: Number(minReserve),
                 poolAddress
               })
@@ -109,8 +108,12 @@ export const SetStakingPoolModal = dynamic(
       const handleMaxInitialDeposit = useRecoilCallback(
         ({ snapshot }) =>
           async () => {
+            const injectToken = await snapshot.getPromise(
+              getTokenBySymbol('INJ3')
+            )
+
             const balance = await snapshot.getPromise(
-              getBalanceSelector(TOKENS[7])
+              getBalanceSelector(injectToken)
             )
             setValue('initialDeposit', formatQuantity(balance))
           }

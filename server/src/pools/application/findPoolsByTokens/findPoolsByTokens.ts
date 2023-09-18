@@ -2,12 +2,10 @@ import { PoolsRepository } from '@/pools/domain/pools.repository'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class FindAllPools {
+export class FindPoolsByTokens {
   constructor(private readonly repository: PoolsRepository) {}
 
-  run() {
-    return this.repository.find({
-      relations: { tokenA: true, tokenB: true }
-    })
+  run(dto: { key: string; value: string }) {
+    return this.repository.findAll(dto)
   }
 }

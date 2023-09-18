@@ -13,6 +13,7 @@ import { FindOneTokenByService } from './application/findOneTokenBy/findOneToken
 import { FindTokensInPool } from './application/findTokensInPool/findTokensInPool'
 import { FindTokensWithoutPool } from './application/findTokensWithoutPool/findTokensWithoutPool'
 import { LiquidityRepository } from '@/liquidity/domain/liquidity.repository'
+import { FindPoolsByTokens } from '@/pools/application/findPoolsByTokens/findPoolsByTokens'
 
 @Module({
   imports: [HttpModule],
@@ -25,6 +26,7 @@ import { LiquidityRepository } from '@/liquidity/domain/liquidity.repository'
     FindAllPools,
     FindTokensInPool,
     FindTokensWithoutPool,
+    FindPoolsByTokens,
     FindPoolByCriteria,
     TokensRepository,
     PoolsRepository,

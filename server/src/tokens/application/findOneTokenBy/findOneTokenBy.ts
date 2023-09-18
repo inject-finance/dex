@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common'
 export class FindOneTokenByService {
   constructor(private readonly repository: TokensRepository) {}
 
-  async run(property: string, value: string) {
+  run(property: string, value: string) {
     return this.repository.findOneBy({ [property]: value })
   }
 }

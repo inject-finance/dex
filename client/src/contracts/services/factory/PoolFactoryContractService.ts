@@ -37,9 +37,12 @@ export class PoolFactoryContractService implements IPoolFactoryContractService {
 
   public async getPairAddress(tokenA: string, tokenB: string) {
     try {
+      if (!tokenA.length || !tokenB.length) {
+        return ''
+      }
+
       await this.init()
       const poolAddress = await this.contract?.getPairAddress(tokenA, tokenB)
-
       return poolAddress === '0x0000000000000000000000000000000000000000' ||
         !poolAddress
         ? ''

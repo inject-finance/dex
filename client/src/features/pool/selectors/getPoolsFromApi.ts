@@ -49,8 +49,6 @@ export const getPoolsSelector = selector<{
       )
     }
 
-    // console.log(data)
-
     return {
       pools,
       count: pools.length

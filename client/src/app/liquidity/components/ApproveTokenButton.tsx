@@ -4,7 +4,11 @@ import { ActionButton } from '@/components/buttons/ActionButton'
 import { LoadingButton } from '@/components/buttons/LoadingButton'
 import { authState } from '@/features/auth/auth.state'
 import { approveToken } from '@/features/liquidity/action/approveToken/approveToken.action'
-import { getPairAllowanceSelector } from '@/features/liquidity/selectors/getAllowance.selector'
+import {
+  getAllowanceSelector,
+  getPairAllowanceSelector
+} from '@/features/liquidity/selectors/getAllowance.selector'
+import { poolState } from '@/features/pool/pool.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
 import { useRecoilCallback } from 'recoil'
@@ -26,7 +30,11 @@ export const ApproveTokenButton = dynamic(
                 owner: account
               })
             } finally {
+              refresh(poolState)
               refresh(getPairAllowanceSelector)
+              refresh(
+                getAllowanceSelector({ ...token, amount: String(amount) })
+              )
             }
           }
       )

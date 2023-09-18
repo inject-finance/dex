@@ -11,7 +11,12 @@ export const appConfig = () => ({
     database: process.env.DB_NAME,
     entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
     synchronize: process.env.POSTGRES_SYNC === 'true',
-    timezone: 'Z'
+    timezone: 'Z',
+    extra: {
+      ssl: {
+        rejectUnauthorized: false
+      }
+    }
   },
   nonceTimeExpirationInMilliseconds: 120000
 })

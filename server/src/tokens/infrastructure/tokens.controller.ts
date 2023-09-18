@@ -1,13 +1,12 @@
 /* eslint-disable max-params */
-import { PaginationDto } from '@/common/dto/pagination.dto'
 import { Public } from '@/users/infrastructure/decorators/public.decorator'
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { FindAllTokensService } from '../application/findAllTokens/findAllTokens'
 import { FindOneTokenByService } from '../application/findOneTokenBy/findOneTokenBy'
-import { SaveTokenService } from '../application/saveToken/saveToken'
-import { SaveTokenDto } from '../application/saveToken/saveToken.dto'
 import { FindTokensInPool } from '../application/findTokensInPool/findTokensInPool'
 import { FindTokensWithoutPool } from '../application/findTokensWithoutPool/findTokensWithoutPool'
+import { SaveTokenService } from '../application/saveToken/saveToken'
+import { SaveTokenDto } from '../application/saveToken/saveToken.dto'
 
 @Controller('tokens')
 export class TokensController {
@@ -27,8 +26,8 @@ export class TokensController {
 
   @Public()
   @Get('/')
-  findAll(@Query() dto: PaginationDto) {
-    return this.findAllTokens.run(dto)
+  findAll() {
+    return this.findAllTokens.run()
   }
 
   @Public()
@@ -49,6 +48,6 @@ export class TokensController {
   @Public()
   @Get('/tokens-without-pool/:tokenSymbol')
   tokensWithoutPool(@Param('tokenSymbol') tokenSymbol: string) {
-    return this.findTokensWithoutPool.run({ tokenSymbol })
+    return this.findTokensWithoutPool.run({ symbol: tokenSymbol })
   }
 }

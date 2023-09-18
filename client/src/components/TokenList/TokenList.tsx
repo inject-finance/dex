@@ -16,7 +16,7 @@ import { Modal } from '../Modal'
 import { TokenCard } from './TokenCard'
 
 type Props = {
-  selector: RecoilValueReadOnly<{
+  readonly selector: RecoilValueReadOnly<{
     tokens: Token[]
     tokenThatNeedMatch: Token
   }>
