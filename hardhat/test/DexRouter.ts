@@ -10,6 +10,7 @@ const fees = 30; //.3%
 const _ownerFees = 10; //.1%
 const ZERO = utils.parseEther("0");
 const ONE = utils.parseEther("1");
+const TWO = utils.parseEther("2");
 const FIVE = utils.parseEther("5");
 const FIFTY = "50";
 const ONEHUNDRED = "100";
@@ -52,7 +53,7 @@ describe("DEX Router Test", () => {
     return { poolFactory, dexRouter,  weth, dai, owner, supplier1, supplier2, trader1, trader2, account1 };
   }
   async function beforeAddingLiquidity() {
-    const { poolFactory, dexRouter, weth, dai, supplier1, supplier2, trader1, trader2} = await loadFixture(deployPoolFactory);
+    const { poolFactory, dexRouter, weth, dai, owner, supplier1, supplier2, trader1, trader2} = await loadFixture(deployPoolFactory);
 
     const wethAmount = utils.parseEther(FIFTY);
     const daiAmount = utils.parseEther(ONEHUNDRED);
@@ -73,13 +74,16 @@ describe("DEX Router Test", () => {
     await weth.connect(trader1).approve(dexRouter.address, wethAmount);
     await dai.connect(trader1).approve(dexRouter.address, daiAmount);
 
+    await weth.connect(trader2).approve(dexRouter.address, wethAmount);
+    await dai.connect(trader2).approve(dexRouter.address, daiAmount);
+
     const dexPool = await ethers.getContractAt("DexPool", poolAddress);
 
-    return {wethAmount, daiAmount, poolAddress, dexPool, poolFactory, dexRouter, weth, dai, supplier1, trader1, supplier2, trader2}
+    return {wethAmount, daiAmount, poolAddress, dexPool, poolFactory, dexRouter, weth, dai, owner, supplier1, trader1, supplier2, trader2}
   }
 
   async function beforeSwaping() {
-    const { wethAmount, daiAmount, poolAddress, poolFactory, dexRouter, weth, dai, supplier1, trader1, supplier2, trader2 } = await loadFixture(beforeAddingLiquidity);
+    const { wethAmount, daiAmount, poolAddress, poolFactory, dexRouter, weth, dai, owner, supplier1, trader1, supplier2, trader2 } = await loadFixture(beforeAddingLiquidity);
     
     await expect (dexRouter.connect(supplier1)
           .addTokenToTokenLiquidity(weth.address, dai.address, wethAmount, daiAmount, 0, 0))
@@ -95,7 +99,7 @@ describe("DEX Router Test", () => {
     expect(reserve0).to.be.equal(wethAmount);
     expect(reserve1).to.be.equal(daiAmount);
 
-    return { wethAmount, daiAmount, poolAddress, dexPool, reserve0, reserve1, dexRouter, weth, dai, supplier1, trader1, supplier2, trader2 };
+    return { wethAmount, daiAmount, poolAddress, dexPool, reserve0, reserve1, dexRouter, weth, dai, owner, supplier1, trader1, supplier2, trader2 };
   }
 
   async function addLiquidityETH() {
@@ -142,7 +146,7 @@ describe("DEX Router Test", () => {
         const [newReserve0, newReserve1, ] = await dexPool.getLatestReserves();
 
         expect(newReserve0).to.be.equal(wethAmount);
-        expect(newReserve1).to.be.equal(daiAmount);  
+        expect(newReserve1).to.be.equal(daiAmount);
       });
 
       it("Should validate reserves after adding liquidity in reverse order", async () => {
@@ -284,13 +288,17 @@ describe("DEX Router Test", () => {
       it("Should swap using the router", async () => {
         const { reserve0, reserve1, dexRouter, weth, dai, trader1 } = await loadFixture(beforeSwaping);
         
-        const amountIn = FIVE;
+        const amountIn = ONE;
+        
+        const ownerFees = await dexRouter.ownerFees();
+        
+        const _amountIn = amountIn.mul(factor - ownerFees.toNumber()).div(factor);
 
-        await weth.connect(trader1).approve(dexRouter.address, FIVE);
+        await weth.connect(trader1).approve(dexRouter.address, amountIn);
         
         const minAmountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, amountIn);
       
-        const amountInWithFees = amountIn.mul(factor - fees).div(factor);
+        const amountInWithFees = _amountIn.mul(factor - fees).div(factor);
         const _minAmountOut = (reserve1.mul(amountInWithFees)).div(reserve0.add(amountInWithFees));
         
         expect(minAmountOut).to.be.equal(_minAmountOut);
@@ -299,30 +307,6 @@ describe("DEX Router Test", () => {
           .swapTokensWithFees(weth.address, dai.address, amountIn, minAmountOut))
           .not.to.be.revertedWith;
       });
-
-      /*it("Should emit an event when calling dexPool contract ", async () => {
-        const { dexPool, reserve0, reserve1, dexRouter, weth, dai, trader1 } = await loadFixture(beforeSwaping);
-        
-        const amountIn = FIVE;
-
-        await weth.connect(trader1).approve(dexRouter.address, amountIn);
-
-        const minAmountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, amountIn);
-
-        const ownerFees = amountIn.mul(_ownerFees).div(factor);
-
-        await expect(dexRouter.connect(trader1)
-              .swapTokensWithFees(weth.address, dai.address, amountIn, minAmountOut))
-          .to.emit(dexPool, "LogSwapTokens")
-          .withArgs(
-              dexRouter.address, 
-              fees, 
-              weth.address, 
-              dai.address, 
-              minAmountOut,
-              reserve0.add(amountIn.sub(ownerFees)), 
-              reserve1.sub(minAmountOut));
-      }); */
 
       it("Should emit an event when calling dexRouter contract ", async () => {
         const { dexPool, dexRouter, weth, dai, trader1 } = await loadFixture(beforeSwaping);
@@ -548,6 +532,70 @@ describe("DEX Router Test", () => {
         expect(newReserve0).to.be.equal(reserve0.sub(amountOut));
         expect(newReserve1).to.be.equal(reserve1.add(daiAmount.sub(ownerFees)));
       });
+
+      it("Should validate that the contract owner receives the fees", async () => {
+        const { dexPool, reserve0, reserve1, daiAmount, dexRouter, weth, dai, owner, trader1} = await loadFixture(beforeSwaping);
+
+        const amountOut = await dexRouter.getTokenAmountOut(dai.address, weth.address, daiAmount);
+
+        const ownerFees = await dexRouter.ownerFees();
+
+        expect(_ownerFees).to.be.equal(ownerFees);
+
+        const feesAmount = daiAmount.mul(_ownerFees).div(factor);
+
+        await expect(
+            dexRouter.connect(trader1)
+                     .swapTokensWithFees(dai.address, weth.address, daiAmount, amountOut)
+        ).to.changeTokenBalances(dai, [owner], [feesAmount]);
+        
+        const [newReserve0, newReserve1, ] = await dexPool.getLatestReserves();
+
+        // Remember that some fees are send to the dexRouter owner. 
+        expect(newReserve0).to.be.equal(reserve0.sub(amountOut));
+        expect(newReserve1).to.be.equal(reserve1.add(daiAmount.sub(feesAmount)));
+      });
+      it("Should allow to update the owner fees", async () => {
+        const { dexPool, reserve0, reserve1, daiAmount, dexRouter, weth, dai, owner, trader1} = await loadFixture(beforeSwaping);
+
+        const newOwnerFees = 100;
+        await dexRouter.setNewOwnerFees(newOwnerFees);
+
+        const ownerFees = await dexRouter.ownerFees();
+        expect(newOwnerFees).to.be.equal(ownerFees);
+
+        const amountOut = await dexRouter.getTokenAmountOut(dai.address, weth.address, daiAmount);
+
+        const feesAmount = daiAmount.mul(newOwnerFees).div(factor);
+        await expect(
+            dexRouter.connect(trader1)
+                     .swapTokensWithFees(dai.address, weth.address, daiAmount, amountOut)
+        ).to.changeTokenBalances(dai, [owner], [feesAmount]);
+        
+        const [newReserve0, newReserve1, ] = await dexPool.getLatestReserves();
+
+        // Remember that some fees are send to the dexRouter owner. 
+        expect(newReserve0).to.be.equal(reserve0.sub(amountOut));
+        expect(newReserve1).to.be.equal(reserve1.add(daiAmount.sub(feesAmount)));
+      });
+
+      it("Should validate that the new owner receives token fees", async () => {
+        const { dexPool, reserve0, reserve1, daiAmount, dexRouter, weth, dai, owner, trader1, trader2} = await loadFixture(beforeSwaping);
+
+        const amountOut = await dexRouter.getTokenAmountOut(dai.address, weth.address, daiAmount);
+        const ownerFees = await dexRouter.ownerFees();
+
+        expect(_ownerFees).to.be.equal(ownerFees);
+        const feesAmount = daiAmount.mul(_ownerFees).div(factor);
+
+        await dexRouter.transferOwnership(trader2.address);
+
+        await expect(
+            dexRouter.connect(trader1)
+                     .swapTokensWithFees(dai.address, weth.address, daiAmount, amountOut)
+        ).to.changeTokenBalances(dai, [trader2], [feesAmount]);
+        
+      });
   });
 
   describe("Test Swap Ether to Token", () => {
@@ -579,15 +627,100 @@ describe("DEX Router Test", () => {
       it("Should validate reserve changes", async () => {
         const { dexPool, reserve0, reserve1, dexRouter, weth, dai, trader1 } = await loadFixture(beforeSwaping);
         
-        const amountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, ONE);
+        const amountIn = ONE;
+       
+        const amountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, amountIn);
 
         await dexRouter.connect(trader1)
-                       .swapETHForTokens(dai.address, amountOut, {value: ONE})
+                       .swapETHForTokens(dai.address, amountOut, {value: amountIn})
         
         const [newReserve0, newReserve1, ] = await dexPool.getLatestReserves();
 
-        expect(newReserve0).to.be.equal(reserve0.add(ONE));
+        const _ownerFees = amountIn.mul(10).div(factor);
+        const _amountInReserve0 = amountIn.sub(_ownerFees);
+
+        expect(newReserve0).to.be.equal(reserve0.add(_amountInReserve0));
         expect(newReserve1).to.be.equal(reserve1.sub(amountOut));
+      });
+
+      it("Should allow owner to withdraw Ether fees",  async () => {
+        const { dexRouter, weth, dai, owner, trader1 } = await loadFixture(beforeSwaping);
+
+        const amountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, ONE);
+
+        const _ownerFees = await dexRouter.ownerFees();
+
+        const ownerFees = ONE.mul(_ownerFees).div(factor);
+
+        await expect(
+          dexRouter.connect(trader1).swapETHForTokens(dai.address, amountOut, {value: ONE})
+        ).not.to.be.reverted;
+
+        await expect(
+          dexRouter.withdrawEtherFees()           
+        ).to.changeEtherBalance(owner, ownerFees);
+
+      });
+
+      it("Should validate that only the owner is able to withdraw Ether funds", async () => {
+        const { dexRouter, weth, dai, owner, trader1 } = await loadFixture(beforeSwaping);
+
+        const amountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, ONE);
+        const _ownerFees = await dexRouter.ownerFees();
+
+        const ownerFees = ONE.mul(_ownerFees).div(factor);
+
+        await expect(
+          dexRouter.connect(trader1).swapETHForTokens(dai.address, amountOut, {value: ONE})
+        ).not.to.be.reverted;
+
+        await expect(dexRouter.connect(trader1).withdrawEtherFees())
+          .to.be.revertedWith("Ownable: caller is not the owner");
+      });
+
+      it("Should allow the new owner to withdraw Ether funds", async () => {
+        const { dexRouter, weth, dai, owner, trader1, trader2 } = await loadFixture(beforeSwaping);
+
+        const amountOut = await dexRouter.getTokenAmountOut(weth.address, dai.address, ONE);
+        const _ownerFees = await dexRouter.ownerFees();
+
+        const ownerFees = ONE.mul(_ownerFees).div(factor);
+
+        await expect(
+          dexRouter.connect(trader1).swapETHForTokens(dai.address, amountOut, {value: ONE})
+        ).not.to.be.reverted;
+
+        await dexRouter.transferOwnership(trader2.address);
+
+        await expect(
+          dexRouter.connect(trader2).withdrawEtherFees()           
+        ).to.changeEtherBalance(trader2, ownerFees);
+      });
+
+      it("Should validate that the owner can withdraw multiple Ether fees",  async () => {
+        const { dexRouter, weth, dai, owner, trader1, trader2 } = await loadFixture(beforeSwaping);
+
+        const FIRST_TRADE = ONE;
+        const SECOND_TRADE = TWO;
+        const THIRD_TRADE = FIVE
+        const TOTAL_TRADE = FIRST_TRADE.add(SECOND_TRADE).add(THIRD_TRADE);
+
+        const ownerFees = await dexRouter.ownerFees();
+        const fees = TOTAL_TRADE.mul(ownerFees).div(factor);
+
+        const amountOut1 = await dexRouter.getTokenAmountOut(weth.address, dai.address, FIRST_TRADE );
+        await dexRouter.connect(trader1).swapETHForTokens(dai.address, amountOut1, {value: FIRST_TRADE});
+
+        const amountOut2 = await dexRouter.getTokenAmountOut(weth.address, dai.address, SECOND_TRADE );
+        await dexRouter.connect(trader2).swapETHForTokens(dai.address, amountOut2, {value: SECOND_TRADE})
+
+        const amountOut3 = await dexRouter.getTokenAmountOut(weth.address, dai.address, THIRD_TRADE );
+        await dexRouter.connect(trader1).swapETHForTokens(dai.address, amountOut3, {value: THIRD_TRADE})
+
+        await expect(
+          dexRouter.withdrawEtherFees()           
+        ).to.changeEtherBalance(owner, fees);
+
       });
   });
 
@@ -602,7 +735,7 @@ describe("DEX Router Test", () => {
         ).not.to.be.reverted;
       });
 
-      it("Should validate balance changes", async () => {
+      it("Should validate trader's balance changes", async () => {
         const { dexRouter, weth, dai, trader1, daiAmount } = await loadFixture(beforeSwaping);
 
         const daiBalanceBefore = await dai.balanceOf(trader1.address);
@@ -626,8 +759,60 @@ describe("DEX Router Test", () => {
         
         const [newReserve0, newReserve1, ] = await dexPool.getLatestReserves();
 
+        const _ownerFees = daiAmount.mul(10).div(factor);
+        const _daiInReserve = daiAmount.sub(_ownerFees);
+
         expect(newReserve0).to.be.equal(reserve0.sub(amountOut));
-        expect(newReserve1).to.be.equal(reserve1.add(daiAmount));
+        expect(newReserve1).to.be.equal(reserve1.add(_daiInReserve));
+      });
+
+      it("Should validate that the contract owner receives the token fees", async () => {
+        const { dexPool, reserve0, reserve1, daiAmount, dexRouter, weth, dai, owner, trader1} = await loadFixture(beforeSwaping);
+
+        const amountOut = await dexRouter.getTokenAmountOut(dai.address, weth.address, daiAmount);
+
+        const ownerFees = await dexRouter.ownerFees();
+
+        const feesAmount = daiAmount.mul(_ownerFees).div(factor);
+
+        await expect( 
+            dexRouter.connect(trader1).swapTokensForETH(dai.address, daiAmount, amountOut)
+        ).to.changeTokenBalances(dai, [owner], [feesAmount]);
+        
+        const [newReserve0, newReserve1, ] = await dexPool.getLatestReserves();
+
+        // Remember that some fees are send to the dexRouter owner. 
+        expect(newReserve0).to.be.equal(reserve0.sub(amountOut));
+        expect(newReserve1).to.be.equal(reserve1.add(daiAmount.sub(feesAmount)));
+      });
+
+      it("Should validate that the contract owner receives multiple token fees", async () => {
+        const { dexPool, reserve0, reserve1, daiAmount, dexRouter, weth, dai, owner, trader1, trader2} = await loadFixture(beforeSwaping);
+
+        const FIRST_TRADE = ONE;
+        const SECOND_TRADE = TWO;
+        const THIRD_TRADE = FIVE
+        const TOTAL_TRADE = FIRST_TRADE.add(SECOND_TRADE).add(THIRD_TRADE);
+
+        const ownerFees = await dexRouter.ownerFees();
+        const fees = TOTAL_TRADE.mul(ownerFees).div(factor);
+
+        const daiBalanceBefore = await dai.balanceOf(owner.address);
+        const amountOut1 = await dexRouter.getTokenAmountOut(dai.address, weth.address, FIRST_TRADE);
+        await dexRouter.connect(trader1).swapTokensForETH(dai.address, FIRST_TRADE, amountOut1)
+        
+        const amountOut2 = await dexRouter.getTokenAmountOut(dai.address, weth.address, SECOND_TRADE);
+        await dexRouter.connect(trader2).swapTokensForETH(dai.address, SECOND_TRADE, amountOut2)
+
+        const amountOut3 = await dexRouter.getTokenAmountOut(dai.address, weth.address, THIRD_TRADE);
+        await dexRouter.connect(trader1).swapTokensForETH(dai.address, THIRD_TRADE, amountOut3)
+
+        const daiBalanceAfter = await dai.balanceOf(owner.address);
+
+        const earnDaiFees = daiBalanceAfter.sub(daiBalanceBefore);
+
+        expect(earnDaiFees).to.be.equal(fees);
+        
       });
   });
 });

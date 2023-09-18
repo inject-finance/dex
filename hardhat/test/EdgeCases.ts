@@ -76,14 +76,14 @@ describe("DEX Router Test", () => {
     // Obtain the pool address
     const poolAddress = await poolFactory.getPairAddress(weth.address, dai.address);
         
-    /*await weth.connect(supplier1).approve(dexRouter.address, wethAmount.mul(2));
+    await weth.connect(supplier1).approve(dexRouter.address, wethAmount.mul(2));
     await dai.connect(supplier1).approve(dexRouter.address, daiAmount.mul(2));
 
     await weth.connect(supplier2).approve(dexRouter.address, wethAmount.div(2));
     await dai.connect(supplier2).approve(dexRouter.address, daiAmount.div(2));
 
     await weth.connect(supplier3).approve(dexRouter.address, wethAmount);
-    await dai.connect(supplier3).approve(dexRouter.address, daiAmount); */
+    await dai.connect(supplier3).approve(dexRouter.address, daiAmount);
 
     const dexPool = await ethers.getContractAt("DexPool", poolAddress);
 
@@ -110,10 +110,6 @@ describe("DEX Router Test", () => {
         const balance2 = await dexPool.balanceOf(supplier2.address)
         const balance3 = await dexPool.balanceOf(supplier3.address)
 
-        console.log(utils.formatEther(balance1));
-        console.log(utils.formatEther(balance2));
-        console.log(utils.formatEther(balance3));
-        
         await expect(dexPool.connect(supplier1).approve(stakePool.address, balance1))
           .not.to.be.reverted;
 
@@ -127,6 +123,7 @@ describe("DEX Router Test", () => {
   }
   async function setStakingPool() {
         const { dexPool, poolFactory, poolAddress, dexRouter, injectToken, stakePool, weth, dai, supplier1, balance1, balance2, balance3, supplier2, supplier3, wethAmount, daiAmount } = await loadFixture(beforeStaking);
+
         await expect(injectToken.approve(stakePool.address, initialReserve))
           .not.to.be.reverted;
 
@@ -137,7 +134,7 @@ describe("DEX Router Test", () => {
   }
 
   describe("Test staking feature", () => {
-      it("Should be able to stake", async () => {
+      it("Should allow a user to be able to stake", async () => {
         const { dexPool, supplier1, dexRouter, injectToken, weth, dai, wethAmount, stakePool, supplier2, daiAmount } = await loadFixture(beforeAddingLiquidity);
         
         await weth.connect(supplier1).approve(dexRouter.address, wethAmount);
@@ -148,8 +145,6 @@ describe("DEX Router Test", () => {
           .not.to.be.reverted;
 
         const balance1 = await dexPool.balanceOf(supplier1.address)
-
-        console.log("Pool Token Balance: ", utils.formatEther(balance1));
 
         await expect(dexPool.connect(supplier1).approve(stakePool.address, balance1))
           .not.to.be.reverted;
@@ -164,9 +159,10 @@ describe("DEX Router Test", () => {
           .not.to.be.reverted;
 
         await time.increase(month);
-        const rewards = await stakePool.getTotalRewards(dexPool.address, supplier1.address);
-
-        console.log("rewards: ", utils.formatEther(rewards));
+        
+        const rewards1 = await stakePool.getTotalRewards(dexPool.address, supplier1.address);
+        await expect(stakePool.connect(supplier1).claimRewards(dexPool.address))
+          .to.changeTokenBalances(injectToken, [supplier1], [rewards1]);
 
       });
 
@@ -190,9 +186,6 @@ describe("DEX Router Test", () => {
         const balance1 = await dexPool.balanceOf(supplier1.address)
         const balance2 = await dexPool.balanceOf(supplier2.address)
 
-        console.log("Pool Token Balance: ", utils.formatEther(balance1));
-        console.log("Pool Token Balance: ", utils.formatEther(balance2));
-
         await expect(dexPool.connect(supplier1).approve(stakePool.address, balance1))
           .not.to.be.reverted;
 
@@ -212,18 +205,18 @@ describe("DEX Router Test", () => {
           .not.to.be.reverted;
 
         await time.increase(month);
-
         const rewards1 = await stakePool.getTotalRewards(dexPool.address, supplier1.address);
+        await expect(stakePool.connect(supplier1).claimRewards(dexPool.address))
+          .to.changeTokenBalances(injectToken, [supplier1], [rewards1]);
 
         await time.increase(month);
         const rewards2 = await stakePool.getTotalRewards(dexPool.address, supplier2.address);
-
-        console.log("rewards: ", utils.formatEther(rewards1));
-        console.log("rewards: ", utils.formatEther(rewards2));
+        await expect(stakePool.connect(supplier2).claimRewards(dexPool.address))
+          .to.changeTokenBalances(injectToken, [supplier2], [rewards2]);
 
       });
 
-      it("Should be able to stake", async () => {
+      it("Should allow several users to be able to stake", async () => {
         const { dexPool, supplier1, dexRouter, injectToken, weth, dai, wethAmount, stakePool, supplier2, supplier3, daiAmount } = await loadFixture(beforeAddingLiquidity);
         
         await weth.connect(supplier1).approve(dexRouter.address, wethAmount);
@@ -250,10 +243,6 @@ describe("DEX Router Test", () => {
         const balance1 = await dexPool.balanceOf(supplier1.address)
         const balance2 = await dexPool.balanceOf(supplier2.address)
         const balance3 = await dexPool.balanceOf(supplier3.address)
-
-        console.log("Pool Token Balance: ", utils.formatEther(balance1));
-        console.log("Pool Token Balance: ", utils.formatEther(balance2));
-        console.log("Pool Token Balance: ", utils.formatEther(balance3));
 
         await expect(dexPool.connect(supplier1).approve(stakePool.address, balance1))
           .not.to.be.reverted;
@@ -282,28 +271,30 @@ describe("DEX Router Test", () => {
         await time.increase(month * 3);
 
         const rewards1 = await stakePool.getTotalRewards(dexPool.address, supplier1.address);
-        const rewards2 = await stakePool.getTotalRewards(dexPool.address, supplier2.address);
-        const rewards3 = await stakePool.getTotalRewards(dexPool.address, supplier3.address);
+        await expect(stakePool.connect(supplier1).claimRewards(dexPool.address))
+          .to.changeTokenBalances(injectToken, [supplier1], [rewards1]);
 
-        console.log("rewards: ", utils.formatEther(rewards1));
-        console.log("rewards: ", utils.formatEther(rewards2));
-        console.log("rewards: ", utils.formatEther(rewards3));
+        const rewards2 = await stakePool.getTotalRewards(dexPool.address, supplier2.address);
+        await expect(stakePool.connect(supplier2).claimRewards(dexPool.address))
+          .to.changeTokenBalances(injectToken, [supplier2], [rewards2]);
+
+        const rewards3 = await stakePool.getTotalRewards(dexPool.address, supplier3.address);
+        await expect(stakePool.connect(supplier3).claimRewards(dexPool.address))
+          .to.changeTokenBalances(injectToken, [supplier3], [rewards3]);
 
       });
 
-      /*it("Should validate staking for very short period of time", async () => {
+      it("Should validate staking for a month", async () => {
         const { dexPool, stakePool, dai, supplier1, balance1, injectToken, daiAmount } = await loadFixture(setStakingPool);
-        console.log(await injectToken.balanceOf(supplier1.address));
 
-        //console.log("balance 1: ", utils.formatEther(balance1));
         await stakePool.connect(supplier1).stakeToken(balance1, dexPool.address, month);
 
         await time.increase(month);
         
+        const rewards1 = await stakePool.getTotalRewards(dexPool.address, supplier1.address);
         await expect(stakePool.connect(supplier1).claimRewards(dexPool.address))
-          .not.to.be.reverted;
-
-        //console.log("Inject Reward: ", await injectToken.balanceOf(supplier1.address));
+          .to.changeTokenBalances(injectToken, [supplier1], [rewards1]);
+        
       });
 
       it("Should validate staking for several stakers", async () => {
@@ -314,19 +305,19 @@ describe("DEX Router Test", () => {
         await stakePool.connect(supplier3).stakeToken(balance3, dexPool.address, month);
 
         await time.increase(month);
+
+        const rewards1 = await stakePool.getTotalRewards(dexPool.address, supplier1.address);
         
         await expect(stakePool.connect(supplier1).claimRewards(dexPool.address))
-          .not.to.be.reverted;
-
+          .to.changeTokenBalances(injectToken, [supplier1], [rewards1]);
+        
+        const rewards2 = await stakePool.getTotalRewards(dexPool.address, supplier2.address);
         await expect(stakePool.connect(supplier2).claimRewards(dexPool.address))
-          .not.to.be.reverted;
+          .to.changeTokenBalances(injectToken, [supplier2], [rewards2]);
 
+        const rewards3 = await stakePool.getTotalRewards(dexPool.address, supplier3.address);
         await expect(stakePool.connect(supplier3).claimRewards(dexPool.address))
-          .not.to.be.reverted;
-
-        console.log("Inject Reward: ", await injectToken.balanceOf(supplier1.address));
-        console.log("Inject Reward: ", await injectToken.balanceOf(supplier2.address));
-        console.log("Inject Reward: ", await injectToken.balanceOf(supplier3.address)); 
-      });*/
+          .to.changeTokenBalances(injectToken, [supplier3], [rewards3]);
+      });
   });
 });

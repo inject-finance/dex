@@ -10,7 +10,7 @@
     "deploy:local": "npx hardhat run scripts/deploy_router.ts --network localhost",
     "deploy:goerli": "npx hardhat run scripts/deploy_router_goerli.ts --network arbitrumGoerli",
     "deploy:arbitrum": "npx hardhat run scripts/deploy_arbitrum_one.ts --network arbitrumOne",
-    "deploy:tokens": "npx hardhat run scripts/deploy_tokens.ts --network arbitrumGoerli",
+    "deploy:tokens": "npx hardhat run scripts/deploy_tokens.ts --network arbitrumOne",
     "flat": "npx hardhat flatten contracts/PoolFactory.sol > PoolFactory.sol",
     "co": "cd .. && yarn co"
   }
