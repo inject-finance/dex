@@ -1,5 +1,5 @@
 export const DexRouterConstants = {
-  address: '0xdd2BAe2BCfcF0A8b01F44f7Fe90df718006C60c9',
+  address: '0x9a46ed7D68b939386c53E4Bb67BBdcDC9DCDdff4',
   abi: [
     {
       inputs: [

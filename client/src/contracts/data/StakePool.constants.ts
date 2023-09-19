@@ -1,5 +1,5 @@
 export const StakePoolConstants = {
-  address: '0x76F01994B760af8aD97105e9643c7e628Ac2E0C6',
+  address: '0x783A394912a84CBC907Da202ddEd06fd0D5e0AE3',
   abi: [
     {
       inputs: [
