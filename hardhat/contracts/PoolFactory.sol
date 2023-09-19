@@ -46,7 +46,7 @@ contract PoolFactory is Pausable, OnChainWhitelist {
         allPairs.push(pairAddress);
 
         DexPool(pairAddress).initialize(_token0, _token1, _fees);
-        DexPool(pairAddress).transferOwnership(owner());
+        DexPool(pairAddress).transferOwnership(msg.sender);
 
         emit LogCreatePair(_token0, _token1, msg.sender, allPairs.length);
     }
