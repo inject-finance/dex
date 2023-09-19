@@ -6,12 +6,13 @@ interface IDexPool {
     /* 
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
     
-    function owner() external view returns (address);
+    
     function getPair(address tokenA, address tokenB) external view returns (address pair);
     function allPairs(uint) external view returns (address pair);
     function allPairsLength() external view returns (uint);
     function createPair(address tokenA, address tokenB) external returns (address pair);
     */
+    function owner() external view returns (address);
     function fees() external view returns(uint);
     function swap(uint _amountOut, address _to, address _tokenIn) external;
     function addLiquidity(address _to) external returns (uint shares);

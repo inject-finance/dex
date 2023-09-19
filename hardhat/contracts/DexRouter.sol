@@ -107,6 +107,7 @@ contract DexRouter is Ownable, ReentrancyGuard {
         returns (uint amountIn) 
     {
         uint _ownerFees;
+        
         (_ownerFees, amountIn) = getAmountIn(_amountIn);
 
         IERC20(_tokenIn).safeTransferFrom(_to, owner(), _ownerFees);
@@ -132,9 +133,8 @@ contract DexRouter is Ownable, ReentrancyGuard {
     {
         address to = msg.sender;
         require(_tokenOut != address(0), 'Zero address not allowed!');
-        uint _amountIn = msg.value;
-        uint _amountInWithOwnerFees = (_amountIn * ownerFees)/factor;
-        uint amountIn = _amountIn - _amountInWithOwnerFees;
+
+        (, uint amountIn) = getAmountIn(msg.value);
 
         IWETH(WETH).deposit{value : amountIn}();
 
