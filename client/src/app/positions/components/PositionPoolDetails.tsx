@@ -31,7 +31,7 @@ export const PositionPoolDetails: React.FC<Props> = ({ tokenA, tokenB }) => {
             />
           </div>
         ) : (
-          <div className="tooltip tooltip-top" data-tip="Stakable">
+          <div className="tooltip tooltip-top" data-tip="Stakeable">
             <FontAwesomeIcon
               className="text-[var(--light-yellow)]"
               icon={faCoins}

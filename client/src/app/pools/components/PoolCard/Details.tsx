@@ -33,7 +33,7 @@ export const Details: React.FC<Props> = ({ tokenA, tokenB }) => {
             Note:
           </strong>
           <span>
-            The values in this table are aproximates, to see the actual values,
+            The values in this table are aproximates. To see the actual values,
             hover the desired
           </span>
           <span className="text-[var(--light-yellow)]"> Column Header</span>
