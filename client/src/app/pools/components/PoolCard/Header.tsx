@@ -37,7 +37,7 @@ export const Header = dynamic(
 
           {isStakeable && !Number(contents.stakeAmount) ? (
             <span className="flex flex-row items-center gap-2 border border-1 rounded-full border-[#FDD981]/60 text-xs opacity-80 py-1 px-2">
-              Stakable Pool
+              Stakeable Pool
               <FontAwesomeIcon
                 className="text-[var(--light-yellow)] opacity-80"
                 icon={faCoins}

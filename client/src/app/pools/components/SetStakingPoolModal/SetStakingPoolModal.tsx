@@ -123,7 +123,7 @@ export const SetStakingPoolModal = dynamic(
         <Modal
           isLoading={isLoading}
           open={setStakingPoolModalVisibility}
-          title={`Set Stakeable ${tokenA.symbol} / ${tokenB.symbol} Pool`}
+          title={`Set ${tokenA.symbol} / ${tokenB.symbol} Pool as Stakeable`}
           toggle={toggleSetStakingPoolModalVisibility}
         >
           <form
@@ -133,7 +133,7 @@ export const SetStakingPoolModal = dynamic(
             <Input
               Right={<MaxButton handleClick={handleMaxInitialDeposit} />}
               errorText={errors.initialDeposit?.message}
-              icon={faPercent}
+              icon={faCoins}
               labelText="Initial Deposit"
               placeholder="Initial Deposit"
               register={register('initialDeposit')}
@@ -143,7 +143,7 @@ export const SetStakingPoolModal = dynamic(
 
             <Input
               errorText={errors.minReserve?.message}
-              icon={faPercent}
+              icon={faCoins}
               labelText="Min Reserve"
               placeholder="Min Reserve"
               register={register('minReserve')}
@@ -162,7 +162,7 @@ export const SetStakingPoolModal = dynamic(
 
             <Input
               errorText={errors.minStakeAmount?.message}
-              icon={faPercent}
+              icon={faCoins}
               labelText="Min Stake Amount"
               placeholder="Min Stake Amount"
               register={register('minStakeAmount')}
@@ -177,7 +177,7 @@ export const SetStakingPoolModal = dynamic(
               <ActionButton
                 className="w-1/2"
                 icon={faCoins}
-                title="Set Stakeble"
+                title="Confirm"
                 type="submit"
               />
             </div>

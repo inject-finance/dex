@@ -4,6 +4,7 @@ import { ActionButton } from '@/components/buttons/ActionButton'
 import { authState } from '@/features/auth/auth.state'
 import { setPoolState } from '@/features/pool/pool.state'
 import { toggleSetStakingPoolModalVisibility } from '@/features/ui/ui.state'
+import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 
 type Props = {
@@ -27,6 +28,7 @@ export const SetStakingButton = ({ tokenA, tokenB, isStakeable }: Props) => {
     return (
       <ActionButton
         className="w-1/2 md:w-fit"
+        icon={faCoins}
         onClick={openSetStakingModal}
         title="Set Staking"
       />
