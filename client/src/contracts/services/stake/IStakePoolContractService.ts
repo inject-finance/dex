@@ -41,10 +41,10 @@ export interface IStakePoolContractService {
     poolAddress: string,
     metamaskAddress: string
   ) => Promise<{
-    end: string | number
-    stakeAmount: string | number
-    start: string | number
-    totalClaimed: string | number
-    totalSupply: string | number
+    end: number
+    stakedAmount: number
+    start: number
+    totalClaimed: number
+    totalSupply: number
   }>
 }

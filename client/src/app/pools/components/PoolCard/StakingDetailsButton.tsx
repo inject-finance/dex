@@ -1,31 +1,35 @@
 'use client'
 import { Token } from '@/common/types/Token'
-import { Spinner } from '@/components/Spinner'
 import { ActionButton } from '@/components/buttons/ActionButton'
-import { setPoolState } from '@/features/pool/pool.state'
-import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
+import { poolState, setPoolState } from '@/features/pool/pool.state'
+import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
+import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
 import { toggleRedeemRewardsModalVisibilityVisibility } from '@/features/ui/ui.state'
 import { faArrowUpRightDots } from '@fortawesome/free-solid-svg-icons'
-import { useRecoilValueLoadable } from 'recoil'
+import { useRecoilCallback, useRecoilValue } from 'recoil'
 
 export const StakingDetailsButton: React.FC<{
   tokenA: Token
   tokenB: Token
 }> = ({ tokenA, tokenB }) => {
-  const { state, contents } = useRecoilValueLoadable(
-    getPoolDetailsSelector({ tokenA, tokenB })
+  const { stakedAmount } = useRecoilValue(
+    getUserStakingPoolInfoSelector({ tokenA, tokenB })
   )
 
-  const onClick = () => {
+  const onClick = useRecoilCallback(({ refresh }) => () => {
     setPoolState({ tokenA, tokenB })
+    refresh(poolState)
+    refresh(
+      getUserStakingPoolInfoSelector({
+        tokenA,
+        tokenB
+      })
+    )
     toggleRedeemRewardsModalVisibilityVisibility()
-  }
+  })
 
-  if (state === 'loading' || state !== 'hasValue') {
-    return <Spinner />
-  }
-
-  if (Number(contents.pendingRewards)) {
+  if (Number(stakedAmount)) {
     return (
       <ActionButton
         className="w-1/2 md:w-fit"

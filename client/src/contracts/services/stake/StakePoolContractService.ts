@@ -112,21 +112,21 @@ export class StakePoolContractService implements IStakePoolContractService {
   public async getUserStakeInfo(poolAddress: string, metamaskAddress: string) {
     try {
       const data = await this.contract?.stakeInfo(poolAddress, metamaskAddress)
-
       if (!data) {
         throw new Error("Doesn't have user stake information")
       }
+
       return {
-        end: utils.formatEther(data.end) || 0,
-        stakeAmount: utils.formatEther(data.stakeAmount) || 0,
-        start: utils.formatEther(data.start) || 0,
-        totalClaimed: utils.formatEther(data.totalClaimed) || 0,
-        totalSupply: utils.formatEther(data.totalSupply) || 0
+        end: Number(utils.formatEther(data.end)),
+        stakedAmount: Number(utils.formatEther(data.stakeAmount)),
+        start: Number(utils.formatEther(data.start)),
+        totalClaimed: Number(utils.formatEther(data.totalClaimed)),
+        totalSupply: Number(utils.formatEther(data.totalSupply))
       }
     } catch (error) {
       return {
         end: 0,
-        stakeAmount: 0,
+        stakedAmount: 0,
         start: 0,
         totalClaimed: 0,
         totalSupply: 0

@@ -47,13 +47,7 @@ export const PoolCard: React.FC<Props> = ({ tokenA, tokenB }) => {
 
         {isAuthenticated ? (
           <div className="flex flex-row items-center w-full gap-3 pt-5 md:w-auto">
-            <OpenStakeModalButton
-              isStakeable={contents.isStakeable}
-              pendingRewards={contents.pendingRewards}
-              shares={contents.shares}
-              tokenA={tokenA}
-              tokenB={tokenB}
-            />
+            <OpenStakeModalButton tokenA={tokenA} tokenB={tokenB} />
             <StakingDetailsButton tokenA={tokenA} tokenB={tokenB} />
             <RemoveLiquidityButton
               shares={contents.shares}

@@ -14,7 +14,7 @@ type Props = { tokenA: Token; tokenB: Token }
 export const Header = dynamic(
   () =>
     Promise.resolve(({ tokenA, tokenB }: Props) => {
-      const contents = useRecoilValue(
+      const { stakedAmount } = useRecoilValue(
         getUserStakingPoolInfoSelector({ tokenA, tokenB })
       )
       const isStakeable = useRecoilValue(
@@ -23,7 +23,7 @@ export const Header = dynamic(
 
       return (
         <div className="flex flex-row items-center justify-start gap-3 collapse-title text-md">
-          <div className="flex relattive mr-5">
+          <div className="flex mr-5 relattive">
             <span className="z-0">
               <TokenIcon token={tokenA} />
             </span>
@@ -35,7 +35,7 @@ export const Header = dynamic(
             {tokenA.symbol} /{tokenB.symbol}
           </h4>
 
-          {isStakeable && !Number(contents.stakeAmount) ? (
+          {isStakeable && !Number(stakedAmount) ? (
             <span className="flex flex-row items-center gap-2 border border-1 rounded-full border-[#FDD981]/60 text-xs opacity-80 py-1 px-2">
               Stakeable Pool
               <FontAwesomeIcon
@@ -45,7 +45,7 @@ export const Header = dynamic(
             </span>
           ) : null}
 
-          {isStakeable && Number(contents.stakeAmount) ? (
+          {isStakeable && Number(stakedAmount) ? (
             <span className="flex flex-row items-center gap-1 border border-1 rounded-full border-[#339EA8]/60 text-xs opacity-80 py-1 px-2">
               Staking In Progress
               <FontAwesomeIcon

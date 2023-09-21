@@ -29,7 +29,7 @@ export const getUserStakingPoolInfoSelector = selectorFamily({
       if (!isStakeable || !account.address) {
         return {
           end: 0,
-          stakeAmount: 0,
+          stakedAmount: 0,
           start: 0,
           totalClaimed: 0,
           totalSupply: 0

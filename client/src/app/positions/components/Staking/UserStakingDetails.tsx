@@ -33,7 +33,7 @@ export const StakingDetails = () => {
             },
             {
               leftText: `Stake Amount`,
-              rightText: `${Number(contents.stakeAmount)}`
+              rightText: `${Number(contents.stakedAmount)}`
             },
             {
               leftText: `Time Span start`,
