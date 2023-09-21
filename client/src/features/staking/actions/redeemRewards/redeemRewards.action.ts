@@ -16,7 +16,8 @@ import {
 export const redeemRewards = async ({
   tokenA,
   tokenB,
-  account
+  account,
+  poolAddress
 }: TokenPair & { account: User; poolAddress?: string }) => {
   const cStack = createCommandStack<
     ClaimRewardsCommand & StoreRedeemRewardsCommand
@@ -24,6 +25,7 @@ export const redeemRewards = async ({
     tokenA,
     tokenB,
     account,
+    poolAddress,
     stakePoolContractService
   })
 

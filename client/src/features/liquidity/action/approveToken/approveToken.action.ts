@@ -10,6 +10,8 @@ import { createCommandStack } from '@/features/common/process/create-command.sta
 import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import Swal from 'sweetalert2'
 import { setIsLoading } from '../../../ui/loading.state'
+import { getRecoil } from 'recoil-nexus'
+import { uiState } from '@/features/ui/ui.state'
 
 export const approveToken = async ({
   token,
@@ -18,6 +20,7 @@ export const approveToken = async ({
   token: Token
   owner: User
 }) => {
+  const { showNetworkNotice } = getRecoil(uiState)
   const cStack = createCommandStack<ApproveTokenCommand>({
     token,
     tokenContractService,
@@ -47,7 +50,9 @@ export const approveToken = async ({
             ${
               transactionHash &&
               `Transaction Hash: 
-                <a clasName="text-[#fdd981]" href="https://goerli.arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
+                <a clasName="text-[#fdd981]" href="https://${
+                  showNetworkNotice ? 'goerli.' : ''
+                }arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
                   ${transactionHash}
                 </a>
               `

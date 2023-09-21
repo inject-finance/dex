@@ -37,7 +37,7 @@ export const createPoolAction = async ({
   })
 
   await cStack
-    .add(createPoolCommand)
+    // .add(createPoolCommand)
     .add(storePoolCommand)
     .add(addLiquidityCommand)
     .add(storeLiquidityCommand)

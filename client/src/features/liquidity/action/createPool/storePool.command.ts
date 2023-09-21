@@ -7,6 +7,7 @@ import { CommandsError } from '@/features/common/enums/CommandsError.enum'
 
 export type StorePoolCommand = TokenPair & {
   poolFactoryContractService: IPoolFactoryContractService
+  poolAddress?: string
 }
 export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
   if (!state.tokenA.address)
@@ -16,7 +17,7 @@ export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
 
   setIsLoading('We are saving your pair')
 
-  const address = await state.poolFactoryContractService.getPairAddress(
+  state.poolAddress = await state.poolFactoryContractService.getPairAddress(
     state.tokenA.address,
     state.tokenB.address
   )
@@ -39,13 +40,12 @@ export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      address,
+      address: state.poolAddress,
       tokenAId: tokenA.id,
       tokenBId: tokenB.id
     })
   })
 
   await res.json()
-
   return state
 }

@@ -14,7 +14,7 @@ export type AddLiquidityCommand = TokenPair & {
 export const addLiquidityCommand: Command<AddLiquidityCommand> = async (
   state
 ) => {
-  if (!state.poolAddress)
+  if (!state.poolAddress?.length)
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
   if (!state.tokenA.amount)
     throw new ValidationError(CommandsError.TOKEN_A_AMOUNT_REQUIRED)
