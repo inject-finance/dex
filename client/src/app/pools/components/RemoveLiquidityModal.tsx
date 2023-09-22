@@ -7,14 +7,12 @@ import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { removeLiquidity } from '@/features/liquidity/action/removeLiquidity/removeLiquidity.action'
 import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.selector'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
 import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import {
   getSharesPercentSelector,
   getSharesSelector
 } from '@/features/tokens/selectors/getShares.selector'
-import { loadingState } from '@/features/ui/loading.state'
 import {
   toggleRemoveLiquidityModalVisibility,
   uiState
@@ -32,9 +30,9 @@ import { useRecoilCallback, useRecoilValue } from 'recoil'
 export const RemoveLiquidityModal = dynamic(
   () =>
     Promise.resolve(() => {
-      const { tokenA, tokenB } = useRecoilValue(poolState)
+      const { tokenA, tokenB, poolAddress } = useRecoilValue(poolState)
       const { removeLiquidityModalVisibility } = useRecoilValue(uiState)
-      const isLoading = useRecoilValue(loadingState)
+      const { account } = useRecoilValue(authState)
       const sharesInPercent = useRecoilValue(
         getSharesPercentSelector({ tokenA, tokenB })
       )
@@ -56,14 +54,9 @@ export const RemoveLiquidityModal = dynamic(
       }
 
       const handleRemoveLiquidityClick = useRecoilCallback(
-        ({ refresh, snapshot }) =>
+        ({ refresh }) =>
           async () => {
             try {
-              const { account } = await snapshot.getPromise(authState)
-              const poolAddress = await snapshot.getPromise(
-                getPoolAddressSelector({ tokenA, tokenB })
-              )
-
               await removeLiquidity({
                 tokenA,
                 tokenB,
@@ -90,9 +83,12 @@ export const RemoveLiquidityModal = dynamic(
         setInputValue(String(sharesInPercent))
       }
 
+      if (!removeLiquidityModalVisibility) {
+        return null
+      }
+
       return (
         <Modal
-          isLoading={isLoading}
           open={removeLiquidityModalVisibility}
           title={`Remove Liquidity from ${tokenA.symbol} / ${tokenB.symbol}`}
           toggle={toggleRemoveLiquidityModalVisibility}

@@ -50,7 +50,6 @@ export const useMetamask = () => {
       if (accounts.length && Array.isArray(accounts)) {
         await authenticate(accounts[0])
         localStorage.removeItem(constants.tokenKey)
-        // window.location.reload()
       }
     })
   }, [account])

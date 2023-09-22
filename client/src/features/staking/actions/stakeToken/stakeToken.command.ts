@@ -20,7 +20,6 @@ export const stakeTokenCommand: Command<StakeTokenCommand> = async (state) => {
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
   if (!state.stakeDuration) throw new ValidationError('Duration is required')
 
-  // Hay que verificar que el staking pool este creado
   // Step: 1 = Check
   setIsLoading('We are checking availability on this pool')
   const stakingPoolExists =

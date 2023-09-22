@@ -1,7 +1,7 @@
 import React from 'react'
 import { Spinner } from './Spinner'
 
-type Props = {
+interface Props {
   readonly children: React.ReactNode
   readonly isLoading: boolean
   readonly style?: any

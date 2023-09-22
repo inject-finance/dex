@@ -10,7 +10,6 @@ import { useRecoilValueLoadable } from 'recoil'
 export const InputOut = dynamic(
   () =>
     Promise.resolve(() => {
-      // const { tokenB } = useRecoilValue(poolState)
       const { state, contents } = useRecoilValueLoadable(getOutAmountSelector)
 
       if (state === 'loading' || state !== 'hasValue') {

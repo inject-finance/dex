@@ -2,13 +2,13 @@ import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { authState } from '@/features/auth/auth.state'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
+import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
 import { redeemRewards } from '@/features/staking/actions/redeemRewards/redeemRewards.action'
 import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
 import { getPositionFromApiByPoolAddressSelector } from '@/features/staking/selectors/getPositionDuration.selector'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
-import { loadingState } from '@/features/ui/loading.state'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import {
   toggleRedeemRewardsModalVisibilityVisibility,
   uiState
@@ -23,8 +23,8 @@ export const StakingDetailsModal = dynamic(
   () =>
     Promise.resolve(() => {
       const { redeemRewardsModalVisibility } = useRecoilValue(uiState)
-      const { tokenA, tokenB } = useRecoilValue(poolState)
-      const isLoading = useRecoilValue(loadingState)
+      const { account } = useRecoilValue(authState)
+      const { tokenA, tokenB, poolAddress } = useRecoilValue(poolState)
       const userStakingInfo = useRecoilValue(
         getUserStakingPoolInfoSelector({ tokenA, tokenB })
       )
@@ -35,51 +35,51 @@ export const StakingDetailsModal = dynamic(
         getPositionFromApiByPoolAddressSelector({ tokenA, tokenB })
       )
 
-      const onRedeem = useRecoilCallback(
-        ({ refresh, snapshot }) =>
-          async () => {
-            try {
-              const { account } = await snapshot.getPromise(authState)
-              const poolAddress = await snapshot.getPromise(
-                getPoolAddressSelector({
-                  tokenA,
-                  tokenB
-                })
-              )
-              await redeemRewards({
-                tokenA,
-                tokenB,
-                account,
-                poolAddress
-              })
+      const onRedeem = useRecoilCallback(({ refresh }) => async () => {
+        try {
+          await redeemRewards({
+            tokenA,
+            tokenB,
+            account,
+            poolAddress
+          })
 
-              toggleRedeemRewardsModalVisibilityVisibility()
-            } finally {
-              refresh(
-                getPoolAddressSelector({
-                  tokenA,
-                  tokenB
-                })
-              )
-              refresh(
-                getIsStakedPoolSelector({
-                  tokenA,
-                  tokenB
-                })
-              )
-              refresh(
-                getUserStakingPoolInfoSelector({
-                  tokenA,
-                  tokenB
-                })
-              )
-            }
-          }
-      )
+          toggleRedeemRewardsModalVisibilityVisibility()
+        } finally {
+          refresh(getPoolsSelector)
+          refresh(
+            getIsStakedPoolSelector({
+              tokenA,
+              tokenB
+            })
+          )
+          refresh(
+            getSharesSelector({
+              tokenA,
+              tokenB
+            })
+          )
+          refresh(
+            getTotalRewardsSelector({
+              tokenA,
+              tokenB
+            })
+          )
+          refresh(
+            getUserStakingPoolInfoSelector({
+              tokenA,
+              tokenB
+            })
+          )
+        }
+      })
+
+      if (!redeemRewardsModalVisibility) {
+        return null
+      }
 
       return (
         <Modal
-          isLoading={isLoading}
           open={redeemRewardsModalVisibility}
           title="Redeem Rewards"
           toggle={toggleRedeemRewardsModalVisibilityVisibility}

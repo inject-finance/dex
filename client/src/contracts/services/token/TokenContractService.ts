@@ -5,6 +5,7 @@ import { DexRouterConstants } from '../../data/DexRouter.constants'
 import { TokenABI } from '../../data/TokenAbi'
 import { createAsyncContract } from '../../utils/createContract'
 import { type ITokenContractService } from './ITokenContractService'
+import { metamaskService } from '@/features/auth/services/metamask-service/MetamaskService'
 
 export class TokenContractService implements ITokenContractService {
   private declare contract: IERC20 | null
@@ -39,7 +40,12 @@ export class TokenContractService implements ITokenContractService {
     token: Token,
     metamaskAddress: string
   ): Promise<number> {
+    if (token.symbol === 'ETH') {
+      return metamaskService.getBalance()
+    }
+
     await this.init(token)
+
     const balance = await this.contract
       ?.balanceOf(metamaskAddress)
       .then(async (res) => Number(await this.formatUnits(token, res)))
@@ -70,10 +76,6 @@ export class TokenContractService implements ITokenContractService {
   }
 
   public async parseUnits(token: Token): Promise<BigNumber> {
-    // if (!token.amount) {
-    //   return 0
-    // }
-
     await this.init(token)
     const decimals = await this.contract?.decimals()
 

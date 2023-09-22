@@ -1,8 +1,8 @@
 'use client'
 import positionsMenuIcon from '@/assets/images/positions_menu_icon.png'
 import Image from 'next/image'
-import { CreatePositionModal } from './CreatePositionModal/CreatePositionModal'
-import { OpenModalButton } from './CreatePositionModal/OpenModalButton'
+import { CreatePositionModal } from '../../pools/components/CreatePositionModal'
+import { OpenModalButton } from './AddToStaking/OpenAddToStakingModalButton'
 
 export const Header = () => (
   <div className="flex flex-row justify-between">

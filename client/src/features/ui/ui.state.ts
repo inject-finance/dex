@@ -84,7 +84,7 @@ export const toggleAddStakingModalVisibility = () => {
     addStakingModalVisibility: !addStakingModalVisibility
   })
 }
-export const toggleCreatePositionModalVisibility = () => {
+export const toggleAddToStakingModalVisibility = () => {
   const { createPositionModalVisibility } = getRecoil(uiState)
   setUiState({
     createPositionModalVisibility: !createPositionModalVisibility

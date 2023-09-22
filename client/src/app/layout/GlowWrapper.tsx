@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from 'react'
 import { useRecoilValue } from 'recoil'
 import { resetRecoil } from 'recoil-nexus'
 
-type Props = {
+interface Props {
   readonly children: ReactNode
 }
 

@@ -4,7 +4,7 @@ import { showTransactionDetails } from '@/features/common/utils/showTransactionD
 import { setIsLoading } from '@/features/ui/loading.state'
 import { SetStakingCommand, setStakingCommand } from './setStaking.command'
 
-type Props = {
+interface Props {
   initialDeposit: number
   minStakeAmount: number
   interestRate: number

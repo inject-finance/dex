@@ -3,14 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
-type Props = {
-  icon: IconProp
-  Right?: React.ReactElement
-  register?: UseFormRegisterReturn<string>
-  labelText?: string
-  errorText?: string
-} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-export const Input: React.FC<Props> = ({
+interface Props
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  readonly icon: IconProp
+  readonly Right?: React.ReactElement
+  readonly register?: UseFormRegisterReturn<string>
+  readonly labelText?: string
+  readonly errorText?: string
+}
+export const Input = ({
   type,
   icon,
   placeholder,
@@ -19,7 +23,7 @@ export const Input: React.FC<Props> = ({
   labelText,
   errorText,
   ...props
-}) => (
+}: Props) => (
   <div className="w-full form-control">
     {Boolean(labelText) && (
       <label className="label">

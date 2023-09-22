@@ -9,7 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dynamic from 'next/dynamic'
 import { useRecoilValue } from 'recoil'
 
-type Props = { tokenA: Token; tokenB: Token }
+interface Props {
+  tokenA: Token
+  tokenB: Token
+}
 
 export const Header = dynamic(
   () =>

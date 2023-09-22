@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import { usePathname } from 'next/navigation'
 
-type Props = {
+interface Props {
   readonly token: Token
 }
 
@@ -17,7 +17,6 @@ export const TokenIcon = ({ token }: Props) => {
       className="max-h-[40px] max-w-[40px]"
       height={pathname === '/pools' ? 30 : 40}
       src={`/images/token-icons/${token.symbol.toLocaleLowerCase()}_icon.png`}
-      // onError={(e) => (e.currentTarget.src = `/images/token-icons/token_placeholder.png`)}
       width={pathname === '/pools' ? 30 : 40}
     />
   )

@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import { type ReactNode } from 'react'
 import Skeleton from 'react-loading-skeleton'
 
-type Props = {
+interface Props {
   title: string
   children: ReactNode
 }

@@ -11,7 +11,6 @@ import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails
 import { setStakingPool } from '@/features/staking/actions/setStaking/setStakingPool.action'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { getTokenBySymbol } from '@/features/tokens/selectors/getTokenBySymbol.selector'
-import { loadingState } from '@/features/ui/loading.state'
 import {
   toggleSetStakingPoolModalVisibility,
   uiState
@@ -47,12 +46,11 @@ const schema = yup
   })
   .required()
 
-export const SetStakingPoolModal = dynamic(
+export const SetStakeableModal = dynamic(
   () =>
     Promise.resolve(() => {
       const { setStakingPoolModalVisibility } = useRecoilValue(uiState)
-      const { tokenA, tokenB } = useRecoilValue(poolState)
-      const isLoading = useRecoilValue(loadingState)
+      const { tokenA, tokenB, poolAddress } = useRecoilValue(poolState)
       const {
         register,
         handleSubmit,
@@ -74,7 +72,7 @@ export const SetStakingPoolModal = dynamic(
       }, [reset, tokenA, tokenB])
 
       const onSubmit = useRecoilCallback(
-        ({ refresh, snapshot }) =>
+        ({ refresh }) =>
           async ({
             initialDeposit,
             minStakeAmount,
@@ -82,10 +80,6 @@ export const SetStakingPoolModal = dynamic(
             minReserve
           }: Inputs) => {
             try {
-              const poolAddress = await snapshot.getPromise(
-                getPoolAddressSelector({ tokenA, tokenB })
-              )
-
               await setStakingPool({
                 initialDeposit: Number(initialDeposit),
                 minStakeAmount: Number(minStakeAmount),
@@ -119,9 +113,12 @@ export const SetStakingPoolModal = dynamic(
           }
       )
 
+      if (!setStakingPoolModalVisibility) {
+        return null
+      }
+
       return (
         <Modal
-          isLoading={isLoading}
           open={setStakingPoolModalVisibility}
           title={`Set ${tokenA.symbol} / ${tokenB.symbol} Pool as Stakeable`}
           toggle={toggleSetStakingPoolModalVisibility}

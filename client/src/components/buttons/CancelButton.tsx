@@ -1,13 +1,14 @@
 import { usePathname } from 'next/navigation'
 
-type Props = {
+interface Props
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   readonly className?: string
   readonly title: string
   readonly toggle: () => void
-} & React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->
+}
 
 export const CancelButton = ({ className, title, toggle, ...props }: Props) => {
   const pathname = usePathname()

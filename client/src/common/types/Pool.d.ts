@@ -5,6 +5,7 @@ export type Pool = {
   address: string
   tokenA: Token
   tokenB: Token
+  isStakeable: boolean
 }
 
 export type PoolAddress = Pick<Pool, 'address'>

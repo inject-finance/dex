@@ -1,7 +1,6 @@
 import { TokenPair } from '@/common/types/Token'
 import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.selector'
 import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
-import { getPositionFromApiByPoolAddressSelector } from '@/features/staking/selectors/getPositionDuration.selector'
 import { getStakingPoolInfoSelector } from '@/features/staking/selectors/getStakingPoolInfo.selector'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
@@ -37,9 +36,6 @@ export const getPoolDetailsSelector = selectorFamily({
       const pendingRewards = String(
         get(getTotalRewardsSelector({ tokenA, tokenB }))
       )
-      const position = get(
-        getPositionFromApiByPoolAddressSelector({ tokenA, tokenB })
-      )
       const tvl = get(getTotalValueLote({ tokenA, tokenB }))
 
       return {
@@ -52,7 +48,6 @@ export const getPoolDetailsSelector = selectorFamily({
         userStakingInfo,
         stakingInfo,
         pendingRewards,
-        position,
         tvl,
         ratio,
         outAmount

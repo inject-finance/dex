@@ -2,10 +2,10 @@
 import { authState } from '@/features/auth/auth.state'
 import { useRecoilValue } from 'recoil'
 
-type Props = {
-  handleClick: () => void
+interface Props {
+  readonly handleClick: () => void
 }
-export const MaxButton: React.FC<Props> = ({ handleClick }) => {
+export const MaxButton = ({ handleClick }: Props) => {
   const { isAuthenticated } = useRecoilValue(authState)
 
   if (!isAuthenticated) {

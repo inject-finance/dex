@@ -7,14 +7,13 @@ import { authState } from '@/features/auth/auth.state'
 import { poolState } from '@/features/pool/pool.state'
 import { swapAction } from '@/features/swap/actions/swap/swap.action'
 import { getOutAmountSelector } from '@/features/swap/selectors/getOutAmount.selector'
-import { swapState } from '@/features/swap/swap.state'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
+import { getPriceSelector } from '@/features/tokens/selectors/getPrice.selector'
 import { toggleConfirmationModalVisibility } from '@/features/ui/ui.state'
 import { faShuffle } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 import { ConfirmationModal } from '../../../components/ConfirmationModal'
-import { getPriceSelector } from '@/features/tokens/selectors/getPrice.selector'
 
 export const SwapButton = dynamic(
   () =>
@@ -27,8 +26,9 @@ export const SwapButton = dynamic(
           ({ refresh, snapshot }) =>
             async () => {
               try {
-                const { tokenA, tokenB } = await snapshot.getPromise(poolState)
-                const { slippage } = await snapshot.getPromise(swapState)
+                const { tokenA, tokenB, slippage } = await snapshot.getPromise(
+                  poolState
+                )
                 const { account } = await snapshot.getPromise(authState)
                 const { total } = await snapshot.getPromise(
                   getOutAmountSelector

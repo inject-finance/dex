@@ -1,7 +1,6 @@
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { CancelButton } from '@/components/buttons/CancelButton'
-import { loadingState } from '@/features/ui/loading.state'
 import {
   toggleConfirmationModalVisibility,
   uiState
@@ -11,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dynamic from 'next/dynamic'
 import { useRecoilValue } from 'recoil'
 
-type Props = {
+interface Props {
   children: React.ReactNode
   handleConfirmation: () => void
 }
@@ -19,12 +18,10 @@ type Props = {
 export const ConfirmationModal = dynamic(
   () =>
     Promise.resolve(({ children, handleConfirmation }: Props) => {
-      const isLoading = useRecoilValue(loadingState)
       const { confirmationModalVisibility } = useRecoilValue(uiState)
 
       return (
         <Modal
-          isLoading={isLoading}
           open={confirmationModalVisibility}
           title="Transaction Confirmation"
           toggle={toggleConfirmationModalVisibility}

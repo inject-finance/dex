@@ -15,10 +15,6 @@ export class InjectTokenContractService implements IInjectTokenContractService {
     )
   }
 
-  // public async approve(spender) {
-  //   await this.contract?.approve()
-  // }
-
   public async approveStakingContract(initialDeposit: number) {
     await this.init()
     return this.contract?.approve(

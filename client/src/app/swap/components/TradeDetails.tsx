@@ -1,19 +1,17 @@
 'use client'
 import logoLong from '@/assets/images/inject_finance_logo_long.png'
-import { getOutAmountSelector } from '@/features/swap/selectors/getOutAmount.selector'
-import { swapState } from '@/features/swap/swap.state'
+import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { poolState } from '@/features/pool/pool.state'
+import { getOutAmountSelector } from '@/features/swap/selectors/getOutAmount.selector'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Skeleton from 'react-loading-skeleton'
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil'
-import { formatQuantity } from '@/features/common/utils/formatQuantity'
-import dynamic from 'next/dynamic'
 
 export const TradeDetails = dynamic(
   () =>
     Promise.resolve(() => {
-      const { tokenA, tokenB } = useRecoilValue(poolState)
-      const { slippage } = useRecoilValue(swapState)
+      const { tokenA, tokenB, slippage } = useRecoilValue(poolState)
       const { state, contents } = useRecoilValueLoadable(getOutAmountSelector)
 
       if (state === 'loading' || state !== 'hasValue') {

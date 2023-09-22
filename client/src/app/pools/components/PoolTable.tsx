@@ -1,5 +1,5 @@
 'use client'
-import { CreatePositionModal } from '@/app/positions/components/CreatePositionModal/CreatePositionModal'
+import { CreatePositionModal } from '@/app/pools/components/CreatePositionModal'
 import { Spinner } from '@/components/Spinner'
 import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
@@ -8,7 +8,7 @@ import { useRecoilValueLoadable } from 'recoil'
 import { PoolCard } from './PoolCard/PoolCard'
 import { StakingDetailsModal } from './PoolCard/StakingDetailsModal'
 import { RemoveLiquidityModal } from './RemoveLiquidityModal'
-import { SetStakingPoolModal } from './SetStakingPoolModal/SetStakingPoolModal'
+import { SetStakeableModal } from './SetStakeableModal'
 
 export const PoolTable = () => {
   const { state, contents } = useRecoilValueLoadable(getPoolsSelector)
@@ -24,9 +24,7 @@ export const PoolTable = () => {
   return (
     <div className="max-h-[340px] overflow-auto pr-5">
       {Boolean(contents.pools.length) &&
-        contents.pools.map((e) => (
-          <PoolCard key={e.id} tokenA={e.tokenA} tokenB={e.tokenB} />
-        ))}
+        contents.pools.map((e) => <PoolCard key={e.id} pool={e} />)}
 
       {!contents.pools.length && (
         <div className="flex flex-col items-center justify-center w-full p-5 text-center opacity-60">
@@ -34,15 +32,14 @@ export const PoolTable = () => {
             Uh <span className="text-[var(--light-blue)]">oh...</span>
           </span>
           <br />
-          Search Not Found{' '}
-          <FontAwesomeIcon className="" icon={faCircleQuestion} />
+          Search Not Found <FontAwesomeIcon icon={faCircleQuestion} />
         </div>
       )}
 
       <StakingDetailsModal />
       <RemoveLiquidityModal />
       <CreatePositionModal />
-      <SetStakingPoolModal />
+      <SetStakeableModal />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { Input } from '@/components/inputs/Input'
-import { setSwapState, swapState } from '@/features/swap/swap.state'
+import { poolState, setPoolState } from '@/features/pool/pool.state'
 import {
   toggleTradeSettingsModalVisibility,
   uiState
@@ -15,7 +15,7 @@ import { useRecoilValue } from 'recoil'
 import { Modal } from './Modal'
 
 export const TradeSettings = () => {
-  const { slippage } = useRecoilValue(swapState)
+  const { slippage } = useRecoilValue(poolState)
   const { tradeSettingsVisibility } = useRecoilValue(uiState)
 
   const handleSlippageInput = ({
@@ -26,14 +26,14 @@ export const TradeSettings = () => {
     }
 
     if (Number(currentTarget.value) > 10) {
-      setSwapState({ slippage: 10 })
+      setPoolState({ slippage: 10 })
     }
 
     if (
       Number(currentTarget.value) >= -1 &&
       Number(currentTarget.value) <= 10
     ) {
-      setSwapState({ slippage: currentTarget.value })
+      setPoolState({ slippage: Number(currentTarget.value) })
     }
   }
 

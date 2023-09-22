@@ -8,7 +8,6 @@ export const getStakingPoolInfoSelector = selectorFamily({
   get:
     (payload: { tokenA: Token; tokenB: Token }) =>
     ({ get }) => {
-      // const { account } = get(authState)
       const poolAddress = get(
         getPoolAddressSelector({
           tokenA: payload.tokenA,

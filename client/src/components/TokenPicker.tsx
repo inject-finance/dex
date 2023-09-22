@@ -4,11 +4,11 @@ import { setSelectedTokenState } from '@/features/tokens/selectedToken.state'
 import { toggleTokenListVisibility } from '@/features/ui/ui.state'
 import { useRecoilCallback } from 'recoil'
 
-type Props = {
-  token: Token
+interface Props {
+  readonly token: Token
 }
 
-export const TokenPicker: React.FC<Props> = ({ token }) => {
+export const TokenPicker = ({ token }: Props) => {
   const toggleVisible = useRecoilCallback(() => () => {
     setSelectedTokenState(token)
     toggleTokenListVisibility()

@@ -13,7 +13,7 @@ import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
 import { useRecoilCallback } from 'recoil'
 
-type Props = {
+interface Props {
   token: Token
   amount: number
 }

@@ -2,23 +2,21 @@
 import { type Token } from '@/common/types/Token'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { authState } from '@/features/auth/auth.state'
-import { setPoolState } from '@/features/pool/pool.state'
+import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
 import { toggleSetStakingPoolModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
-import { useRecoilCallback, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
-type Props = {
+interface Props {
   readonly tokenA: Token
   readonly tokenB: Token
-  readonly isStakeable?: boolean
 }
 
-export const SetStakingButton = ({ tokenA, tokenB, isStakeable }: Props) => {
+export const OpenSetStakeableButton = ({ tokenA, tokenB }: Props) => {
   const { account } = useRecoilValue(authState)
-  const openSetStakingModal = useRecoilCallback(() => () => {
-    setPoolState({ tokenA, tokenB })
-    toggleSetStakingPoolModalVisibility()
-  })
+  const isStakeable = useRecoilValue(
+    getIsStakedPoolSelector({ tokenA, tokenB })
+  )
 
   if (
     !isStakeable &&
@@ -29,7 +27,7 @@ export const SetStakingButton = ({ tokenA, tokenB, isStakeable }: Props) => {
       <ActionButton
         className="w-1/2 md:w-fit"
         icon={faCoins}
-        onClick={openSetStakingModal}
+        onClick={toggleSetStakingPoolModalVisibility}
         title="Set Staking"
       />
     )

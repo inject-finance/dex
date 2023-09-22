@@ -30,7 +30,7 @@ export interface IStakePoolContractService {
     poolAddress: string
   ) => Promise<ContractTransaction | undefined>
 
-  stakingPoolExists: (poolAddress: string) => Promise<boolean | undefined>
+  stakingPoolExists: (poolAddress: string) => Promise<boolean>
 
   getTotalRewards: (
     poolAddress: string,

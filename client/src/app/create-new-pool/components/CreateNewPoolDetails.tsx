@@ -14,7 +14,6 @@ export const CreateNewPoolDetails = dynamic(
   () =>
     Promise.resolve(() => {
       const { tokenA, tokenB } = useRecoilValue(poolState)
-      // const ratio = useRecoilValue(getRatioSelector({ tokenA, tokenB }))
       const allowance = useRecoilValue(getPairAllowanceSelector)
 
       if (!tokenA.amount || !tokenB.amount) {

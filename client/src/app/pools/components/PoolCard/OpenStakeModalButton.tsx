@@ -1,15 +1,13 @@
 'use client'
 import { Token } from '@/common/types/Token'
 import { ActionButton } from '@/components/buttons/ActionButton'
-import { setPoolState } from '@/features/pool/pool.state'
 import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
-import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
-import { toggleCreatePositionModalVisibility } from '@/features/ui/ui.state'
+import { toggleAddToStakingModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import { useRecoilValue } from 'recoil'
 
-type Props = {
+interface Props {
   readonly tokenA: Token
   readonly tokenB: Token
 }
@@ -20,19 +18,13 @@ export const OpenStakeModalButton = ({ tokenA, tokenB }: Props) => {
   const isStakeable = useRecoilValue(
     getIsStakedPoolSelector({ tokenA, tokenB })
   )
-  const shares = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
 
-  const onClick = () => {
-    setPoolState({ tokenA, tokenB })
-    toggleCreatePositionModalVisibility()
-  }
-
-  if (isStakeable && Number(shares) && !Number(stakedAmount)) {
+  if (isStakeable && !Number(stakedAmount)) {
     return (
       <ActionButton
         className="w-fit"
         icon={faCoins}
-        onClick={onClick}
+        onClick={toggleAddToStakingModalVisibility}
         title="Add Staking"
       />
     )

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-type Props = {
+interface Props {
   poolAddress?: string
 }
 export const PoolAddressNotice = dynamic(

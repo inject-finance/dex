@@ -67,11 +67,11 @@ export class StakePoolContractService implements IStakePoolContractService {
     return this.contract?.claimRewards(poolAddress)
   }
 
-  public async stakingPoolExists(
-    poolAddress: string
-  ): Promise<boolean | undefined> {
+  public async stakingPoolExists(poolAddress: string): Promise<boolean> {
     await this.init()
-    return this.contract?.stakingPoolExists(poolAddress).catch(() => false)
+    return Boolean(
+      this.contract?.stakingPoolExists(poolAddress).catch(() => false)
+    )
   }
 
   public async getTotalRewards(poolAddress: string, metamaskAddress: string) {

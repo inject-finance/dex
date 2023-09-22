@@ -4,15 +4,11 @@ import { SortDropdown } from '@/app/pools/components/SortDropdown'
 import { authState } from '@/features/auth/auth.state'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useRecoilCallback, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { PositionsTable } from './PositionsTable'
 
 export const PositionsContainer = () => {
   const { isAuthenticated } = useRecoilValue(authState)
-
-  const handleInputChange = useRecoilCallback(() => () => {
-    // set(getPoolsFilter, currentTarget.value)
-  })
 
   return (
     <>
@@ -25,7 +21,6 @@ export const PositionsContainer = () => {
           />
           <input
             className="w-full pr-2 bg-transparent border-none input focus:outline-none placeholder:opacity-60 placeholder:text-left disabled:bg-transparent"
-            onChange={handleInputChange}
             placeholder="Search Pools"
             type="text"
           />

@@ -12,11 +12,11 @@ import {
 } from 'recoil'
 import { TokenIcon } from './TokenIcon'
 
-type Props = {
-  token: Token
+interface Props {
+  readonly token: Token
 }
 
-export const TokenCard: React.FC<Props> = ({ token }) => {
+export const TokenCard = ({ token }: Props) => {
   const { tokenA } = useRecoilValue(poolState)
   const selectedToken = useRecoilValue(selectedTokenState)
   const { state: priceState, contents: price } = useRecoilValueLoadable(

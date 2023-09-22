@@ -1,6 +1,8 @@
 import { tokenService } from '@/common/services/token/Token.service'
 import { type Pool } from '@/common/types/Pool'
 import { authState } from '@/features/auth/auth.state'
+import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import e from 'express'
 import { atom, selector } from 'recoil'
 
 export const getPoolsFilter = atom({
@@ -39,7 +41,7 @@ export const getPoolsSelector = selector<{
   get: async ({ get }) => {
     const { tokenName, myPoolsCheck } = get(getPoolsFilter)
 
-    let pools
+    let pools: Pool[]
 
     if (myPoolsCheck) {
       pools = get(getUserPoolsSelector)
@@ -48,6 +50,18 @@ export const getPoolsSelector = selector<{
         (res) => res.json()
       )
     }
+
+    // Promise.all(
+    //   pools.map((e) => {
+    //     const isStakeable = get(
+    //       getIsStakedPoolSelector({ tokenA: e.tokenA, tokenB: e.tokenB })
+    //     )
+
+    //     e.isStakeable = isStakeable
+
+    //     return e
+    //   })
+    // )
 
     return {
       pools,

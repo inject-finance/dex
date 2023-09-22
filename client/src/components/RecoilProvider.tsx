@@ -3,10 +3,10 @@ import { type ReactNode } from 'react'
 import { RecoilRoot } from 'recoil'
 import RecoilNexus from 'recoil-nexus'
 
-type Props = {
-  children: ReactNode
+interface Props {
+  readonly children: ReactNode
 }
-export const RecoilProvider: React.FC<Props> = ({ children }) => (
+export const RecoilProvider = ({ children }: Props) => (
   <RecoilRoot>
     <RecoilNexus />
     {children}

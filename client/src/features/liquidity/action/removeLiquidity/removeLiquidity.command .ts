@@ -42,27 +42,7 @@ export const removeLiquidityCommand: Command<RemoveLiquidityCommand> = async (
 
   const { transactionHash } = await processTransaction(transaction)
 
-  // let amountA = ''
-  // let amountB = ''
-  // if (event.args?._tokenA === state.tokenA.address) {
-  //   amountA = utils.formatEther(event.args?._amountA)
-  //   amountB = utils.formatEther(event.args?._amountB)
-  // } else {
-  //   amountA = utils.formatEther(event.args?._amountB)
-  //   amountB = utils.formatEther(event.args?._amountA)
-  // }
-
   state.transactionHash = transactionHash
-  // Object.assign(state, {
-  //   tokenA: {
-  //     ...state.tokenA,
-  //     amount: amountA
-  //   },
-  //   tokenB: {
-  //     ...state.tokenB,
-  //     amount: amountB
-  //   }
-  // })
 
   return state
 }

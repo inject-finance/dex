@@ -1,4 +1,4 @@
-type Props = {
+interface Props {
   readonly text: string
 }
 export const ErrorButton = ({ text }: Props) => (

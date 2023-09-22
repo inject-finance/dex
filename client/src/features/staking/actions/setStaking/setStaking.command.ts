@@ -29,7 +29,6 @@ export const setStakingCommand: Command<SetStakingCommand> = async (state) => {
   if (state.minReserve < 0)
     throw new ValidationError('Minimal min reserve is 0')
 
-  // Step: 1 = Approve
   setIsLoading('We are approving initial deposit')
   const transactionApproval =
     await injectTokenContractService.approveStakingContract(
@@ -39,7 +38,6 @@ export const setStakingCommand: Command<SetStakingCommand> = async (state) => {
   setIsLoading('We are processing approbation')
   await processTransaction(transactionApproval)
 
-  // Step: 2
   setIsLoading('We are setting stakeable pool')
   const transaction = await state.stakePoolContractService.setStakingPool({
     initialDeposit: state.initialDeposit,

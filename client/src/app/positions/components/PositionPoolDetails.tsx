@@ -8,9 +8,12 @@ import { faCoins, faLock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRecoilValueLoadable } from 'recoil'
 
-type Props = { tokenA: Token; tokenB: Token }
+interface Props {
+  readonly tokenA: Token
+  readonly tokenB: Token
+}
 
-export const PositionPoolDetails: React.FC<Props> = ({ tokenA, tokenB }) => {
+export const PositionPoolDetails = ({ tokenA, tokenB }: Props) => {
   const { state, contents } = useRecoilValueLoadable(
     getPoolDetailsSelector({ tokenA, tokenB })
   )
@@ -39,7 +42,7 @@ export const PositionPoolDetails: React.FC<Props> = ({ tokenA, tokenB }) => {
           </div>
         )}
         <div className="flex flex-row items-center justify-start gap-3 collapse-title text-md">
-          <div className="flex relattive mr-5">
+          <div className="flex mr-5 relattive">
             <span className="z-0">
               <TokenIcon token={tokenA} />
             </span>

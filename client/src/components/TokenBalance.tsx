@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic'
 import Skeleton from 'react-loading-skeleton'
 import { useRecoilValue } from 'recoil'
 
-type Props = {
+interface Props {
   token: Token
 }
 export const TokenBalance = dynamic(

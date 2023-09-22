@@ -2,13 +2,11 @@ import { routerContractService } from '@/contracts/services/router/RouterContrac
 import { poolState } from '@/features/pool/pool.state'
 import { getPriceSelector } from '@/features/tokens/selectors/getPrice.selector'
 import { selector } from 'recoil'
-import { swapState } from '../swap.state'
 
 export const getOutAmountSelector = selector({
   key: 'getOutAmountSelector',
   get: async ({ get }) => {
-    const { tokenA, tokenB } = get(poolState)
-    const { slippage } = get(swapState)
+    const { tokenA, tokenB, slippage } = get(poolState)
     if (!tokenA.amount) {
       return {
         minimumReceiveInUsd: 0,
