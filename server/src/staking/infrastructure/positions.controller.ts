@@ -29,7 +29,7 @@ export class PositionsController {
   }
 
   @Public()
-  @Get('/user/:userId/pools/:poolAddress')
+  @Get('/:userId/pools/:poolAddress')
   userPositionByPoolAddress(
     @Param('userId') userId: string,
     @Param('poolAddress') poolAddress: string
