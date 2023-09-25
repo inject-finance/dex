@@ -29,10 +29,7 @@ export class RouterContractService implements IRouterContractService {
         tokenA.address,
         tokenB.address
       )
-
-      if (!pairExist) {
-        throw new Error('Pair does not exist')
-      }
+      if (!pairExist) throw new Error('Pair does not exist')
 
       await this.init()
 
@@ -40,20 +37,14 @@ export class RouterContractService implements IRouterContractService {
         tokenA.address,
         tokenB.address
       )
-
-      if (!res) {
-        throw new Error("Doesn't have reserves")
-      }
+      if (!res) throw new Error("Doesn't have reserves")
 
       return {
         reserveA: Number(utils.formatEther(res.amount0)),
         reserveB: Number(utils.formatEther(res.amount1))
       }
     } catch (error) {
-      return {
-        reserveA: 0,
-        reserveB: 0
-      }
+      return { reserveA: 0, reserveB: 0 }
     }
   }
 
@@ -89,21 +80,12 @@ export class RouterContractService implements IRouterContractService {
     tokenB: Token
   ): Promise<number> {
     try {
-      if (
-        !Number(tokenA.amount) ||
-        isNaN(Number(tokenA.amount)) ||
-        !isFinite(Number(tokenA.amount))
-      ) {
-        return 0
-      }
-
       await this.init()
       const outAmount = await this.contract?.getTokenAmountOut(
         tokenA.address,
         tokenB.address,
         await tokenContractService.parseUnits(tokenA)
       )
-
       return outAmount
         ? Number(await tokenContractService.formatUnits(tokenB, outAmount))
         : 0
@@ -118,9 +100,12 @@ export class RouterContractService implements IRouterContractService {
   ): Promise<ContractTransaction | undefined> {
     await this.init()
 
-    if (tokenA.symbol === 'ETH' || tokenB.symbol === 'ETH') {
-      const eth = tokenA.symbol === 'ETH' ? tokenA : tokenB
-      const token = tokenA.symbol === 'ETH' ? tokenB : tokenA
+    const isTokenAETH = tokenA.symbol === 'ETH'
+    const isTokenBETH = tokenB.symbol === 'ETH'
+
+    if (isTokenAETH || isTokenBETH) {
+      const eth = isTokenAETH ? tokenA : tokenB
+      const token = isTokenAETH ? tokenB : tokenA
 
       return this.contract?.addLiquidityETH(
         token.address,
@@ -131,33 +116,24 @@ export class RouterContractService implements IRouterContractService {
       )
     }
 
-    if (tokenA.symbol !== 'ETH' && tokenB.symbol !== 'ETH') {
-      return this.contract?.addTokenToTokenLiquidity(
-        tokenA.address,
-        tokenB.address,
-        await tokenContractService.parseUnits(tokenA),
-        await tokenContractService.parseUnits(tokenB),
-        0,
-        0
-      )
-    }
-
-    return undefined
+    return this.contract?.addTokenToTokenLiquidity(
+      tokenA.address,
+      tokenB.address,
+      await tokenContractService.parseUnits(tokenA),
+      await tokenContractService.parseUnits(tokenB),
+      0,
+      0
+    )
   }
 
   public async getTokenPairRatio(tokenA: Token, tokenB: Token) {
     try {
-      if (isNaN(Number(tokenA.amount)) || !Number(tokenA.amount)) {
-        return 0
-      }
-
       await this.init()
       const ratio = await this.contract?.getTokenPairRatio(
         tokenA.address,
         tokenB.address,
         await tokenContractService.parseUnits(tokenA)
       )
-
       return ratio
         ? Number(await tokenContractService.formatUnits(tokenB, ratio))
         : 0
@@ -178,8 +154,11 @@ export class RouterContractService implements IRouterContractService {
   ): Promise<ContractTransaction | undefined> {
     await this.init()
 
-    if (tokenA.symbol === 'ETH' || tokenB.symbol === 'ETH') {
-      const token = tokenA.symbol === 'ETH' ? tokenB : tokenA
+    const isTokenAETH = tokenA.symbol === 'ETH'
+    const isTokenBETH = tokenB.symbol === 'ETH'
+
+    if (isTokenAETH || isTokenBETH) {
+      const token = isTokenAETH ? tokenB : tokenA
       return this.contract?.removeLiquidityETH(
         token.address,
         utils.parseEther(String(shares)),
@@ -189,18 +168,14 @@ export class RouterContractService implements IRouterContractService {
       )
     }
 
-    if (tokenA.symbol !== 'ETH' && tokenB.symbol !== 'ETH') {
-      return this.contract?.removeLiquidity(
-        tokenA.address,
-        tokenB.address,
-        utils.parseEther(String(shares)),
-        0,
-        0,
-        address
-      )
-    }
-
-    return undefined
+    return this.contract?.removeLiquidity(
+      tokenA.address,
+      tokenB.address,
+      utils.parseEther(String(shares)),
+      0,
+      0,
+      address
+    )
   }
 }
 

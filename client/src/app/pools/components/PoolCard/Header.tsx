@@ -26,7 +26,7 @@ export const Header = dynamic(
 
       return (
         <div className="flex flex-row items-center justify-start gap-3 collapse-title text-md">
-          <div className="flex mr-5 relattive">
+          <div className="relative flex mr-5">
             <span className="z-0">
               <TokenIcon token={tokenA} />
             </span>

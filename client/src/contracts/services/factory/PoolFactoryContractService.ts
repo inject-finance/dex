@@ -42,7 +42,9 @@ export class PoolFactoryContractService implements IPoolFactoryContractService {
       }
 
       await this.init()
-      const poolAddress = await this.contract?.getPairAddress(tokenA, tokenB)
+      const poolAddress = await this.contract
+        ?.getPairAddress(tokenA, tokenB)
+        .catch(() => undefined)
       return poolAddress === '0x0000000000000000000000000000000000000000' ||
         !poolAddress
         ? ''

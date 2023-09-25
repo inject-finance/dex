@@ -14,6 +14,10 @@ export class StakePoolContractService implements IStakePoolContractService {
     this.contract = null
   }
 
+  /**
+   * Initializes the StakePoolContractService by creating an async contract with the given address and ABI.
+   * @returns A Promise that resolves to void when the contract is created.
+   */
   public async init() {
     this.contract = await createAsyncContract<StakePoolToken>(
       StakePoolConstants.address,
@@ -31,13 +35,13 @@ export class StakePoolContractService implements IStakePoolContractService {
     poolAddress: string
     interestRate: number
     initialDeposit: number // InjectToken,
-    minReserve: number // Debe ser menos que el initial deposit
-    minStakeAmount: number // El mínimo que el usuario puede hacer stacking, por default 10USD
+    minReserve: number // Should be less than initial deposit
+    minStakeAmount: number // The minimum amount to do stacking is 10USD
   }) {
     await this.init()
     return this.contract?.setStakingPool(
       poolAddress,
-      interestRate * constants.feesFactor, // Este 200 representa el 2% = 0.02.
+      interestRate * constants.feesFactor, // 200 represents 2% = 0.02.
       utils.parseEther(String(initialDeposit)),
       utils.parseEther(String(minReserve)),
       utils.parseEther(String(minStakeAmount))
@@ -70,67 +74,46 @@ export class StakePoolContractService implements IStakePoolContractService {
   public async stakingPoolExists(poolAddress: string): Promise<boolean> {
     await this.init()
     return Boolean(
-      this.contract?.stakingPoolExists(poolAddress).catch(() => false)
+      await this.contract?.stakingPoolExists(poolAddress).catch(() => undefined)
     )
   }
 
   public async getTotalRewards(poolAddress: string, metamaskAddress: string) {
     await this.init()
-    return this.contract
+    const rewards = await this.contract
       ?.getTotalRewards(poolAddress, metamaskAddress)
-      .then((res) => Number(utils.formatEther(res)))
-      .catch(() => 0)
+      .catch(() => undefined)
+    return rewards ? Number(utils.formatEther(rewards)) : 0
   }
 
   public async getPoolInfo(poolAddress: string) {
-    try {
-      await this.init()
-      const data = await this.contract?.poolInfo(poolAddress)
-      if (!data) {
-        throw new Error("Doesn't have pool information")
-      }
-      return {
-        interestRate: Number(utils.formatEther(data.interestRate)),
-        isActive: data?.isActive,
-        minReserve: Number(utils.formatEther(data.minReserve)),
-        minStakeAmount: Number(utils.formatEther(data.minStakeAmount)),
-        poolReserves: Number(utils.formatEther(data.poolReserves)),
-        totalStakers: Number(utils.formatEther(data.totalStakers))
-      }
-    } catch (error) {
-      return {
-        interestRate: 0,
-        isActive: false,
-        minReserve: 0,
-        minStakeAmount: 0,
-        poolReserves: 0,
-        totalStakers: 0
-      }
+    await this.init()
+    const data = await this.contract
+      ?.poolInfo(poolAddress)
+      .catch(() => undefined)
+
+    return {
+      interestRate: data ? Number(utils.formatEther(data.interestRate)) : 0,
+      isActive: data ? data.isActive : false,
+      minReserve: data ? Number(utils.formatEther(data.minReserve)) : 0,
+      minStakeAmount: data ? Number(utils.formatEther(data.minStakeAmount)) : 0,
+      poolReserves: data ? Number(utils.formatEther(data.poolReserves)) : 0,
+      totalStakers: data ? Number(utils.formatEther(data.totalStakers)) : 0
     }
   }
 
   public async getUserStakeInfo(poolAddress: string, metamaskAddress: string) {
-    try {
-      const data = await this.contract?.stakeInfo(poolAddress, metamaskAddress)
-      if (!data) {
-        throw new Error("Doesn't have user stake information")
-      }
+    await this.init()
+    const data = await this.contract
+      ?.stakeInfo(poolAddress, metamaskAddress)
+      .catch(() => undefined)
 
-      return {
-        end: Number(utils.formatEther(data.end)),
-        stakedAmount: Number(utils.formatEther(data.stakeAmount)),
-        start: Number(utils.formatEther(data.start)),
-        totalClaimed: Number(utils.formatEther(data.totalClaimed)),
-        totalSupply: Number(utils.formatEther(data.totalSupply))
-      }
-    } catch (error) {
-      return {
-        end: 0,
-        stakedAmount: 0,
-        start: 0,
-        totalClaimed: 0,
-        totalSupply: 0
-      }
+    return {
+      end: data ? Number(utils.formatEther(data.end)) : 0,
+      stakedAmount: data ? Number(utils.formatEther(data.stakeAmount)) : 0,
+      start: data ? Number(utils.formatEther(data.start)) : 0,
+      totalClaimed: data ? Number(utils.formatEther(data.totalClaimed)) : 0,
+      totalSupply: data ? Number(utils.formatEther(data.totalSupply)) : 0
     }
   }
 }

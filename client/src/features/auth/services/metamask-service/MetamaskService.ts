@@ -21,6 +21,7 @@ export default class MetamaskService implements IAuthService {
     return signer
       .getBalance()
       .then((balance) => Number(utils.formatEther(balance)))
+      .catch(() => 0)
   }
 
   getProvider(): ethers.providers.JsonRpcProvider | null {

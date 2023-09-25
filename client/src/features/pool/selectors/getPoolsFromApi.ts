@@ -1,8 +1,6 @@
 import { tokenService } from '@/common/services/token/Token.service'
 import { type Pool } from '@/common/types/Pool'
 import { authState } from '@/features/auth/auth.state'
-import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
-import e from 'express'
 import { atom, selector } from 'recoil'
 
 export const getPoolsFilter = atom({
@@ -28,7 +26,9 @@ export const getUserPoolsSelector = selector<Pool[]>({
           Authorization: `Bearer ${tokenService.getToken()}`
         }
       }
-    ).then((res) => res.json())
+    )
+      .then((res) => res.json())
+      .catch(() => [])
 
     return pools
   }
@@ -47,21 +47,9 @@ export const getPoolsSelector = selector<{
       pools = get(getUserPoolsSelector)
     } else {
       pools = await fetch(`/api/pools/tokens?key=name&value=${tokenName}`).then(
-        (res) => res.json()
+        (res) => res.json().catch(() => [])
       )
     }
-
-    // Promise.all(
-    //   pools.map((e) => {
-    //     const isStakeable = get(
-    //       getIsStakedPoolSelector({ tokenA: e.tokenA, tokenB: e.tokenB })
-    //     )
-
-    //     e.isStakeable = isStakeable
-
-    //     return e
-    //   })
-    // )
 
     return {
       pools,

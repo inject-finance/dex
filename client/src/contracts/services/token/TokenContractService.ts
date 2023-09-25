@@ -24,12 +24,11 @@ export class TokenContractService implements ITokenContractService {
     if (token.symbol === 'ETH') {
       return undefined
     }
-    await this.init(token)
 
-    return this.contract?.approve(
-      DexRouterConstants.address,
-      await this.parseUnits(token)
-    )
+    await this.init(token)
+    const amount = await this.parseUnits(token)
+
+    return this.contract?.approve(DexRouterConstants.address, amount)
   }
 
   public checkAllowance(ownerAddress: string): Promise<BigNumber> | undefined {
@@ -48,38 +47,26 @@ export class TokenContractService implements ITokenContractService {
 
     const balance = await this.contract
       ?.balanceOf(metamaskAddress)
-      .then(async (res) => Number(await this.formatUnits(token, res)))
-      .catch(() => 0)
-
-    if (!balance) {
-      return 0
-    }
-    return balance
-  }
-
-  public async getDecimals(token: Token): Promise<number> {
-    await this.init(token)
-    const decimals = this.contract?.decimals()
-
-    if (!decimals) {
-      return 0
-    }
-
-    return decimals
+      .catch(() => undefined)
+    return balance ? Number(await this.formatUnits(token, balance)) : 0
   }
 
   public async formatUnits(token: Token, quantity: BigNumber): Promise<number> {
     await this.init(token)
     const decimals = await this.contract?.decimals()
-
     return Number(utils.formatUnits(quantity, decimals))
   }
 
   public async parseUnits(token: Token): Promise<BigNumber> {
     await this.init(token)
     const decimals = await this.contract?.decimals()
+    const amount = token.amount?.toString() || '0'
 
-    return utils.parseUnits(String(token.amount || ''), String(decimals))
+    if (!decimals || isNaN(decimals)) {
+      throw new Error('Invalid decimals')
+    }
+
+    return utils.parseUnits(amount, decimals.toString())
   }
 }
 export const tokenContractService = new TokenContractService()

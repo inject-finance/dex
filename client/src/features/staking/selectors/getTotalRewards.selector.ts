@@ -11,7 +11,6 @@ export const getTotalRewardsSelector = selectorFamily({
     (payload: { tokenA: Token; tokenB: Token }) =>
     ({ get }) => {
       const { account } = get(authState)
-
       const poolAddress = get(
         getPoolAddressSelector({
           tokenA: payload.tokenA,
