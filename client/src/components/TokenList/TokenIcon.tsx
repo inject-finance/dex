@@ -1,4 +1,5 @@
 /* eslint-disable security/detect-non-literal-require */
+
 import { Token } from '@/common/types/Token'
 import Image from 'next/image'
 
