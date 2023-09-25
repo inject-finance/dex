@@ -8,7 +8,7 @@ const constants = {
       symbol: 'XDAI'
     },
     tokenB: {
-      symbol: 'ETH'
+      symbol: 'XBAT'
     }
   },
   feesFactor: 10000,
