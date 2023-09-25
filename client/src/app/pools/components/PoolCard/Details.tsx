@@ -54,7 +54,7 @@ export const Details = dynamic(
             <div className="flex flex-col w-1/2 text-sm md:flex-row md:w-full md:justify-between bg-[#181818]/60 rounded-tl-md rounded-bl-md md:rounded-bl-none md:rounded-tr-md">
               <div
                 className="text-center p-1 border-b border-b-[var(--light-blue)] md:w-1/4 md:border-b-0 h-[32px] max-h-[32px] tooltip tooltip-bottom hover:cursor-pointer"
-                data-tip={`USD ${tvl}`}
+                data-tip={`USD ${tvl.toFixed(3)}`}
               >
                 Total Value Lot
               </div>

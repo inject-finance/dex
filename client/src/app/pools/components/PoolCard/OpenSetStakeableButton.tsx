@@ -28,7 +28,7 @@ export const OpenSetStakeableButton = ({ tokenA, tokenB }: Props) => {
         className="w-1/2 md:w-fit"
         icon={faCoins}
         onClick={toggleSetStakingPoolModalVisibility}
-        title="Set Staking"
+        title="Set as Stakeable"
       />
     )
   }
