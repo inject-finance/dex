@@ -9,31 +9,37 @@ import {
   StorePositionCommand,
   storePositionCommand
 } from './storePosition.command'
+import {
+  GetAccountCommand,
+  getAccountCommand
+} from '@/features/common/commands/getAccount.command'
 
+type StakeTokenAction = GetAccountCommand &
+  StakeTokenCommand &
+  StorePositionCommand
 export const stakeToken = async ({
   tokenA,
   tokenB,
   stakeDuration,
   sharesToStaking,
-  poolAddress,
-  account
+  poolAddress
 }: TokenPair & {
   stakeDuration: number
   sharesToStaking: number
   poolAddress?: string
-  account: User
 }) => {
-  const cStack = createCommandStack<StakeTokenCommand & StorePositionCommand>({
+  const cStack = createCommandStack<StakeTokenAction>({
     tokenA,
     tokenB,
     stakeDuration,
     sharesToStaking,
     stakePoolContractService,
     poolAddress,
-    account
+    account: {} as User
   })
 
   await cStack
+    .add(getAccountCommand)
     .add(stakeTokenCommand)
     .add(storePositionCommand)
     .run()

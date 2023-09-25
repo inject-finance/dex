@@ -42,7 +42,7 @@ export const PositionPoolDetails = ({ tokenA, tokenB }: Props) => {
           </div>
         )}
         <div className="flex flex-row items-center justify-start gap-3 collapse-title text-md">
-          <div className="flex mr-5 relattive">
+          <div className="relative flex mr-5">
             <span className="z-0">
               <TokenIcon token={tokenA} />
             </span>
@@ -61,7 +61,7 @@ export const PositionPoolDetails = ({ tokenA, tokenB }: Props) => {
               <strong>Pool Address:</strong> {contents.poolAddress}
             </h3>
             <span className="flex my-2 text-xs opacity-40">
-              <strong>Note:</strong> The values in this table are aproximates,
+              <strong>Note:</strong> The values in this table are approximates,
               to see the actual values, hover the desired CELL NAME
             </span>
           </div>
@@ -111,7 +111,7 @@ export const PositionPoolDetails = ({ tokenA, tokenB }: Props) => {
               {Boolean(Number(contents.shares.toFixed(8))) && (
                 <label
                   className="flex text-xs underline transition duration-300 ease-in-out opacity-40 hover:opacity-80 hover:cursor-pointer"
-                  htmlFor="remove_liquidity"
+                  htmlFor="remove_liquidity"p
                   onClick={openRemoveLiquidityModal}
                 >
                   Remove Liquidity

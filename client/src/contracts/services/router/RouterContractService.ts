@@ -132,7 +132,6 @@ export class RouterContractService implements IRouterContractService {
     }
 
     if (tokenA.symbol !== 'ETH' && tokenB.symbol !== 'ETH') {
-      console.log({ tokenA, tokenB })
       return this.contract?.addTokenToTokenLiquidity(
         tokenA.address,
         tokenB.address,

@@ -43,15 +43,12 @@ export const CreatePositionModal = () => {
         })
       )
 
-      const { account } = await snapshot.getPromise(authState)
-
       await stakeToken({
         sharesToStaking: (shares / sharesInPercent) * Number(staking.shares),
         stakeDuration: staking.duration,
         tokenA,
         tokenB,
-        poolAddress,
-        account
+        poolAddress
       })
 
       toggleAddToStakingModalVisibility()

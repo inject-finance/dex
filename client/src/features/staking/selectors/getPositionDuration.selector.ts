@@ -20,11 +20,6 @@ export const getPositionFromApiByPoolAddressSelector = selectorFamily({
           tokenB: payload.tokenB
         })
       )
-      console.log({
-        poolAddress,
-        tokenA: payload.tokenA,
-        tokenB: payload.tokenB
-      })
 
       const position: Position = await fetch(
         `/api/positions/${account.id}/pools/${poolAddress}`

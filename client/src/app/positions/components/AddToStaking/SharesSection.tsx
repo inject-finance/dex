@@ -1,59 +1,42 @@
 'use client'
 import { MaxButton } from '@/components/MaxButton'
-import { Spinner } from '@/components/Spinner'
 import { formatQuantity } from '@/features/common/utils/formatQuantity'
-import { poolState } from '@/features/pool/pool.state'
-import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
+import { poolState, setPoolState } from '@/features/pool/pool.state'
+import {
+  getSharesPercentSelector,
+  getSharesSelector
+} from '@/features/tokens/selectors/getShares.selector'
 import {
   faExclamationCircle,
   faPercent
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ChangeEvent } from 'react'
-import {
-  useRecoilCallback,
-  useRecoilState,
-  useRecoilValueLoadable
-} from 'recoil'
-import { getRecoilPromise } from 'recoil-nexus'
+import { useRecoilValue } from 'recoil'
 
 export const SharesSection = () => {
-  const [{ staking, tokenA, tokenB }, setState] = useRecoilState(poolState)
-
-  const { state, contents } = useRecoilValueLoadable(
-    getPoolDetailsSelector({ tokenA, tokenB })
+  const { staking, tokenA, tokenB } = useRecoilValue(poolState)
+  const shares = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
+  const sharesInPercent = useRecoilValue(
+    getSharesPercentSelector({ tokenA, tokenB })
   )
 
-  const handleInputChange = useRecoilCallback(
-    ({ set, snapshot }) =>
-      async ({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
-        const { value } = currentTarget
+  const handleInputChange = ({
+    currentTarget
+  }: ChangeEvent<HTMLInputElement>) => {
+    const { value } = currentTarget
 
-        const { sharesInPercent } = await snapshot.getPromise(
-          getPoolDetailsSelector({ tokenA, tokenB })
-        )
-
-        if (Number(value) >= 0 && Number(value) <= sharesInPercent) {
-          set(poolState, (prev) => ({
-            ...prev,
-            staking: { ...staking, shares: value }
-          }))
-        }
-      }
-  )
-
-  const handleClickMax = async () => {
-    const { sharesInPercent } = await getRecoilPromise(
-      getPoolDetailsSelector({ tokenA, tokenB })
-    )
-    setState((prev) => ({
-      ...prev,
-      staking: { ...staking, shares: String(sharesInPercent) }
-    }))
+    if (Number(value) >= 0 && Number(value) <= sharesInPercent) {
+      setPoolState({
+        staking: { ...staking, shares: value }
+      })
+    }
   }
 
-  if (state === 'loading' || state !== 'hasValue') {
-    return <Spinner />
+  const handleClickMax = () => {
+    setPoolState({
+      staking: { ...staking, shares: String(sharesInPercent) }
+    })
   }
 
   return (
@@ -74,17 +57,17 @@ export const SharesSection = () => {
             wish to add staking to
           </span>
         </div>
-        <div className="flex flex-row md:flex-col w-full">
+        <div className="flex flex-row w-full md:flex-col">
           <div className="flex flex-col w-1/2 text-sm md:flex-row md:w-full bg-[#181818]/60 rounded-tl-md rounded-bl-md md:rounded-bl-none md:rounded-tr-md">
             <div
               className="text-center p-1 md:w-1/2 border-b border-b-[var(--light-blue)] md:border-b-0 h-[32px] max-h-[32px] tooltip tooltip-bottom hover:cursor-pointer"
-              data-tip={`${contents.sharesInPercent} %`}
+              data-tip={`${sharesInPercent} %`}
             >
               Percent
             </div>
             <div
               className="text-center p-1 md:w-1/2 md:border-l md:border-l-[var(--light-blue)] h-[32px] max-h-[32px] tooltip tooltip-bottom hover:cursor-pointer"
-              data-tip={`${contents.shares} Pool Tokens`}
+              data-tip={`${shares} Pool Tokens`}
             >
               Shares
             </div>
@@ -92,13 +75,11 @@ export const SharesSection = () => {
           <div className="flex flex-col w-1/2 md:flex-row md:w-full bg-[var(--dark-green)] rounded-br-md rounded-tr-md md:rounded-tr-none md:rounded-bl-md">
             <div className="text-center p-1 md:w-1/2 border-b border-b-[var(--light-yellow)] md:border-b-0 h-[32px] max-h-[32px] truncate">
               <span className="pl-2 opacity-80">
-                {contents.sharesInPercent.toFixed(2)} %
+                {sharesInPercent.toFixed(2)} %
               </span>
             </div>
             <div className="text-center p-1 md:w-1/2 md:border-l md:border-l-[var(--light-yellow)] h-[32px] max-h-[32px] truncate">
-              <span className="opacity-80">
-                {formatQuantity(contents.shares)}
-              </span>
+              <span className="opacity-80">{formatQuantity(shares)}</span>
             </div>
           </div>
         </div>
@@ -106,7 +87,7 @@ export const SharesSection = () => {
         <div className="text-center opacity-60">
           {Boolean(staking.shares) &&
             `${Number(staking.shares).toFixed(2)}% = ${formatQuantity(
-              (Number(contents.shares) / Number(contents.sharesInPercent)) *
+              (Number(shares) / Number(sharesInPercent)) *
                 Number(staking.shares)
             )}`}
         </div>
