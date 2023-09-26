@@ -12,22 +12,21 @@ import { createCommandStack } from '@/features/common/process/create-command.sta
 import { showTransactionDetails } from '@/features/common/utils/showTransactionDetails'
 import { setIsLoading } from '@/features/ui/loading.state'
 import { SwapCommand, swapCommand } from './swap.command'
+import {
+  GetAccountCommand,
+  getAccountCommand
+} from '@/features/common/commands/getAccount.command'
 
 type SwapAction = ApproveTokenCommand & SwapCommand
 
-type Props = TokenPair & { account: User; slippage: Slippage }
+type Props = TokenPair & { slippage: Slippage }
 
-export const swapAction = async ({
-  tokenA,
-  tokenB,
-  account,
-  slippage
-}: Props) => {
-  const cStack = createCommandStack<SwapAction>({
+export const swapAction = async ({ tokenA, tokenB, slippage }: Props) => {
+  const cStack = createCommandStack<SwapAction & GetAccountCommand>({
     token: tokenA,
     tokenA,
     tokenB,
-    account,
+    account: {} as User,
     slippage,
     transactionHash: '',
     tokenContractService,
@@ -36,6 +35,7 @@ export const swapAction = async ({
   })
 
   await cStack
+    .add(getAccountCommand)
     .add(approveTokenCommand)
     .add(swapCommand)
     .run()

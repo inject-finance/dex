@@ -43,7 +43,7 @@ export const useMetamask = () => {
     })
 
     window.ethereum.on('accountsChanged', async (accounts: string[]) => {
-      if (!accounts.length) {
+      if (!accounts.length && Array.isArray(accounts)) {
         window.location.reload()
         localStorage.removeItem(constants.tokenKey)
       }

@@ -3,7 +3,6 @@ import { buttonWithAuth } from '@/components/ButtonWithAuth'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { ErrorButton } from '@/components/buttons/ErrorButton'
 import { LoadingButton } from '@/components/buttons/LoadingButton'
-import { authState } from '@/features/auth/auth.state'
 import { poolState } from '@/features/pool/pool.state'
 import { swapAction } from '@/features/swap/actions/swap/swap.action'
 import { getOutAmountSelector } from '@/features/swap/selectors/getOutAmount.selector'
@@ -29,7 +28,6 @@ export const SwapButton = dynamic(
                 const { tokenA, tokenB, slippage } = await snapshot.getPromise(
                   poolState
                 )
-                const { account } = await snapshot.getPromise(authState)
                 const { total } = await snapshot.getPromise(
                   getOutAmountSelector
                 )
@@ -37,7 +35,6 @@ export const SwapButton = dynamic(
                 await swapAction({
                   tokenA,
                   tokenB: { ...tokenB, amount: String(total) },
-                  account,
                   slippage: Number(slippage)
                 })
 

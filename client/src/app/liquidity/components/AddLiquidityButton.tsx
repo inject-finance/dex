@@ -4,21 +4,19 @@ import { ConfirmationModal } from '@/components/ConfirmationModal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { ErrorButton } from '@/components/buttons/ErrorButton'
 import { LoadingButton } from '@/components/buttons/LoadingButton'
-import { authState } from '@/features/auth/auth.state'
-import { addLiquidity } from '@/features/liquidity/action/addLiquidity/addLiquidity.action'
+import { addLiquidityAction } from '@/features/liquidity/action/addLiquidity/addLiquidity.action'
 import { getPairAllowanceSelector } from '@/features/liquidity/selectors/getAllowance.selector'
 import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.selector'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
 import { getReservesSelector } from '@/features/pool/selectors/getReserves.selector'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { getSharesPercentSelector } from '@/features/tokens/selectors/getShares.selector'
 import { toggleConfirmationModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 import { ApproveTokenButton } from './ApproveTokenButton'
-import { usePathname } from 'next/navigation'
 
 export const AddLiquidityButton = dynamic(
   () =>
@@ -35,21 +33,14 @@ export const AddLiquidityButton = dynamic(
             async () => {
               const { tokenA, tokenB } = await snapshot.getPromise(poolState)
               try {
-                const { account } = await snapshot.getPromise(authState)
                 const ratio = await snapshot.getPromise(getRatioSelector)
-                const poolAddress = await snapshot.getPromise(
-                  getPoolAddressSelector({ tokenA, tokenB })
-                )
-
-                await addLiquidity({
+                await addLiquidityAction({
                   tokenA,
                   tokenB: {
                     ...tokenB,
                     amount:
-                      pathname === 'liquidity' ? String(ratio) : tokenB.amount
-                  },
-                  account,
-                  poolAddress
+                      pathname === '/liquidity' ? String(ratio) : tokenB.amount
+                  }
                 })
 
                 toggleConfirmationModalVisibility()

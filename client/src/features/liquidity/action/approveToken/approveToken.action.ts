@@ -61,7 +61,5 @@ export const approveToken = async ({
         `
       })
     })
-    .finally(() => {
-      setIsLoading()
-    })
+    .finally(() => setIsLoading())
 }

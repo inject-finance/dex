@@ -35,10 +35,13 @@ export class TokenContractService implements ITokenContractService {
     return this.contract?.allowance(ownerAddress, DexRouterConstants.address)
   }
 
-  public async getBalance(
-    token: Token,
-    metamaskAddress: string
-  ): Promise<number> {
+  public async getBalance(token: Token): Promise<number> {
+    const account = await metamaskService.getAccount()
+
+    if (!account) {
+      return 0
+    }
+
     if (token.symbol === 'ETH') {
       return metamaskService.getBalance()
     }
@@ -46,7 +49,7 @@ export class TokenContractService implements ITokenContractService {
     await this.init(token)
 
     const balance = await this.contract
-      ?.balanceOf(metamaskAddress)
+      ?.balanceOf(account)
       .catch(() => undefined)
     return balance ? Number(await this.formatUnits(token, balance)) : 0
   }

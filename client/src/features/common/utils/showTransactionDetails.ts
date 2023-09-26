@@ -41,6 +41,7 @@ export const showTransactionDetails = ({
         ${tokenA?.symbol} / ${tokenB?.symbol}
         <br />
         ${tokenAStr}
+        <br />
         ${tokenBStr}
         <br />
         ${transactionHashStr}

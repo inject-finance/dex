@@ -2,7 +2,7 @@ import { Token } from '@/common/types/Token'
 import { User } from '@/common/types/User'
 import { routerContractService } from '@/contracts/services/router/RouterContractService'
 import { createCommandStack } from '@/features/common/process/create-command.stack'
-import { addLiquidity } from './addLiquidity.action'
+import { addLiquidityAction } from './addLiquidity.action'
 
 jest.mock('@/features/common/process/create-command.stack')
 jest.mock('@/contracts/services/router/RouterContractService')
@@ -33,7 +33,7 @@ describe('When addLiquidity is called', () => {
     jest.mocked(commandStack.add).mockReturnValue(commandStack)
     commandStack.run.mockResolvedValue(initialState)
 
-    await addLiquidity({
+    await addLiquidityAction({
       tokenA: initialState.tokenA,
       tokenB: initialState.tokenB,
       account: initialState.account,
