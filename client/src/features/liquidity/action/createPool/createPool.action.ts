@@ -49,8 +49,6 @@ export const createPoolAction = async ({ tokenA, tokenB }: TokenPair) => {
     .add(addLiquidityCommand)
     .add(storeLiquidityCommand)
     .run()
-    .then((state) => {
-      showTransactionDetails(state)
-    })
+    .then((state) => showTransactionDetails(state))
     .finally(() => setIsLoading())
 }

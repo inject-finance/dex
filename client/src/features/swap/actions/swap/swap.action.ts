@@ -39,8 +39,6 @@ export const swapAction = async ({ tokenA, tokenB, slippage }: Props) => {
     .add(approveTokenCommand)
     .add(swapCommand)
     .run()
-    .then((state) => {
-      showTransactionDetails(state)
-    })
+    .then((state) => showTransactionDetails(state))
     .finally(() => setIsLoading())
 }

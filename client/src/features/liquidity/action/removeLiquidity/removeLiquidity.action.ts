@@ -50,10 +50,6 @@ export const removeLiquidity = async ({ tokenA, tokenB, shares }: Props) => {
     .add(removeLiquidityCommand)
     .add(storeRemoveLiquidityCommand)
     .run()
-    .then((state) => {
-      showTransactionDetails(state)
-    })
-    .finally(() => {
-      setIsLoading()
-    })
+    .then((state) => showTransactionDetails(state))
+    .finally(() => setIsLoading())
 }

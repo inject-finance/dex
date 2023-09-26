@@ -35,10 +35,6 @@ export const setAsStakeable = async ({
     .add(getPoolAddressCommand)
     .add(setStakingCommand)
     .run()
-    .then((state) => {
-      showTransactionDetails(state)
-    })
-    .finally(() => {
-      setIsLoading()
-    })
+    .then((state) => showTransactionDetails(state))
+    .finally(() => setIsLoading())
 }

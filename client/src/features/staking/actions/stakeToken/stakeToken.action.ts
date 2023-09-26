@@ -61,10 +61,6 @@ export const stakeToken = async ({
     .add(stakeTokenCommand)
     .add(storePositionCommand)
     .run()
-    .then((state) => {
-      showTransactionDetails(state)
-    })
-    .finally(() => {
-      setIsLoading()
-    })
+    .then((state) => showTransactionDetails(state))
+    .finally(() => setIsLoading())
 }

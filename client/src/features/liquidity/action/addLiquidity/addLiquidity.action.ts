@@ -45,8 +45,6 @@ export const addLiquidityAction = async ({ tokenA, tokenB }: Props) => {
     .add(addLiquidityCommand)
     .add(storeLiquidityCommand)
     .run()
-    .then((state) => {
-      showTransactionDetails(state)
-    })
+    .then((state) => showTransactionDetails(state))
     .finally(() => setIsLoading())
 }
