@@ -8,7 +8,7 @@ import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { poolState } from '@/features/pool/pool.state'
 import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
 import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
-import { setStakingPool } from '@/features/staking/actions/setStaking/setStakingPool.action'
+import { setAsStakeable } from '@/features/staking/actions/setAsStakeablePool/setAsStakeablePool.action'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { getTokenBySymbol } from '@/features/tokens/selectors/getTokenBySymbol.selector'
 import {
@@ -50,7 +50,7 @@ export const SetStakeableModal = dynamic(
   () =>
     Promise.resolve(() => {
       const { setStakingPoolModalVisibility } = useRecoilValue(uiState)
-      const { tokenA, tokenB, poolAddress } = useRecoilValue(poolState)
+      const { tokenA, tokenB } = useRecoilValue(poolState)
       const {
         register,
         handleSubmit,
@@ -80,12 +80,13 @@ export const SetStakeableModal = dynamic(
             minReserve
           }: Inputs) => {
             try {
-              await setStakingPool({
+              await setAsStakeable({
+                tokenA,
+                tokenB,
                 initialDeposit: Number(initialDeposit),
                 minStakeAmount: Number(minStakeAmount),
                 interestRate: Number(interestRate),
-                minReserve: Number(minReserve),
-                poolAddress
+                minReserve: Number(minReserve)
               })
               toggleSetStakingPoolModalVisibility()
             } finally {

@@ -1,5 +1,5 @@
 'use client'
-import { CreatePositionModal } from '@/app/pools/components/CreatePositionModal'
+import { StakeTokensModal } from '@/app/pools/components/StakeTokensModal'
 import { Spinner } from '@/components/Spinner'
 import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +38,7 @@ export const PoolTable = () => {
 
       <StakingDetailsModal />
       <RemoveLiquidityModal />
-      <CreatePositionModal />
+      <StakeTokensModal />
       <SetStakeableModal />
     </div>
   )

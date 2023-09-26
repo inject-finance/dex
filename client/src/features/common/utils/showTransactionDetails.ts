@@ -8,7 +8,6 @@ type TransactionDetails = Partial<TokenPair> & {
   token?: Token
   transactionHash?: string
 }
-
 export const showTransactionDetails = ({
   token,
   tokenA,
@@ -16,6 +15,18 @@ export const showTransactionDetails = ({
   transactionHash
 }: TransactionDetails): void => {
   const { showNetworkNotice } = getRecoil(uiState)
+  const tokenAStr = tokenA?.amount
+    ? `${tokenA.symbol}:${formatQuantity(tokenA.amount)}`
+    : ''
+  const tokenBStr = tokenB?.amount
+    ? `${tokenB.symbol}:${formatQuantity(tokenB.amount)}`
+    : ''
+  const transactionHashStr = transactionHash
+    ? `Transaction Hash: <a class="text-[#fdd981]" href="https://${
+        showNetworkNotice ? 'goerli.' : ''
+      }arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">${transactionHash}</a>`
+    : ''
+
   Swal.fire({
     title: 'Transaction details',
     text: 'Operation executed successfully',
@@ -28,34 +39,11 @@ export const showTransactionDetails = ({
       <div>
         ${token?.symbol || ''}
         ${tokenA?.symbol} / ${tokenB?.symbol}
-        ${
-          tokenA?.amount
-            ? `
-            <br />
-            ${tokenA?.symbol}:${formatQuantity(tokenA?.amount)}
-            `
-            : ''
-        }
-        ${
-          tokenB?.amount
-            ? `
-            <br /> 
-            ${tokenB?.symbol}:${formatQuantity(tokenB?.amount)}
-            `
-            : ''
-        }
-        <br /> 
-        ${
-          transactionHash
-            ? `Transaction Hash: 
-            <a clasName="text-[#fdd981]" href="https://${
-              showNetworkNotice ? 'goerli.' : ''
-            }arbiscan.io/tx/${transactionHash}" target="__blank" style="color: green;">
-              ${transactionHash}
-            </a>
-          `
-            : ''
-        }
+        <br />
+        ${tokenAStr}
+        ${tokenBStr}
+        <br />
+        ${transactionHashStr}
       </div>
     `
   })

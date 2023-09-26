@@ -2,24 +2,22 @@ import Swal from 'sweetalert2'
 import { ValidationError } from '../errors/ValidationError'
 import { type Command } from './command'
 import { rejectMetamaskRequest } from '@/features/auth/utils/rejectMetamaskRequest'
-
 export const createCommandStack = <State>(state: State) => {
-  const comandos: Command<any>[] = []
+  const commands: Command<any>[] = []
 
   return {
     add<T>(command: Command<T>) {
-      comandos.push(command)
+      commands.push(command)
       return this
     },
     async run() {
       try {
-        for await (const command of comandos) {
+        for await (const command of commands) {
           state = await command(state)
         }
         return state
-      } catch (err) {
-        const error = err as Error
-        if (err instanceof ValidationError) {
+      } catch (error) {
+        if (error instanceof ValidationError) {
           Swal.fire({
             title: 'Metamask',
             icon: 'warning',

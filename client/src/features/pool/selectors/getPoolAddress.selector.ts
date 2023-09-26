@@ -7,5 +7,5 @@ export const getPoolAddressSelector = selectorFamily({
   get:
     ({ tokenA, tokenB }: { tokenA: Token; tokenB: Token }) =>
     () =>
-      poolFactoryContractService.getPairAddress(tokenA.address, tokenB.address)
+      poolFactoryContractService.getPoolAddress(tokenA.address, tokenB.address)
 })

@@ -29,7 +29,7 @@ export const removeLiquidityCommand: Command<RemoveLiquidityCommand> = async (
   await state.dexPoolContractService.init(state.poolAddress)
 
   setIsLoading('We are approving your shares')
-  const approvalTransaction = await state.dexPoolContractService.approve(
+  const approvalTransaction = await state.dexPoolContractService.approveAmount(
     state.shares
   )
 

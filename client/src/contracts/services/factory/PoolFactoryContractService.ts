@@ -35,7 +35,7 @@ export class PoolFactoryContractService implements IPoolFactoryContractService {
     return this.contract?.createPair(tokenA, tokenB, 300)
   }
 
-  public async getPairAddress(tokenA: string, tokenB: string) {
+  public async getPoolAddress(tokenA: string, tokenB: string) {
     try {
       if (!tokenA.length || !tokenB.length) {
         return ''

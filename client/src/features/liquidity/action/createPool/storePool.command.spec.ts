@@ -39,7 +39,7 @@ describe('When storePoolCommand is called', () => {
       )
 
     jest
-      .mocked(initialState.poolFactoryContractService.getPairAddress)
+      .mocked(initialState.poolFactoryContractService.getPoolAddress)
       .mockResolvedValue('mockPoolAddress')
 
     await storePoolCommand(initialState)

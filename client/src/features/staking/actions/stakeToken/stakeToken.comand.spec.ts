@@ -10,7 +10,7 @@ jest.mock('@/features/ui/loading.state')
 
 describe('When stakeTokenCommand is called', () => {
   const initialState = {
-    sharesToStaking: 1,
+    sharesToStake: 1,
     poolAddress: 'mockPoolAddress',
     stakeDuration: 1,
     stakePoolContractService,

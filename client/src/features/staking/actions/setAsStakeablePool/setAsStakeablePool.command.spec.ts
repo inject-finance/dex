@@ -1,7 +1,10 @@
 import { stakePoolContractService } from '@/contracts/services/stake/StakePoolContractService'
 import { CommandsError } from '@/features/common/enums/CommandsError.enum'
 import { processTransaction } from '@/features/common/utils/processTransaction'
-import { SetStakingCommand, setStakingCommand } from './setStaking.command'
+import {
+  SetStakingCommand,
+  setStakingCommand
+} from './setAsStakeablePool.command'
 
 jest.mock('@/contracts/services/stake/StakePoolContractService')
 jest.mock('@/contracts/services/inject/InjectTokenContractService')

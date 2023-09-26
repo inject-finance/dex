@@ -17,7 +17,7 @@ export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
 
   setIsLoading('We are saving your pair')
 
-  state.poolAddress = await state.poolFactoryContractService.getPairAddress(
+  state.poolAddress = await state.poolFactoryContractService.getPoolAddress(
     state.tokenA.address,
     state.tokenB.address
   )

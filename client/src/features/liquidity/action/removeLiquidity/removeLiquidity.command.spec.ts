@@ -33,7 +33,7 @@ describe('When removeLiquidityCommand is called', () => {
     } as any)
 
     jest
-      .mocked(initialState.dexPoolContractService.approve)
+      .mocked(initialState.dexPoolContractService.approveAmount)
       .mockResolvedValue(approvalTransaction as unknown as ContractTransaction)
 
     await approvalTransaction.wait()

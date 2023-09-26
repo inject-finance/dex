@@ -6,9 +6,7 @@ import { getRecoilPromise } from 'recoil-nexus'
 export type GetAccountCommand = {
   account: User
 }
-
 export const getAccountCommand: Command<GetAccountCommand> = async (state) => {
-  state.account = (await getRecoilPromise(authState)).account
-
+  state.account = (await getRecoilPromise(authState))?.account
   return state
 }

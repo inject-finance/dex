@@ -1,7 +1,7 @@
 'use client'
 import positionsMenuIcon from '@/assets/images/positions_menu_icon.png'
 import Image from 'next/image'
-import { CreatePositionModal } from '../../pools/components/CreatePositionModal'
+import { StakeTokensModal } from '../../pools/components/StakeTokensModal'
 import { OpenModalButton } from './AddToStaking/OpenAddToStakingModalButton'
 
 export const Header = () => (
@@ -15,6 +15,6 @@ export const Header = () => (
       />
     </h2>
     <OpenModalButton />
-    <CreatePositionModal />
+    <StakeTokensModal />
   </div>
 )

@@ -12,7 +12,7 @@ export interface IPoolFactoryContractService {
   removeFromWhitelist: (
     metamaskAddress: string
   ) => Promise<ContractTransaction> | undefined
-  getPairAddress: (
+  getPoolAddress: (
     tokenA: string,
     tokenB: string
   ) => Promise<string | undefined>

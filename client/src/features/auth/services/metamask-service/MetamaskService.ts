@@ -25,13 +25,23 @@ export default class MetamaskService implements IAuthService {
   }
 
   getProvider(): ethers.providers.JsonRpcProvider | null {
-    if (typeof window === 'undefined') return null
+    if (typeof window === 'undefined' || !window.ethereum?.isMetaMask) {
+      return null
+    }
 
-    if (!window.ethereum?.isMetaMask) return null
+    return new ethers.providers.Web3Provider(window.ethereum)
+  }
 
-    return new ethers.providers.Web3Provider(
-      window.ethereum as ethers.providers.ExternalProvider
-    )
+  getAccount(): Promise<string> {
+    const provider = this.getProvider()
+
+    if (!provider)
+      throw new Error('Please make sure you have metamask installed.')
+
+    return provider
+      .listAccounts()
+      .then((accounts) => accounts[0])
+      .catch(() => '')
   }
 }
 

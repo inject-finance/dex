@@ -17,7 +17,7 @@ export const getPoolAddressCommand: Command<GetPoolAddressCommand> = async (
   if (!state.tokenB.address)
     throw new ValidationError(CommandsError.TOKEN_B_ADDRESS_REQUIRED)
 
-  state.poolAddress = await state.poolFactoryContractService.getPairAddress(
+  state.poolAddress = await state.poolFactoryContractService.getPoolAddress(
     state.tokenA.address,
     state.tokenB.address
   )

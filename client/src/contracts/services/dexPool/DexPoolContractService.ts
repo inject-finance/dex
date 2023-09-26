@@ -24,12 +24,25 @@ export class DexPoolContractService implements IDexPoolContractService {
     }
   }
 
-  public approveStakePool(
-    shares: number
-  ): Promise<ContractTransaction> | undefined {
+  public async approveAmountToStake({
+    sharesToStake,
+    poolAddress,
+    account
+  }: {
+    sharesToStake: number
+    poolAddress: string
+    account: UserAddress
+  }): Promise<ContractTransaction | undefined> {
+    await this.init(poolAddress)
+    const shares = await this.getShares(account)
+    const totalSupply = await this.totalSupply()
+    const sharesInPercent = (shares / totalSupply) * 100
+
     return this.contract?.approve(
       StakePoolConstants.address,
-      utils.parseEther(String(shares))
+      utils.parseEther(
+        String((shares / sharesInPercent) * Number(sharesToStake))
+      )
     )
   }
 
@@ -39,7 +52,9 @@ export class DexPoolContractService implements IDexPoolContractService {
    * @param {string} shares - The amount of tokens to approve, expressed as a string and should be parse to ether
    * @returns {Promise<ContractTransaction> | undefined} - A promise that resolves with a ContractTransaction object if the contract is defined, or undefined otherwise.
    */
-  public approve(shares: number): Promise<ContractTransaction> | undefined {
+  public approveAmount(
+    shares: number
+  ): Promise<ContractTransaction> | undefined {
     return this.contract?.approve(
       DexRouterConstants.address,
       utils.parseEther(String(shares))
@@ -74,7 +89,7 @@ export class DexPoolContractService implements IDexPoolContractService {
     return shares
   }
 
-  public async totalSupply() {
+  public async totalSupply(): Promise<number> {
     try {
       const totalSupply = await this.contract?.totalSupply()
       return totalSupply ? Number(utils.formatEther(totalSupply)) : 0

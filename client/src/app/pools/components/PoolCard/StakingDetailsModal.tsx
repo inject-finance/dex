@@ -1,8 +1,6 @@
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
-import { authState } from '@/features/auth/auth.state'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
 import { redeemRewards } from '@/features/staking/actions/redeemRewards/redeemRewards.action'
 import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
 import { getPositionFromApiByPoolAddressSelector } from '@/features/staking/selectors/getPositionDuration.selector'
@@ -23,8 +21,7 @@ export const StakingDetailsModal = dynamic(
   () =>
     Promise.resolve(() => {
       const { redeemRewardsModalVisibility } = useRecoilValue(uiState)
-      const { account } = useRecoilValue(authState)
-      const { tokenA, tokenB, poolAddress } = useRecoilValue(poolState)
+      const { tokenA, tokenB } = useRecoilValue(poolState)
       const userStakingInfo = useRecoilValue(
         getUserStakingPoolInfoSelector({ tokenA, tokenB })
       )
@@ -39,14 +36,11 @@ export const StakingDetailsModal = dynamic(
         try {
           await redeemRewards({
             tokenA,
-            tokenB,
-            account,
-            poolAddress
+            tokenB
           })
 
           toggleRedeemRewardsModalVisibilityVisibility()
         } finally {
-          refresh(getPoolsSelector)
           refresh(
             getIsStakedPoolSelector({
               tokenA,

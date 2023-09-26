@@ -38,9 +38,8 @@ describe('When stakeToken is called', () => {
       tokenA: initialState.tokenA,
       tokenB: initialState.tokenB,
       stakeDuration: initialState.stakeDuration,
-      sharesToStaking: initialState.sharesToStaking,
-      poolAddress: initialState.poolAddress,
-      account: initialState.account
+      sharesToStake: initialState.sharesToStaking,
+      poolAddress: initialState.poolAddress
     })
 
     expect(createCommandStack).toHaveBeenCalledWith(initialState)

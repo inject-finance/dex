@@ -7,26 +7,26 @@ import { processTransaction } from '@/features/common/utils/processTransaction'
 import { setIsLoading } from '@/features/ui/loading.state'
 
 export type ClaimRewardsCommand = {
-  poolAddress?: string
-  transactionHash?: string
+  transactionHash: string
+  poolAddress: string
   stakePoolContractService: IStakePoolContractService
 }
+
 export const claimRewardsCommand: Command<ClaimRewardsCommand> = async (
   state
 ) => {
-  if (!state.poolAddress)
+  const { poolAddress, stakePoolContractService } = state
+
+  if (!poolAddress) {
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
+  }
 
   setIsLoading('We are redeeming rewards')
 
-  const transaction = await state.stakePoolContractService.claimRewards(
-    state.poolAddress
-  )
+  const transaction = await stakePoolContractService.claimRewards(poolAddress)
 
   setIsLoading('We are creating your receipt')
   const { transactionHash } = await processTransaction(transaction)
 
-  state.transactionHash = transactionHash
-
-  return state
+  return { ...state, transactionHash }
 }

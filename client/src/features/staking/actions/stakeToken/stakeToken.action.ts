@@ -13,6 +13,16 @@ import {
   GetAccountCommand,
   getAccountCommand
 } from '@/features/common/commands/getAccount.command'
+import {
+  GetPoolAddressCommand,
+  getPoolAddressCommand
+} from '@/features/common/commands/getPoolAddress.command'
+import {
+  CheckStakingPoolAvailabilityCommand,
+  checkStakingPoolAvailabilityCommand
+} from './checkStakingPoolAvailability.command'
+import { poolFactoryContractService } from '@/contracts/services/factory/PoolFactoryContractService'
+import { dexPoolContractService } from '@/contracts/services/dexPool/DexPoolContractService'
 
 type StakeTokenAction = GetAccountCommand &
   StakeTokenCommand &
@@ -21,25 +31,33 @@ export const stakeToken = async ({
   tokenA,
   tokenB,
   stakeDuration,
-  sharesToStaking,
-  poolAddress
+  sharesToStake
 }: TokenPair & {
   stakeDuration: number
-  sharesToStaking: number
-  poolAddress?: string
+  sharesToStake: number
 }) => {
-  const cStack = createCommandStack<StakeTokenAction>({
+  const cStack = createCommandStack<
+    GetAccountCommand &
+      GetPoolAddressCommand &
+      StakeTokenAction &
+      CheckStakingPoolAvailabilityCommand
+  >({
     tokenA,
     tokenB,
     stakeDuration,
-    sharesToStaking,
+    sharesToStake,
     stakePoolContractService,
-    poolAddress,
-    account: {} as User
+    poolFactoryContractService,
+    dexPoolContractService,
+    account: {} as User,
+    poolAddress: '',
+    transactionHash: ''
   })
 
   await cStack
     .add(getAccountCommand)
+    .add(getPoolAddressCommand)
+    .add(checkStakingPoolAvailabilityCommand)
     .add(stakeTokenCommand)
     .add(storePositionCommand)
     .run()

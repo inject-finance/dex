@@ -1,6 +1,6 @@
 import { stakePoolContractService } from '@/contracts/services/stake/StakePoolContractService'
 import { createCommandStack } from '@/features/common/process/create-command.stack'
-import { setStakingPool } from './setStakingPool.action'
+import { setAsStakeable } from './setAsStakeablePool.action'
 
 jest.mock('@/features/common/process/create-command.stack')
 jest.mock('@/contracts/services/stake/StakePoolContractService')
@@ -25,7 +25,7 @@ describe('When setStakingPool is called', () => {
     jest.mocked(commandStack.add).mockReturnValue(commandStack)
     commandStack.run.mockResolvedValue(initialState)
 
-    await setStakingPool({
+    await setAsStakeable({
       initialDeposit: initialState.initialDeposit,
       minStakeAmount: initialState.minStakeAmount,
       interestRate: initialState.interestRate,

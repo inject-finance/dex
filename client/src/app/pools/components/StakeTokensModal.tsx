@@ -1,9 +1,7 @@
 'use client'
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
-import { authState } from '@/features/auth/auth.state'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
 import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
 import { stakeToken } from '@/features/staking/actions/stakeToken/stakeToken.action'
 import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
@@ -21,12 +19,12 @@ import { PoolSelectorSection } from '../../positions/components/AddToStaking/Poo
 import { SharesSection } from '../../positions/components/AddToStaking/SharesSection'
 import { TimeSpanSection } from '../../positions/components/AddToStaking/TimeSpanSection'
 
-export const CreatePositionModal = () => {
+export const StakeTokensModal = () => {
   const { createPositionModalVisibility } = useRecoilValue(uiState)
-  const { tokenA, tokenB, staking, poolAddress } = useRecoilValue(poolState)
+  const { tokenA, tokenB, staking } = useRecoilValue(poolState)
   const pathname = usePathname()
 
-  const onClick = useRecoilCallback(({ refresh, snapshot }) => async () => {
+  const onClick = useRecoilCallback(({ refresh }) => async () => {
     try {
       if (Number(staking.shares) < 0) {
         throw new Error('The minimal shares is 0')
@@ -36,19 +34,11 @@ export const CreatePositionModal = () => {
         throw new Error('The minimal duration is 30 days')
       }
 
-      const { shares, sharesInPercent } = await snapshot.getPromise(
-        getPoolDetailsSelector({
-          tokenA,
-          tokenB
-        })
-      )
-
       await stakeToken({
-        sharesToStaking: (shares / sharesInPercent) * Number(staking.shares),
+        sharesToStake: Number(staking.shares),
         stakeDuration: staking.duration,
         tokenA,
-        tokenB,
-        poolAddress
+        tokenB
       })
 
       toggleAddToStakingModalVisibility()
