@@ -42,7 +42,5 @@ export const removeLiquidityCommand: Command<RemoveLiquidityCommand> = async (
 
   const { transactionHash } = await processTransaction(transaction)
 
-  state.transactionHash = transactionHash
-
-  return state
+  return { ...state, transactionHash }
 }

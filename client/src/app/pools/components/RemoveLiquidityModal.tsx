@@ -2,7 +2,6 @@ import { MaxButton } from '@/components/MaxButton'
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { Input } from '@/components/inputs/Input'
-import { authState } from '@/features/auth/auth.state'
 import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { removeLiquidity } from '@/features/liquidity/action/removeLiquidity/removeLiquidity.action'
 import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.selector'
@@ -30,9 +29,8 @@ import { useRecoilCallback, useRecoilValue } from 'recoil'
 export const RemoveLiquidityModal = dynamic(
   () =>
     Promise.resolve(() => {
-      const { tokenA, tokenB, poolAddress } = useRecoilValue(poolState)
+      const { tokenA, tokenB } = useRecoilValue(poolState)
       const { removeLiquidityModalVisibility } = useRecoilValue(uiState)
-      const { account } = useRecoilValue(authState)
       const sharesInPercent = useRecoilValue(
         getSharesPercentSelector({ tokenA, tokenB })
       )
@@ -60,8 +58,6 @@ export const RemoveLiquidityModal = dynamic(
               await removeLiquidity({
                 tokenA,
                 tokenB,
-                account,
-                poolAddress,
                 shares: Number(
                   formatQuantity(
                     (shares / sharesInPercent) * Number(inputValue)
@@ -72,6 +68,8 @@ export const RemoveLiquidityModal = dynamic(
             } finally {
               refresh(getPoolDetailsSelector({ tokenA, tokenB }))
               refresh(getRatioSelector)
+              refresh(getSharesSelector({ tokenA, tokenB }))
+              refresh(getSharesPercentSelector({ tokenA, tokenB }))
               refresh(getBalanceSelector(tokenA))
               refresh(getBalanceSelector(tokenB))
               refresh(poolState)

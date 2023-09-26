@@ -13,33 +13,40 @@ import {
   StoreRemoveLiquidityCommand,
   storeRemoveLiquidityCommand
 } from './storeRemoveLiquidity.command'
+import {
+  GetAccountCommand,
+  getAccountCommand
+} from '@/features/common/commands/getAccount.command'
+import {
+  GetPoolAddressCommand,
+  getPoolAddressCommand
+} from '@/features/common/commands/getPoolAddress.command'
+import { poolFactoryContractService } from '@/contracts/services/factory/PoolFactoryContractService'
 
 type Props = TokenPair & {
   shares: number
-  account: User
-  poolAddress?: string
 }
 
-export const removeLiquidity = async ({
-  tokenA,
-  tokenB,
-  shares,
-  account,
-  poolAddress
-}: Props) => {
+export const removeLiquidity = async ({ tokenA, tokenB, shares }: Props) => {
   const cStack = createCommandStack<
-    RemoveLiquidityCommand & StoreRemoveLiquidityCommand
+    RemoveLiquidityCommand &
+      StoreRemoveLiquidityCommand &
+      GetAccountCommand &
+      GetPoolAddressCommand
   >({
     tokenA,
     tokenB,
     shares,
-    account,
+    account: {} as User,
     routerContractService,
     dexPoolContractService,
-    poolAddress
+    poolFactoryContractService,
+    poolAddress: ''
   })
 
   await cStack
+    .add(getAccountCommand)
+    .add(getPoolAddressCommand)
     .add(removeLiquidityCommand)
     .add(storeRemoveLiquidityCommand)
     .run()

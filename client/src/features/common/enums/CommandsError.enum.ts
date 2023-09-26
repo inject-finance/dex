@@ -15,5 +15,6 @@ export const enum CommandsError {
   ACCOUNT_ID_REQUIRED = 'Account id is required',
   STAKING_POOL_DOES_NOT_AVAILABLE = 'Staking pool does not available',
   FLOW_IS_NOT_DEFINED = 'Flow is not defined',
-  SLIPPAGE_LIMITED_IN_10_PERCENT = 'Max Slippage is 10%'
+  SLIPPAGE_LIMITED_IN_10_PERCENT = 'Max Slippage is 10%',
+  TOKEN_PAIR_ALREADY_EXIST = 'Token pair already exist!'
 }

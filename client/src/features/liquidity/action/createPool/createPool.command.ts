@@ -14,7 +14,8 @@ export type CreatePoolCommand = {
   transactionHash: string
 } & TokenPair
 export const createPoolCommand: Command<CreatePoolCommand> = async (state) => {
-  if (state.poolAddress) throw new ValidationError('Token pair already exist!')
+  if (state.poolAddress)
+    throw new ValidationError(CommandsError.TOKEN_PAIR_ALREADY_EXIST)
   if (!state.tokenA.address)
     throw new ValidationError(CommandsError.TOKEN_A_ADDRESS_REQUIRED)
   if (!state.tokenB.address)
@@ -34,7 +35,5 @@ export const createPoolCommand: Command<CreatePoolCommand> = async (state) => {
   setIsLoading('We are processing your transaction')
   const { transactionHash } = await processTransaction(transaction)
 
-  state.transactionHash = transactionHash
-
-  return state
+  return { ...state, transactionHash }
 }

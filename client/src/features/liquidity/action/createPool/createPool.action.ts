@@ -15,28 +15,35 @@ import {
 } from '../addLiquidity/storeLiquidity.command'
 import { CreatePoolCommand, createPoolCommand } from './createPool.command'
 import { StorePoolCommand, storePoolCommand } from './storePool.command'
+import {
+  GetAccountCommand,
+  getAccountCommand
+} from '@/features/common/commands/getAccount.command'
+import {
+  GetPoolAddressCommand,
+  getPoolAddressCommand
+} from '@/features/common/commands/getPoolAddress.command'
 
 export type CreatePoolAction = AddLiquidityCommand &
+  GetAccountCommand &
+  GetPoolAddressCommand &
   CreatePoolCommand &
   StoreLiquidityCommand &
   StorePoolCommand
-export const createPoolAction = async ({
-  tokenA,
-  tokenB,
-  account,
-  poolAddress
-}: TokenPair & { account: User; poolAddress?: string }) => {
+export const createPoolAction = async ({ tokenA, tokenB }: TokenPair) => {
   const cStack = createCommandStack<CreatePoolAction>({
-    account,
     tokenA,
     tokenB,
     poolFactoryContractService,
     routerContractService,
+    account: {} as User,
     transactionHash: '',
-    poolAddress
+    poolAddress: ''
   })
 
   await cStack
+    .add(getAccountCommand)
+    .add(getPoolAddressCommand)
     .add(createPoolCommand)
     .add(storePoolCommand)
     .add(addLiquidityCommand)

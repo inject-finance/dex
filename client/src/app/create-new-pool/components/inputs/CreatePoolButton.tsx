@@ -6,7 +6,6 @@ import { ConfirmationModal } from '@/components/ConfirmationModal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { ErrorButton } from '@/components/buttons/ErrorButton'
 import { LoadingButton } from '@/components/buttons/LoadingButton'
-import { authState } from '@/features/auth/auth.state'
 import { createPoolAction } from '@/features/liquidity/action/createPool/createPool.action'
 import { getPairAllowanceSelector } from '@/features/liquidity/selectors/getAllowance.selector'
 import { poolState } from '@/features/pool/pool.state'
@@ -17,6 +16,7 @@ import {
   getReservesSelector
 } from '@/features/pool/selectors/getReserves.selector'
 import { getOutAmountSelector } from '@/features/swap/selectors/getOutAmount.selector'
+import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import {
   getTokensInPoolSelector,
@@ -26,7 +26,6 @@ import { toggleConfirmationModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
-import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 
 export const CreatePoolButton = dynamic(
   () =>
@@ -43,19 +42,12 @@ export const CreatePoolButton = dynamic(
           getHasReservesSelector({ tokenA, tokenB })
         )
         const handleCreatePoolClick = useRecoilCallback(
-          ({ refresh, snapshot }) =>
+          ({ refresh }) =>
             async () => {
               try {
-                const { account } = await snapshot.getPromise(authState)
-                const poolAddress = await snapshot.getPromise(
-                  getPoolAddressSelector({ tokenA, tokenB })
-                )
-
                 await createPoolAction({
                   tokenA,
-                  tokenB,
-                  account,
-                  poolAddress
+                  tokenB
                 })
 
                 toggleConfirmationModalVisibility()

@@ -12,24 +12,23 @@ import Swal from 'sweetalert2'
 import { setIsLoading } from '../../../ui/loading.state'
 import { getRecoil } from 'recoil-nexus'
 import { uiState } from '@/features/ui/ui.state'
+import {
+  GetAccountCommand,
+  getAccountCommand
+} from '@/features/common/commands/getAccount.command'
 
-export const approveToken = async ({
-  token,
-  owner
-}: {
-  token: Token
-  owner: User
-}) => {
+export const approveToken = async ({ token }: { token: Token }) => {
   const { showNetworkNotice } = getRecoil(uiState)
-  const cStack = createCommandStack<ApproveTokenCommand>({
+  const cStack = createCommandStack<ApproveTokenCommand & GetAccountCommand>({
     token,
     tokenContractService,
     dexPoolContractService,
-    account: owner,
+    account: {} as User,
     transactionHash: ''
   })
 
   await cStack
+    .add(getAccountCommand)
     .add(approveTokenCommand)
     .run()
     .then(({ transactionHash, token }) => {

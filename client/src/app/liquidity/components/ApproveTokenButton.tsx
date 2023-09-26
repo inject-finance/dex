@@ -21,13 +21,11 @@ export const ApproveTokenButton = dynamic(
   () =>
     Promise.resolve(({ token, amount }: Props) => {
       const onClickApproveToken = useRecoilCallback(
-        ({ snapshot, refresh }) =>
+        ({ refresh }) =>
           async () => {
             try {
-              const { account } = await snapshot.getPromise(authState)
               await approveToken({
-                token: { ...token, amount: String(amount) },
-                owner: account
+                token: { ...token, amount: String(amount) }
               })
             } finally {
               refresh(poolState)
