@@ -1,7 +1,16 @@
 import { TokenPair } from '@/common/types/Token'
 import { User } from '@/common/types/User'
 import { dexPoolContractService } from '@/contracts/services/dexPool/DexPoolContractService'
+import { poolFactoryContractService } from '@/contracts/services/factory/PoolFactoryContractService'
 import { routerContractService } from '@/contracts/services/router/RouterContractService'
+import {
+  GetAccountCommand,
+  getAccountCommand
+} from '@/features/common/commands/getAccount.command'
+import {
+  GetPoolAddressCommand,
+  getPoolAddressCommand
+} from '@/features/common/commands/getPoolAddress.command'
 import { createCommandStack } from '@/features/common/process/create-command.stack'
 import { showTransactionDetails } from '@/features/common/utils/showTransactionDetails'
 import { setIsLoading } from '../../../ui/loading.state'
@@ -13,15 +22,6 @@ import {
   StoreRemoveLiquidityCommand,
   storeRemoveLiquidityCommand
 } from './storeRemoveLiquidity.command'
-import {
-  GetAccountCommand,
-  getAccountCommand
-} from '@/features/common/commands/getAccount.command'
-import {
-  GetPoolAddressCommand,
-  getPoolAddressCommand
-} from '@/features/common/commands/getPoolAddress.command'
-import { poolFactoryContractService } from '@/contracts/services/factory/PoolFactoryContractService'
 
 type Props = TokenPair & {
   shares: number
