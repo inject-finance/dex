@@ -18,6 +18,7 @@ const bootstrap = async () => {
   const adapterHost = app.get(HttpAdapterHost)
   app.useGlobalFilters(new GlobalExceptionFilter(adapterHost))
 
+  // eslint-disable-next-line no-magic-numbers
   const port = Number(process.env.PORT) || 3333
 
   await app.listen(port, () => {

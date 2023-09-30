@@ -1,5 +1,8 @@
-import type { PipeTransform, ArgumentMetadata } from '@nestjs/common'
-import { Injectable } from '@nestjs/common'
+import {
+  type PipeTransform,
+  type ArgumentMetadata,
+  Injectable
+} from '@nestjs/common'
 import { validate } from 'class-validator'
 import { plainToClass } from 'class-transformer'
 import { ValidationException } from '../exceptions/exceptionTypes/validation.exception'
@@ -16,6 +19,7 @@ export class ValidationPipe implements PipeTransform {
       validationError: { target: false }
     })
 
+    // eslint-disable-next-line no-magic-numbers
     if (errors.length > 0) throw new ValidationException(errors)
 
     return value

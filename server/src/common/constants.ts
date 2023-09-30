@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export const constants = {
   database: 'database',
   pagination: {

@@ -11,115 +11,115 @@ import type {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
-} from "ethers";
+  utils
+} from 'ethers'
 import type {
   FunctionFragment,
   Result,
-  EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+  EventFragment
+} from '@ethersproject/abi'
+import type { Listener, Provider } from '@ethersproject/providers'
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
-} from "./common";
+  PromiseOrValue
+} from './common'
 
 export interface StakePoolTokenInterface extends utils.Interface {
   functions: {
-    "addStakingPoolReserves(uint256,address)": FunctionFragment;
-    "addressStaked(address)": FunctionFragment;
-    "claimRewards(address)": FunctionFragment;
-    "factor()": FunctionFragment;
-    "getTotalRewards(address,address)": FunctionFragment;
-    "injectToken()": FunctionFragment;
-    "maxDuration()": FunctionFragment;
-    "month()": FunctionFragment;
-    "owner()": FunctionFragment;
-    "pause()": FunctionFragment;
-    "paused()": FunctionFragment;
-    "poolInfo(address)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "setMaxDuration(uint256)": FunctionFragment;
-    "setStakingPool(address,uint256,uint256,uint256,uint256)": FunctionFragment;
-    "stakeInfo(address,address)": FunctionFragment;
-    "stakeToken(uint256,address,uint256)": FunctionFragment;
-    "stakingPoolExists(address)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "turnOnOffPool(address,bool)": FunctionFragment;
-    "unpause()": FunctionFragment;
-  };
+    'addStakingPoolReserves(uint256,address)': FunctionFragment
+    'addressStaked(address)': FunctionFragment
+    'claimRewards(address)': FunctionFragment
+    'factor()': FunctionFragment
+    'getTotalRewards(address,address)': FunctionFragment
+    'injectToken()': FunctionFragment
+    'maxDuration()': FunctionFragment
+    'month()': FunctionFragment
+    'owner()': FunctionFragment
+    'pause()': FunctionFragment
+    'paused()': FunctionFragment
+    'poolInfo(address)': FunctionFragment
+    'renounceOwnership()': FunctionFragment
+    'setMaxDuration(uint256)': FunctionFragment
+    'setStakingPool(address,uint256,uint256,uint256,uint256)': FunctionFragment
+    'stakeInfo(address,address)': FunctionFragment
+    'stakeToken(uint256,address,uint256)': FunctionFragment
+    'stakingPoolExists(address)': FunctionFragment
+    'transferOwnership(address)': FunctionFragment
+    'turnOnOffPool(address,bool)': FunctionFragment
+    'unpause()': FunctionFragment
+  }
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "addStakingPoolReserves"
-      | "addressStaked"
-      | "claimRewards"
-      | "factor"
-      | "getTotalRewards"
-      | "injectToken"
-      | "maxDuration"
-      | "month"
-      | "owner"
-      | "pause"
-      | "paused"
-      | "poolInfo"
-      | "renounceOwnership"
-      | "setMaxDuration"
-      | "setStakingPool"
-      | "stakeInfo"
-      | "stakeToken"
-      | "stakingPoolExists"
-      | "transferOwnership"
-      | "turnOnOffPool"
-      | "unpause"
-  ): FunctionFragment;
+      | 'addStakingPoolReserves'
+      | 'addressStaked'
+      | 'claimRewards'
+      | 'factor'
+      | 'getTotalRewards'
+      | 'injectToken'
+      | 'maxDuration'
+      | 'month'
+      | 'owner'
+      | 'pause'
+      | 'paused'
+      | 'poolInfo'
+      | 'renounceOwnership'
+      | 'setMaxDuration'
+      | 'setStakingPool'
+      | 'stakeInfo'
+      | 'stakeToken'
+      | 'stakingPoolExists'
+      | 'transferOwnership'
+      | 'turnOnOffPool'
+      | 'unpause'
+  ): FunctionFragment
 
   encodeFunctionData(
-    functionFragment: "addStakingPoolReserves",
+    functionFragment: 'addStakingPoolReserves',
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "addressStaked",
+    functionFragment: 'addressStaked',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "claimRewards",
+    functionFragment: 'claimRewards',
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(functionFragment: "factor", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'factor', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "getTotalRewards",
+    functionFragment: 'getTotalRewards',
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "injectToken",
+    functionFragment: 'injectToken',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "maxDuration",
+    functionFragment: 'maxDuration',
     values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "month", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
-  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'month', values?: undefined): string
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string
+  encodeFunctionData(functionFragment: 'pause', values?: undefined): string
+  encodeFunctionData(functionFragment: 'paused', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "poolInfo",
+    functionFragment: 'poolInfo',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'renounceOwnership',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setMaxDuration",
+    functionFragment: 'setMaxDuration',
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setStakingPool",
+    functionFragment: 'setStakingPool',
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
@@ -127,243 +127,237 @@ export interface StakePoolTokenInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "stakeInfo",
+    functionFragment: 'stakeInfo',
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "stakeToken",
+    functionFragment: 'stakeToken',
     values: [
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "stakingPoolExists",
+    functionFragment: 'stakingPoolExists',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: 'transferOwnership',
     values: [PromiseOrValue<string>]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "turnOnOffPool",
+    functionFragment: 'turnOnOffPool',
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
-  ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string
 
   decodeFunctionResult(
-    functionFragment: "addStakingPoolReserves",
+    functionFragment: 'addStakingPoolReserves',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "addressStaked",
+    functionFragment: 'addressStaked',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "claimRewards",
+    functionFragment: 'claimRewards',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "factor", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'factor', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "getTotalRewards",
+    functionFragment: 'getTotalRewards',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'injectToken', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'maxDuration', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'month', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'poolInfo', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "injectToken",
+    functionFragment: 'renounceOwnership',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "maxDuration",
+    functionFragment: 'setMaxDuration',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "month", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "poolInfo", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'setStakingPool',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'stakeInfo', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'stakeToken', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "setMaxDuration",
+    functionFragment: 'stakingPoolExists',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "setStakingPool",
+    functionFragment: 'transferOwnership',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "stakeInfo", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "stakeToken", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "stakingPoolExists",
+    functionFragment: 'turnOnOffPool',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "turnOnOffPool",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result
 
   events: {
-    "LogClaimRewards(address,uint256,address)": EventFragment;
-    "LogStakeToken(address,uint256,address)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-    "Paused(address)": EventFragment;
-    "Unpaused(address)": EventFragment;
-  };
+    'LogClaimRewards(address,uint256,address)': EventFragment
+    'LogStakeToken(address,uint256,address)': EventFragment
+    'OwnershipTransferred(address,address)': EventFragment
+    'Paused(address)': EventFragment
+    'Unpaused(address)': EventFragment
+  }
 
-  getEvent(nameOrSignatureOrTopic: "LogClaimRewards"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "LogStakeToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'LogClaimRewards'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'LogStakeToken'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'Paused'): EventFragment
+  getEvent(nameOrSignatureOrTopic: 'Unpaused'): EventFragment
 }
 
 export interface LogClaimRewardsEventObject {
-  _from: string;
-  _tokensClaimed: BigNumber;
-  _poolAddress: string;
+  _from: string
+  _tokensClaimed: BigNumber
+  _poolAddress: string
 }
 export type LogClaimRewardsEvent = TypedEvent<
   [string, BigNumber, string],
   LogClaimRewardsEventObject
->;
+>
 
-export type LogClaimRewardsEventFilter = TypedEventFilter<LogClaimRewardsEvent>;
+export type LogClaimRewardsEventFilter = TypedEventFilter<LogClaimRewardsEvent>
 
 export interface LogStakeTokenEventObject {
-  _from: string;
-  _amountStaked: BigNumber;
-  _poolAddress: string;
+  _from: string
+  _amountStaked: BigNumber
+  _poolAddress: string
 }
 export type LogStakeTokenEvent = TypedEvent<
   [string, BigNumber, string],
   LogStakeTokenEventObject
->;
+>
 
-export type LogStakeTokenEventFilter = TypedEventFilter<LogStakeTokenEvent>;
+export type LogStakeTokenEventFilter = TypedEventFilter<LogStakeTokenEvent>
 
 export interface OwnershipTransferredEventObject {
-  previousOwner: string;
-  newOwner: string;
+  previousOwner: string
+  newOwner: string
 }
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
   OwnershipTransferredEventObject
->;
+>
 
 export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+  TypedEventFilter<OwnershipTransferredEvent>
 
 export interface PausedEventObject {
-  account: string;
+  account: string
 }
-export type PausedEvent = TypedEvent<[string], PausedEventObject>;
+export type PausedEvent = TypedEvent<[string], PausedEventObject>
 
-export type PausedEventFilter = TypedEventFilter<PausedEvent>;
+export type PausedEventFilter = TypedEventFilter<PausedEvent>
 
 export interface UnpausedEventObject {
-  account: string;
+  account: string
 }
-export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>;
+export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>
 
-export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
+export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>
 
 export interface StakePoolToken extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(signerOrProvider: Signer | Provider | string): this
+  attach(addressOrName: string): this
+  deployed(): Promise<this>
 
-  interface: StakePoolTokenInterface;
+  interface: StakePoolTokenInterface
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TEvent>>
 
   listeners<TEvent extends TypedEvent>(
     eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
+  ): Array<TypedListener<TEvent>>
+  listeners(eventName?: string): Array<Listener>
   removeAllListeners<TEvent extends TypedEvent>(
     eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  ): this
+  removeAllListeners(eventName?: string): this
+  off: OnEvent<this>
+  on: OnEvent<this>
+  once: OnEvent<this>
+  removeListener: OnEvent<this>
 
   functions: {
     addStakingPoolReserves(
       _amount: PromiseOrValue<BigNumberish>,
       _stakingPoolAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     addressStaked(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    ): Promise<[boolean]>
 
     claimRewards(
       _poolAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
-    factor(overrides?: CallOverrides): Promise<[BigNumber]>;
+    factor(overrides?: CallOverrides): Promise<[BigNumber]>
 
     getTotalRewards(
       _poolAddress: PromiseOrValue<string>,
       _account: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[BigNumber] & { totalRewards: BigNumber }>;
+    ): Promise<[BigNumber] & { totalRewards: BigNumber }>
 
-    injectToken(overrides?: CallOverrides): Promise<[string]>;
+    injectToken(overrides?: CallOverrides): Promise<[string]>
 
-    maxDuration(overrides?: CallOverrides): Promise<[BigNumber]>;
+    maxDuration(overrides?: CallOverrides): Promise<[BigNumber]>
 
-    month(overrides?: CallOverrides): Promise<[BigNumber]>;
+    month(overrides?: CallOverrides): Promise<[BigNumber]>
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    owner(overrides?: CallOverrides): Promise<[string]>
 
     pause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
-    paused(overrides?: CallOverrides): Promise<[boolean]>;
+    paused(overrides?: CallOverrides): Promise<[boolean]>
 
     poolInfo(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, boolean, BigNumber, BigNumber, BigNumber] & {
-        interestRate: BigNumber;
-        totalStakers: BigNumber;
-        isActive: boolean;
-        poolReserves: BigNumber;
-        minReserve: BigNumber;
-        minStakeAmount: BigNumber;
+        interestRate: BigNumber
+        totalStakers: BigNumber
+        isActive: boolean
+        poolReserves: BigNumber
+        minReserve: BigNumber
+        minStakeAmount: BigNumber
       }
-    >;
+    >
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     setMaxDuration(
       _maxDuration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     setStakingPool(
       _poolAddress: PromiseOrValue<string>,
@@ -372,7 +366,7 @@ export interface StakePoolToken extends BaseContract {
       _minReserve: PromiseOrValue<BigNumberish>,
       _minStakeAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     stakeInfo(
       arg0: PromiseOrValue<string>,
@@ -380,103 +374,103 @@ export interface StakePoolToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        start: BigNumber;
-        end: BigNumber;
-        duration: BigNumber;
-        stakeAmount: BigNumber;
-        totalSupply: BigNumber;
-        totalClaimed: BigNumber;
+        start: BigNumber
+        end: BigNumber
+        duration: BigNumber
+        stakeAmount: BigNumber
+        totalSupply: BigNumber
+        totalClaimed: BigNumber
       }
-    >;
+    >
 
     stakeToken(
       _stakeAmount: PromiseOrValue<BigNumberish>,
       _poolAddress: PromiseOrValue<string>,
       _duration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     stakingPoolExists(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    ): Promise<[boolean]>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     turnOnOffPool(
       _poolAddress: PromiseOrValue<string>,
       _status: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<ContractTransaction>
 
     unpause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
+    ): Promise<ContractTransaction>
+  }
 
   addStakingPoolReserves(
     _amount: PromiseOrValue<BigNumberish>,
     _stakingPoolAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   addressStaked(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<boolean>;
+  ): Promise<boolean>
 
   claimRewards(
     _poolAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
-  factor(overrides?: CallOverrides): Promise<BigNumber>;
+  factor(overrides?: CallOverrides): Promise<BigNumber>
 
   getTotalRewards(
     _poolAddress: PromiseOrValue<string>,
     _account: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  ): Promise<BigNumber>
 
-  injectToken(overrides?: CallOverrides): Promise<string>;
+  injectToken(overrides?: CallOverrides): Promise<string>
 
-  maxDuration(overrides?: CallOverrides): Promise<BigNumber>;
+  maxDuration(overrides?: CallOverrides): Promise<BigNumber>
 
-  month(overrides?: CallOverrides): Promise<BigNumber>;
+  month(overrides?: CallOverrides): Promise<BigNumber>
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  owner(overrides?: CallOverrides): Promise<string>
 
   pause(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
-  paused(overrides?: CallOverrides): Promise<boolean>;
+  paused(overrides?: CallOverrides): Promise<boolean>
 
   poolInfo(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber, boolean, BigNumber, BigNumber, BigNumber] & {
-      interestRate: BigNumber;
-      totalStakers: BigNumber;
-      isActive: boolean;
-      poolReserves: BigNumber;
-      minReserve: BigNumber;
-      minStakeAmount: BigNumber;
+      interestRate: BigNumber
+      totalStakers: BigNumber
+      isActive: boolean
+      poolReserves: BigNumber
+      minReserve: BigNumber
+      minStakeAmount: BigNumber
     }
-  >;
+  >
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   setMaxDuration(
     _maxDuration: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   setStakingPool(
     _poolAddress: PromiseOrValue<string>,
@@ -485,7 +479,7 @@ export interface StakePoolToken extends BaseContract {
     _minReserve: PromiseOrValue<BigNumberish>,
     _minStakeAmount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   stakeInfo(
     arg0: PromiseOrValue<string>,
@@ -493,99 +487,99 @@ export interface StakePoolToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-      start: BigNumber;
-      end: BigNumber;
-      duration: BigNumber;
-      stakeAmount: BigNumber;
-      totalSupply: BigNumber;
-      totalClaimed: BigNumber;
+      start: BigNumber
+      end: BigNumber
+      duration: BigNumber
+      stakeAmount: BigNumber
+      totalSupply: BigNumber
+      totalClaimed: BigNumber
     }
-  >;
+  >
 
   stakeToken(
     _stakeAmount: PromiseOrValue<BigNumberish>,
     _poolAddress: PromiseOrValue<string>,
     _duration: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   stakingPoolExists(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
-  ): Promise<boolean>;
+  ): Promise<boolean>
 
   transferOwnership(
     newOwner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   turnOnOffPool(
     _poolAddress: PromiseOrValue<string>,
     _status: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   unpause(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<ContractTransaction>
 
   callStatic: {
     addStakingPoolReserves(
       _amount: PromiseOrValue<BigNumberish>,
       _stakingPoolAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     addressStaked(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<boolean>
 
     claimRewards(
       _poolAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
-    factor(overrides?: CallOverrides): Promise<BigNumber>;
+    factor(overrides?: CallOverrides): Promise<BigNumber>
 
     getTotalRewards(
       _poolAddress: PromiseOrValue<string>,
       _account: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    injectToken(overrides?: CallOverrides): Promise<string>;
+    injectToken(overrides?: CallOverrides): Promise<string>
 
-    maxDuration(overrides?: CallOverrides): Promise<BigNumber>;
+    maxDuration(overrides?: CallOverrides): Promise<BigNumber>
 
-    month(overrides?: CallOverrides): Promise<BigNumber>;
+    month(overrides?: CallOverrides): Promise<BigNumber>
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    owner(overrides?: CallOverrides): Promise<string>
 
-    pause(overrides?: CallOverrides): Promise<void>;
+    pause(overrides?: CallOverrides): Promise<void>
 
-    paused(overrides?: CallOverrides): Promise<boolean>;
+    paused(overrides?: CallOverrides): Promise<boolean>
 
     poolInfo(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, boolean, BigNumber, BigNumber, BigNumber] & {
-        interestRate: BigNumber;
-        totalStakers: BigNumber;
-        isActive: boolean;
-        poolReserves: BigNumber;
-        minReserve: BigNumber;
-        minStakeAmount: BigNumber;
+        interestRate: BigNumber
+        totalStakers: BigNumber
+        isActive: boolean
+        poolReserves: BigNumber
+        minReserve: BigNumber
+        minStakeAmount: BigNumber
       }
-    >;
+    >
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    renounceOwnership(overrides?: CallOverrides): Promise<void>
 
     setMaxDuration(
       _maxDuration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     setStakingPool(
       _poolAddress: PromiseOrValue<string>,
@@ -594,7 +588,7 @@ export interface StakePoolToken extends BaseContract {
       _minReserve: PromiseOrValue<BigNumberish>,
       _minStakeAmount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     stakeInfo(
       arg0: PromiseOrValue<string>,
@@ -602,132 +596,132 @@ export interface StakePoolToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
-        start: BigNumber;
-        end: BigNumber;
-        duration: BigNumber;
-        stakeAmount: BigNumber;
-        totalSupply: BigNumber;
-        totalClaimed: BigNumber;
+        start: BigNumber
+        end: BigNumber
+        duration: BigNumber
+        stakeAmount: BigNumber
+        totalSupply: BigNumber
+        totalClaimed: BigNumber
       }
-    >;
+    >
 
     stakeToken(
       _stakeAmount: PromiseOrValue<BigNumberish>,
       _poolAddress: PromiseOrValue<string>,
       _duration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     stakingPoolExists(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<boolean>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
     turnOnOffPool(
       _poolAddress: PromiseOrValue<string>,
       _status: PromiseOrValue<boolean>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<void>
 
-    unpause(overrides?: CallOverrides): Promise<void>;
-  };
+    unpause(overrides?: CallOverrides): Promise<void>
+  }
 
   filters: {
-    "LogClaimRewards(address,uint256,address)"(
+    'LogClaimRewards(address,uint256,address)'(
       _from?: PromiseOrValue<string> | null,
       _tokensClaimed?: null,
       _poolAddress?: null
-    ): LogClaimRewardsEventFilter;
+    ): LogClaimRewardsEventFilter
     LogClaimRewards(
       _from?: PromiseOrValue<string> | null,
       _tokensClaimed?: null,
       _poolAddress?: null
-    ): LogClaimRewardsEventFilter;
+    ): LogClaimRewardsEventFilter
 
-    "LogStakeToken(address,uint256,address)"(
+    'LogStakeToken(address,uint256,address)'(
       _from?: PromiseOrValue<string> | null,
       _amountStaked?: null,
       _poolAddress?: null
-    ): LogStakeTokenEventFilter;
+    ): LogStakeTokenEventFilter
     LogStakeToken(
       _from?: PromiseOrValue<string> | null,
       _amountStaked?: null,
       _poolAddress?: null
-    ): LogStakeTokenEventFilter;
+    ): LogStakeTokenEventFilter
 
-    "OwnershipTransferred(address,address)"(
+    'OwnershipTransferred(address,address)'(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
+    ): OwnershipTransferredEventFilter
     OwnershipTransferred(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
+    ): OwnershipTransferredEventFilter
 
-    "Paused(address)"(account?: null): PausedEventFilter;
-    Paused(account?: null): PausedEventFilter;
+    'Paused(address)'(account?: null): PausedEventFilter
+    Paused(account?: null): PausedEventFilter
 
-    "Unpaused(address)"(account?: null): UnpausedEventFilter;
-    Unpaused(account?: null): UnpausedEventFilter;
-  };
+    'Unpaused(address)'(account?: null): UnpausedEventFilter
+    Unpaused(account?: null): UnpausedEventFilter
+  }
 
   estimateGas: {
     addStakingPoolReserves(
       _amount: PromiseOrValue<BigNumberish>,
       _stakingPoolAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     addressStaked(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     claimRewards(
       _poolAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    factor(overrides?: CallOverrides): Promise<BigNumber>;
+    factor(overrides?: CallOverrides): Promise<BigNumber>
 
     getTotalRewards(
       _poolAddress: PromiseOrValue<string>,
       _account: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    injectToken(overrides?: CallOverrides): Promise<BigNumber>;
+    injectToken(overrides?: CallOverrides): Promise<BigNumber>
 
-    maxDuration(overrides?: CallOverrides): Promise<BigNumber>;
+    maxDuration(overrides?: CallOverrides): Promise<BigNumber>
 
-    month(overrides?: CallOverrides): Promise<BigNumber>;
+    month(overrides?: CallOverrides): Promise<BigNumber>
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    owner(overrides?: CallOverrides): Promise<BigNumber>
 
     pause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
-    paused(overrides?: CallOverrides): Promise<BigNumber>;
+    paused(overrides?: CallOverrides): Promise<BigNumber>
 
     poolInfo(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     setMaxDuration(
       _maxDuration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     setStakingPool(
       _poolAddress: PromiseOrValue<string>,
@@ -736,94 +730,94 @@ export interface StakePoolToken extends BaseContract {
       _minReserve: PromiseOrValue<BigNumberish>,
       _minStakeAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     stakeInfo(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     stakeToken(
       _stakeAmount: PromiseOrValue<BigNumberish>,
       _poolAddress: PromiseOrValue<string>,
       _duration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     stakingPoolExists(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     turnOnOffPool(
       _poolAddress: PromiseOrValue<string>,
       _status: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    ): Promise<BigNumber>
 
     unpause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
+    ): Promise<BigNumber>
+  }
 
   populateTransaction: {
     addStakingPoolReserves(
       _amount: PromiseOrValue<BigNumberish>,
       _stakingPoolAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     addressStaked(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     claimRewards(
       _poolAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    factor(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    factor(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     getTotalRewards(
       _poolAddress: PromiseOrValue<string>,
       _account: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    injectToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    injectToken(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
-    maxDuration(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    maxDuration(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
-    month(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    month(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     pause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
-    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     poolInfo(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     setMaxDuration(
       _maxDuration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     setStakingPool(
       _poolAddress: PromiseOrValue<string>,
@@ -832,39 +826,39 @@ export interface StakePoolToken extends BaseContract {
       _minReserve: PromiseOrValue<BigNumberish>,
       _minStakeAmount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     stakeInfo(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     stakeToken(
       _stakeAmount: PromiseOrValue<BigNumberish>,
       _poolAddress: PromiseOrValue<string>,
       _duration: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     stakingPoolExists(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     turnOnOffPool(
       _poolAddress: PromiseOrValue<string>,
       _status: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    ): Promise<PopulatedTransaction>
 
     unpause(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-  };
+    ): Promise<PopulatedTransaction>
+  }
 }

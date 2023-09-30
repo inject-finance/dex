@@ -8,9 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'tomorrow': ['Tomorrow', 'sans-serif'],
-        'barlow': ['Barlow', 'sans-serif']
-      },
+        tomorrow: ['Tomorrow', 'sans-serif'],
+        barlow: ['Barlow', 'sans-serif']
+      }
     }
   },
   plugins: [require('daisyui')]

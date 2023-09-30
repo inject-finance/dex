@@ -33,10 +33,7 @@ export const getUserPoolsSelector = selector<Pool[]>({
     return pools
   }
 })
-export const getPoolsSelector = selector<{
-  count: number
-  pools: Pool[]
-}>({
+export const getPoolsSelector = selector<Pool[]>({
   key: 'getPoolsSelector',
   get: async ({ get }) => {
     const { tokenName, myPoolsCheck } = get(getPoolsFilter)
@@ -51,9 +48,6 @@ export const getPoolsSelector = selector<{
       )
     }
 
-    return {
-      pools,
-      count: pools.length
-    }
+    return pools
   }
 })

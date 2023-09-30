@@ -55,14 +55,13 @@
   "name": "client",
   "scripts": {
     "build": "next build .",
-    "co": "cd .. && sui-mono commit",
+    "co": "cd .. && yarn co",
     "dev": "next dev",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.{js,jsx,ts,tsx,json,md,css,scss}\"",
     "format:check": "prettier . --check",
     "lint": "next lint",
-    "lint:fix": "yarn format & next lint --dir src",
+    "lint:fix": "yarn format & next lint --fix",
     "start": "next start",
-    "start:standalone": "node .next/standalone/client/server.js",
     "test": "jest .",
     "turbo:dev": "next dev --turbo"
   },

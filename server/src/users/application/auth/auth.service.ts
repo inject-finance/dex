@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { UsersRepository } from '@/users/domain/users.repository'
 import { BusinessErrors } from '@/common/constants'
 import {

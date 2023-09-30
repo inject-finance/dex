@@ -23,10 +23,10 @@ export const PoolTable = () => {
 
   return (
     <div className="max-h-[340px] overflow-auto pr-5">
-      {Boolean(contents.pools.length) &&
-        contents.pools.map((e) => <PoolCard key={e.id} pool={e} />)}
+      {Boolean(contents.length) &&
+        contents.map((e) => <PoolCard key={e.id} pool={e} />)}
 
-      {!contents.pools.length && (
+      {!contents.length && (
         <div className="flex flex-col items-center justify-center w-full p-5 text-center opacity-60">
           <span className="text-3xl text-[var(--light-yellow)]">
             Uh <span className="text-[var(--light-blue)]">oh...</span>

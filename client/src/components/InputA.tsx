@@ -1,24 +1,22 @@
 'use client'
-import { poolState } from '@/features/pool/pool.state'
+import { poolState, setPoolState } from '@/features/pool/pool.state'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ChangeEvent } from 'react'
-import { useRecoilCallback, useRecoilState } from 'recoil'
-import { TokenBalance } from './TokenBalance'
-import { setRecoil } from 'recoil-nexus'
+import { useRecoilCallback, useRecoilValue } from 'recoil'
 import { MaxButton } from './MaxButton'
+import { TokenBalance } from './TokenBalance'
 
 export const InputA = () => {
-  const [{ tokenA }, setState] = useRecoilState(poolState)
+  const { tokenA } = useRecoilValue(poolState)
 
   const handleMaxButton = useRecoilCallback(({ snapshot }) => async () => {
     const balance = await snapshot.getPromise(getBalanceSelector(tokenA))
 
-    setState((prev) => ({
-      ...prev,
+    setPoolState({
       tokenA: { ...tokenA, amount: String(balance) }
-    }))
+    })
   })
 
   const handleInputChange = useRecoilCallback(
@@ -30,10 +28,9 @@ export const InputA = () => {
           return
         }
 
-        setRecoil(poolState, (prev) => ({
-          ...prev,
+        setPoolState({
           tokenA: { ...tokenA, amount: value }
-        }))
+        })
       }
   )
   return (

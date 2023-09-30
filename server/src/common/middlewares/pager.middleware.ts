@@ -13,6 +13,7 @@ export class PagerMiddleware implements NestMiddleware {
         ? pagination.defaultLimit
         : req.query.limit
     req.query.skip =
+      // eslint-disable-next-line no-magic-numbers
       (req.query.page - (pagination.defaultPage - 1)) * req.query.limit
     req.query.search ||= ''
     next()

@@ -21,7 +21,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const logger = new Logger()
     const context = host.switchToHttp()
     const { httpAdapter } = this.httpAdapterHost
-    const correlationId = uuidv4() // TODO: Make this correlationId available in a header being sent from the marketplace client
+    const correlationId = uuidv4()
     let status = HttpStatus.INTERNAL_SERVER_ERROR
     let exceptionResponse = {} as ExceptionResponse
 
