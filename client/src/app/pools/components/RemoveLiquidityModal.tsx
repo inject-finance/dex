@@ -8,10 +8,7 @@ import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.select
 import { poolState } from '@/features/pool/pool.state'
 import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
-import {
-  getSharesPercentSelector,
-  getSharesSelector
-} from '@/features/tokens/selectors/getShares.selector'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import {
   toggleRemoveLiquidityModalVisibility,
   uiState
@@ -31,10 +28,9 @@ export const RemoveLiquidityModal = dynamic(
     Promise.resolve(() => {
       const { tokenA, tokenB } = useRecoilValue(poolState)
       const { removeLiquidityModalVisibility } = useRecoilValue(uiState)
-      const sharesInPercent = useRecoilValue(
-        getSharesPercentSelector({ tokenA, tokenB })
+      const { shares, sharesInPercent } = useRecoilValue(
+        getSharesSelector({ tokenA, tokenB })
       )
-      const shares = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
       const [inputValue, setInputValue] = useState('')
 
       useEffect(() => {
@@ -69,7 +65,6 @@ export const RemoveLiquidityModal = dynamic(
               refresh(getPoolDetailsSelector({ tokenA, tokenB }))
               refresh(getRatioSelector)
               refresh(getSharesSelector({ tokenA, tokenB }))
-              refresh(getSharesPercentSelector({ tokenA, tokenB }))
               refresh(getBalanceSelector(tokenA))
               refresh(getBalanceSelector(tokenB))
               refresh(poolState)

@@ -20,10 +20,8 @@ export const getSharesCommand: Command<GetSharesCommand> = async (state) => {
   if (!state.tokenB.address)
     throw new ValidationError(CommandsError.TOKEN_B_ADDRESS_REQUIRED)
 
-  await state.dexPoolContractService.init(state.poolAddress)
-
-  const shares = await state.dexPoolContractService.getShares(state.account)
-  const totalSupply = await state.dexPoolContractService.totalSupply()
+  const shares = await state.dexPoolContractService.getShares(state)
+  const totalSupply = await state.dexPoolContractService.totalSupply(state)
 
   state.shares = shares
   state.sharesInPercent = totalSupply ? (shares / totalSupply) * 100 : 0

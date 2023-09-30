@@ -2,10 +2,7 @@
 import { MaxButton } from '@/components/MaxButton'
 import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { poolState, setPoolState } from '@/features/pool/pool.state'
-import {
-  getSharesPercentSelector,
-  getSharesSelector
-} from '@/features/tokens/selectors/getShares.selector'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import {
   faExclamationCircle,
   faPercent
@@ -16,9 +13,8 @@ import { useRecoilValue } from 'recoil'
 
 export const SharesSection = () => {
   const { staking, tokenA, tokenB } = useRecoilValue(poolState)
-  const shares = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
-  const sharesInPercent = useRecoilValue(
-    getSharesPercentSelector({ tokenA, tokenB })
+  const { shares, sharesInPercent } = useRecoilValue(
+    getSharesSelector({ tokenA, tokenB })
   )
 
   const handleInputChange = ({

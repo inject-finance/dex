@@ -4,10 +4,7 @@ import { Spinner } from '@/components/Spinner'
 import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { getTotalValueLote } from '@/features/pool/selectors/getTotalValueLote'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
-import {
-  getSharesPercentSelector,
-  getSharesSelector
-} from '@/features/tokens/selectors/getShares.selector'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dynamic from 'next/dynamic'
@@ -21,9 +18,8 @@ export const Details = dynamic(
   () =>
     Promise.resolve(({ pool: { tokenA, tokenB, address } }: Props) => {
       const tvl = useRecoilValue(getTotalValueLote({ tokenA, tokenB }))
-      const shares = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
-      const sharesInPercent = useRecoilValue(
-        getSharesPercentSelector({ tokenA, tokenB })
+      const { shares, sharesInPercent } = useRecoilValue(
+        getSharesSelector({ tokenA, tokenB })
       )
       const pendingRewards = useRecoilValue(
         getTotalRewardsSelector({ tokenA, tokenB })

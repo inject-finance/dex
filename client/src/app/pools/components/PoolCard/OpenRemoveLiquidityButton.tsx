@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const OpenRemoveLiquidityButton = ({ tokenA, tokenB }: Props) => {
-  const shares = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
+  const { shares } = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
 
   if (Number(shares.toFixed(8))) {
     return (

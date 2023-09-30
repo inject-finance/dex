@@ -5,7 +5,7 @@ import { getPairAllowanceSelector } from '@/features/liquidity/selectors/getAllo
 import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.selector'
 import { poolState } from '@/features/pool/pool.state'
 import { getReservesSelector } from '@/features/pool/selectors/getReserves.selector'
-import { getSharesPercentSelector } from '@/features/tokens/selectors/getShares.selector'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dynamic from 'next/dynamic'
@@ -19,8 +19,8 @@ export const LiquidityDetails = dynamic(
       const { tokenA, tokenB } = useRecoilValue(poolState)
       const ratio = useRecoilValue(getRatioSelector)
       const reserves = useRecoilValue(getReservesSelector({ tokenA, tokenB }))
-      const sharesInPercent = useRecoilValue(
-        getSharesPercentSelector({ tokenA, tokenB })
+      const { sharesInPercent } = useRecoilValue(
+        getSharesSelector({ tokenA, tokenB })
       )
       const allowance = useRecoilValue(getPairAllowanceSelector)
 

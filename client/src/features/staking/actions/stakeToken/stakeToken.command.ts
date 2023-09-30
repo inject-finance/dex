@@ -1,5 +1,5 @@
+import { TokenPair } from '@/common/types/Token'
 import { User } from '@/common/types/User'
-import { dexPoolContractService } from '@/contracts/services/dexPool/DexPoolContractService'
 import { IDexPoolContractService } from '@/contracts/services/dexPool/IDexPoolContractService'
 import { IStakePoolContractService } from '@/contracts/services/stake/IStakePoolContractService'
 import { CommandsError } from '@/features/common/enums/CommandsError.enum'
@@ -16,7 +16,7 @@ export type StakeTokenCommand = {
   account: User
   stakePoolContractService: IStakePoolContractService
   dexPoolContractService: IDexPoolContractService
-}
+} & TokenPair
 export const stakeTokenCommand: Command<StakeTokenCommand> = async (state) => {
   if (!state.sharesToStake)
     throw new ValidationError('Shares to staking is required')
@@ -25,11 +25,14 @@ export const stakeTokenCommand: Command<StakeTokenCommand> = async (state) => {
   if (!state.stakeDuration) throw new ValidationError('Duration is required')
 
   setIsLoading('We are approving shares')
+
   const transactionApproval =
     await state.dexPoolContractService.approveAmountToStake({
       sharesToStake: state.sharesToStake,
       account: state.account,
-      poolAddress: state.poolAddress
+      poolAddress: state.poolAddress,
+      tokenA: state.tokenA,
+      tokenB: state.tokenB
     })
 
   setIsLoading('Approving Transaction')

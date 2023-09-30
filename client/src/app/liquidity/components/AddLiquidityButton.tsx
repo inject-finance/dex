@@ -10,7 +10,7 @@ import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.select
 import { poolState } from '@/features/pool/pool.state'
 import { getReservesSelector } from '@/features/pool/selectors/getReserves.selector'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
-import { getSharesPercentSelector } from '@/features/tokens/selectors/getShares.selector'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import { toggleConfirmationModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
@@ -48,7 +48,7 @@ export const AddLiquidityButton = dynamic(
                 refresh(getBalanceSelector(tokenA))
                 refresh(getBalanceSelector(tokenB))
                 refresh(getReservesSelector({ tokenA, tokenB }))
-                refresh(getSharesPercentSelector({ tokenA, tokenB }))
+                refresh(getSharesSelector({ tokenA, tokenB }))
                 refresh(getRatioSelector)
               }
             }
