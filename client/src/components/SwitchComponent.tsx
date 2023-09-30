@@ -1,6 +1,4 @@
 'use client'
-import blueArrow from '@/assets/images/arrow_blue.png'
-import yellowArrow from '@/assets/images/arrow_yellow.png'
 import { poolState } from '@/features/pool/pool.state'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { switchCoins } from '@/features/tokens/utils/switchCoins'
@@ -31,16 +29,18 @@ export const SwitchComponent = dynamic(
             <Image
               alt="swap_icon"
               className="transition ease-in-out duration-75 group-hover:translate-y-[-3px]"
+              height={34}
               loading="lazy"
-              src={yellowArrow}
-              style={{ height: '34px', width: '12px' }}
+              src="/images/arrow_yellow.png"
+              width={12}
             />
             <Image
               alt="swap_icon"
               className="transition ease-in-out duration-75 group-hover:translate-y-[3px]"
+              height={34}
               loading="lazy"
-              src={blueArrow}
-              style={{ height: '34px', width: '12px' }}
+              src="/images/arrow_blue.png"
+              width={12}
             />
           </div>
         </button>
