@@ -1,19 +1,11 @@
-# Image source
-FROM node:19-alpine
+FROM node:20-alpine
 
 # Docker working directory
 WORKDIR /app
 
-# Copying file into APP directory of docker
-COPY ./package.json /app
-
-# Then install the NPM module
-RUN yarn
-
-RUN yarn add @nestjs/cli --global -W
-
-# Copy current directory to APP folder
 COPY . /app
+
+RUN yarn install
 
 EXPOSE 3333
 

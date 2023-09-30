@@ -41,15 +41,14 @@ services:
       - DB_NAME=${DB_NAME}
       - POSTGRES_SYNC=${POSTGRES_SYNC}
       - JWT_SECRET=${JWT_SECRET}
-
     ports:
       - '3333:3333' # expose-to-the-world : only-in-the-docker
     container_name: dex-api
     depends_on:
       - dex-postgres-db
-    # volumes:
-    #   - .:/app
-    #   - /app/node_modules
+    volumes:
+      - .:/app
+      - /app/node_modules
 volumes:
   pgdata:
   pgadmin-data:
