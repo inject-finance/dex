@@ -1,7 +1,7 @@
 import type { DataSourceOptions } from 'typeorm'
 
-export function getConfig() {
-  return {
+export const getConfig = () =>
+  ({
     type: process.env.DB_TYPE,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -10,5 +10,4 @@ export function getConfig() {
     database: process.env.DB_NAME,
     migrations: ['src/migrations/*{.js,.ts}'],
     entities: [`${__dirname}/entities.config.ts`]
-  } as DataSourceOptions
-}
+  }) as DataSourceOptions

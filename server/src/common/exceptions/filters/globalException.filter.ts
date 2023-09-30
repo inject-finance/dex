@@ -1,15 +1,22 @@
+import {
+  Catch,
+  HttpException,
+  HttpStatus,
+  Logger,
+  type ArgumentsHost,
+  type ExceptionFilter
+} from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
-import type { ExceptionFilter, ArgumentsHost } from '@nestjs/common'
-import { Catch, Logger, HttpStatus, HttpException } from '@nestjs/common'
-import { HttpErrors } from '../../constants'
-import type { ExceptionResponse } from '../interfaces/exceptions.interface'
-import { BaseException } from '../exceptionTypes'
 import { v4 as uuidv4 } from 'uuid'
+import { HttpErrors } from '../../constants'
+import { BaseException } from '../exceptionTypes'
+import type { ExceptionResponse } from '../interfaces/exceptions.interface'
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
+  // eslint-disable-next-line max-statements
   catch(exception: unknown, host: ArgumentsHost): void {
     const logger = new Logger()
     const context = host.switchToHttp()

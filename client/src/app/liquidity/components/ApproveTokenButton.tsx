@@ -2,7 +2,6 @@
 import { Token } from '@/common/types/Token'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { LoadingButton } from '@/components/buttons/LoadingButton'
-import { authState } from '@/features/auth/auth.state'
 import { approveToken } from '@/features/liquidity/action/approveToken/approveToken.action'
 import {
   getAllowanceSelector,

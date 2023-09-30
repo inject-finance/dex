@@ -1,5 +1,4 @@
 import type { PaginationDto } from '@/common/dto/pagination.dto'
-import { Role } from '@/common/enums/role.enum'
 import { AppDataSource } from '@/database.module'
 import { User } from '@/users/domain/user.entity'
 import { Injectable } from '@nestjs/common'
@@ -36,26 +35,8 @@ export class UsersRepository extends Repository<User> {
     return dto
   }
 
-  async findById(id: string): Promise<User | null> {
+  findById(id: string): Promise<User | null> {
     return this.getItemQueryBuilder().where('users.id = :id', { id }).getOne()
-  }
-
-  async findWriters(): Promise<User[]> {
-    return this.getItemQueryBuilder()
-      .where('users.role = :role', { role: Role.WRITER })
-      .getMany()
-  }
-
-  async findAdmins(): Promise<User[]> {
-    return this.getItemQueryBuilder()
-      .where('users.role = :role', { role: Role.ADMIN })
-      .getMany()
-  }
-
-  async findByEmail(email: string): Promise<User | null> {
-    return this.getItemQueryBuilder()
-      .where('users.email = :email', { email })
-      .getOne()
   }
 
   private getItemQueryBuilder(): SelectQueryBuilder<User> {

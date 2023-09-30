@@ -6,7 +6,7 @@ import { UsersRepository } from '../../domain/users.repository'
 export class FindAllUsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async run(paginationDto: PaginationDto) {
+  run(paginationDto: PaginationDto) {
     return this.usersRepository.findAll(paginationDto)
   }
 }

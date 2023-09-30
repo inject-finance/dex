@@ -12,9 +12,9 @@ export class NotFoundException extends BaseException {
   getResponse(): ExceptionResponse {
     const { name, message, code } = HttpErrors.not_found
     return {
-      name: name,
+      name,
       message: this.message || message,
-      code: code
+      code
     }
   }
 }

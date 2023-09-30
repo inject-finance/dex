@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { UnauthorizedException } from '@/common/exceptions/exceptionTypes'
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
@@ -11,6 +12,7 @@ export class AddressGuard implements CanActivate {
    * @param context execution context object
    * @returns true if it corresponds to the same address, UnauthorizedException if it does not
    */
+  // eslint-disable-next-line max-statements
   canActivate(context: ExecutionContext): boolean {
     const addressField = this.reflector.get<string>(
       'addressField',

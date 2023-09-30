@@ -25,12 +25,10 @@ export const SwapButton = dynamic(
           ({ refresh, snapshot }) =>
             async () => {
               try {
-                const { tokenA, tokenB, slippage } = await snapshot.getPromise(
-                  poolState
-                )
-                const { total } = await snapshot.getPromise(
-                  getOutAmountSelector
-                )
+                const { tokenA, tokenB, slippage } =
+                  await snapshot.getPromise(poolState)
+                const { total } =
+                  await snapshot.getPromise(getOutAmountSelector)
 
                 await swapAction({
                   tokenA,

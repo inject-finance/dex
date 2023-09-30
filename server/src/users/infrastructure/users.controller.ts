@@ -10,7 +10,6 @@ import {
   Query
 } from '@nestjs/common'
 import type { User } from '../domain/user.entity'
-import { UsersService } from '../services/users.service'
 import { FindLiquidityByUserIdAndPool } from '@/liquidity/application/findLiquidityByUserIdAndPool/findLiquidityByUserIdAndPool'
 import { SaveLiquidityDto } from '@/liquidity/application/saveLiquidity/saveLiquidity.dto'
 import { SaveLiquidity } from '@/liquidity/application/saveLiquidity/saveLiquidity'
@@ -23,7 +22,6 @@ import { RemoveLiquidityDto } from '@/liquidity/application/removeLiquidity/remo
 @Controller('users')
 export class UsersController {
   constructor(
-    private readonly userService: UsersService,
     private readonly findLiquidityByUserIdAndPool: FindLiquidityByUserIdAndPool,
     private readonly findUserPoolsByTokens: FindUserPoolsByTokens,
     private readonly saveLiquidity: SaveLiquidity,

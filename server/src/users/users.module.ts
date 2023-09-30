@@ -17,7 +17,6 @@ import { AuthController } from './infrastructure/auth.controller'
 import { AddressGuard } from './infrastructure/guards/address.guard'
 import { JwtAuthGuard } from './infrastructure/guards/jwt-auth.guard'
 import { UsersController } from './infrastructure/users.controller'
-import { UsersService } from './services/users.service'
 import { ConfigModule } from '@nestjs/config'
 
 @Module({
@@ -42,7 +41,6 @@ import { ConfigModule } from '@nestjs/config'
       useClass: AddressGuard
     },
     UsersRepository,
-    UsersService,
     FindUserByAddress,
     FindLiquidityByUserIdAndPool,
     FindLiquidityById,
@@ -53,6 +51,6 @@ import { ConfigModule } from '@nestjs/config'
     FindUserPositions,
     PositionsRepository
   ],
-  exports: [UsersService, UsersRepository]
+  exports: [UsersRepository]
 })
 export class UsersModule {}
