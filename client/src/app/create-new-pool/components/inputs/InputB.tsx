@@ -20,8 +20,6 @@ export const InputB = () => {
           return
         }
 
-        const a = ''
-
         set(poolState, (prev) => ({
           ...prev,
           tokenB: { ...tokenB, amount: value }
