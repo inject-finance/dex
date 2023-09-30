@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 import { TokensController } from './infrastructure/tokens.controller'
 import { TokensRepository } from './domain/tokens.repository'
@@ -16,7 +15,7 @@ import { LiquidityRepository } from '@/liquidity/domain/liquidity.repository'
 import { FindPoolsByTokens } from '@/pools/application/findPoolsByTokens/findPoolsByTokens'
 
 @Module({
-  imports: [HttpModule],
+  imports: [],
   controllers: [TokensController, PoolsController],
   providers: [
     SaveTokenService,

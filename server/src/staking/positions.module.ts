@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 import { PositionsRepository } from './domain/positions.repository'
 import { PositionsController } from './infrastructure/positions.controller'
@@ -8,7 +7,7 @@ import { RedeemRewards } from './application/redeemRewards/redeemRewards'
 import { FindUserPositionByPoolAddress } from './application/findUserPositionByPoolAddress/findUserPositionByPoolAddress'
 
 @Module({
-  imports: [HttpModule],
+  imports: [],
   controllers: [PositionsController],
   providers: [
     SavePosition,

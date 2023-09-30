@@ -1,27 +1,19 @@
-import { PaginationDto } from '@/common/dto/pagination.dto'
+import { AppDataSource } from '@/database.module'
 import { Injectable } from '@nestjs/common'
-import { EntityManager, Like, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { Token } from './tokens.entity'
 
 @Injectable()
 export class TokensRepository extends Repository<Token> {
-  constructor(manager: EntityManager) {
-    super(Token, manager)
+  constructor() {
+    super(Token, AppDataSource.manager)
   }
 
-  async findAll({ limit, skip, value, key }: PaginationDto) {
-    const tokens = await this.findAndCount({
-      take: limit,
-      skip,
-      where: value?.length
-        ? { [String(key)]: Like(`%${value?.toLocaleUpperCase()}%`) }
-        : undefined
-    })
-    const count = await this.count()
+  findAll() {
+    return this.findAndCount()
+  }
 
-    return {
-      count,
-      tokens
-    }
+  findByProperty({ property, value }: { property: string; value: string }) {
+    return this.findOneBy({ [property]: value })
   }
 }

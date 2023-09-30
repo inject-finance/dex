@@ -1,30 +1,52 @@
-import { AuthGuard } from '@nestjs/passport'
-import { ExecutionContext, Injectable } from '@nestjs/common'
-import { IS_PUBLIC_KEY } from '../decorators/public.decorator'
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException
+} from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { Reflector } from '@nestjs/core'
-import { UnauthorizedException } from '@/common/exceptions/exceptionTypes'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Observable } from 'rxjs'
+import { Request } from 'express'
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator'
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private reflector: Reflector) {
-    super()
-  }
+export class JwtAuthGuard implements CanActivate {
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector
+  ) {}
 
-  canActivate(context: ExecutionContext) {
+  // eslint-disable-next-line max-statements
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass()
     ])
+    if (isPublic) {
+      return true
+    }
 
-    if (isPublic) return true
-    return super.canActivate(context)
+    const request = context.switchToHttp().getRequest()
+    const token = this.extractTokenFromHeader(request)
+    if (!token) {
+      throw new UnauthorizedException()
+    }
+
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: process.env.JWT_SECRET
+      })
+      // 💡 We're assigning the payload to the request object here
+      // so that we can access it in our route handlers
+      request.user = payload
+    } catch {
+      throw new UnauthorizedException()
+    }
+    return true
   }
 
-  handleRequest(err: any, payload: any) {
-    if (err || !payload || !payload.address)
-      throw err || new UnauthorizedException()
-    return payload
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? []
+    return type === 'Bearer' ? token : undefined
   }
 }

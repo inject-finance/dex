@@ -4,7 +4,7 @@ import { AppModule } from './app.module'
 import { GlobalExceptionFilter } from './common/exceptions/filters/globalException.filter'
 import { ValidationPipe } from './common/pipes/validation.pipe'
 
-async function bootstrap() {
+const bootstrap = async () => {
   const app = await NestFactory.create(AppModule)
   const version = 'v1'
 
@@ -24,4 +24,4 @@ async function bootstrap() {
     Logger.log(`Listening at http://localhost:${port}/${version}`)
   })
 }
-void bootstrap()
+bootstrap()

@@ -1,12 +1,12 @@
-import { PaginationDto } from '@/common/dto/pagination.dto'
+import { AppDataSource } from '@/database.module'
 import { Injectable } from '@nestjs/common'
-import { EntityManager, Like, Repository } from 'typeorm'
+import { Like, Repository } from 'typeorm'
 import { Pool } from './pool.entity'
 
 @Injectable()
 export class PoolsRepository extends Repository<Pool> {
-  constructor(manager: EntityManager) {
-    super(Pool, manager)
+  constructor() {
+    super(Pool, AppDataSource.manager)
   }
 
   findAll({ key, value }: { key: string; value: string }) {

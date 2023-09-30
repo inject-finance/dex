@@ -1,18 +1,18 @@
-import { TokensRepository } from '@/tokens/domain/tokens.repository'
 import { Injectable } from '@nestjs/common'
 import { SaveTokenDto } from './saveToken.dto'
+import { TokensRepository } from '@/tokens/domain/tokens.repository'
 
 @Injectable()
 export class SaveTokenService {
-  constructor(private readonly repository: TokensRepository) {}
+  constructor(private readonly tokensRepository: TokensRepository) {}
 
-  async run(dto: SaveTokenDto) {
-    const data = this.repository.create({
+  run(dto: SaveTokenDto) {
+    const data = this.tokensRepository.create({
       address: dto.address,
       name: dto.name,
       symbol: dto.symbol
     })
 
-    return this.repository.save(data)
+    return this.tokensRepository.save(data)
   }
 }

@@ -1,15 +1,13 @@
-/* eslint-disable max-lines-per-function */
 import { PoolsRepository } from '@/pools/domain/pools.repository'
 import { Token } from '@/tokens/domain/tokens.entity'
 import { TokensRepository } from '@/tokens/domain/tokens.repository'
 import { Injectable } from '@nestjs/common'
-import { Like } from 'typeorm'
 
 @Injectable()
 export class FindTokensWithoutPool {
   constructor(
-    private readonly tokensRepository: TokensRepository,
-    private readonly poolsRepository: PoolsRepository
+    private readonly poolsRepository: PoolsRepository,
+    private readonly tokensRepository: TokensRepository
   ) {}
 
   async run({ symbol }: { symbol: string }) {

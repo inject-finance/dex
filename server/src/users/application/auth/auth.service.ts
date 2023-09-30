@@ -24,6 +24,7 @@ export class AuthService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
+  // eslint-disable-next-line max-statements
   async signIn({
     nonce,
     signature
@@ -35,10 +36,6 @@ export class AuthService {
     const address = recoverPersonalSignature({ data: nonce, signature })
     const cachedNonce = await this.cacheManager.get<string>(address)
 
-    console.log(cachedNonce)
-    console.log({ nonce })
-    console.log({ address })
-    console.log({ signature })
     if (nonce === cachedNonce) {
       let account = await this.usersRepository.findOneBy({ address })
 

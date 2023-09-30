@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class FindAllPools {
-  constructor(private readonly repository: PoolsRepository) {}
+  constructor(private poolsRepository: PoolsRepository) {}
 
   run() {
-    return this.repository.find({
+    return this.poolsRepository.find({
       relations: { tokenA: true, tokenB: true }
     })
   }

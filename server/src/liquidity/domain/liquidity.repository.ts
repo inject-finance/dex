@@ -1,13 +1,14 @@
 import { User } from '@/users/domain/user.entity'
 import { Injectable } from '@nestjs/common'
-import { EntityManager, Like, Repository } from 'typeorm'
+import { Like, Repository } from 'typeorm'
 import { FindLiquidityByUserIdDto } from '../application/findLiquidityByUserIdAndPool/findLiquidityByUserId.dto'
 import { Liquidity } from './liquidity.entity'
+import { AppDataSource } from '@/database.module'
 
 @Injectable()
 export class LiquidityRepository extends Repository<Liquidity> {
-  constructor(manager: EntityManager) {
-    super(Liquidity, manager)
+  constructor() {
+    super(Liquidity, AppDataSource.manager)
   }
 
   async findByUserId({ userId }: FindLiquidityByUserIdDto) {

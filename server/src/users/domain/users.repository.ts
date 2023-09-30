@@ -1,13 +1,14 @@
 import type { PaginationDto } from '@/common/dto/pagination.dto'
 import { Role } from '@/common/enums/role.enum'
+import { AppDataSource } from '@/database.module'
 import { User } from '@/users/domain/user.entity'
 import { Injectable } from '@nestjs/common'
-import { DataSource, Repository, SelectQueryBuilder } from 'typeorm'
+import { Repository, SelectQueryBuilder } from 'typeorm'
 
 @Injectable()
 export class UsersRepository extends Repository<User> {
-  constructor(private readonly dataSource: DataSource) {
-    super(User, dataSource.createEntityManager())
+  constructor() {
+    super(User, AppDataSource.manager)
   }
 
   async findAll({
@@ -25,7 +26,7 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  async saveUser(dto: User): Promise<User> {
+  saveUser(dto: User): Promise<User> {
     const user = this.create(dto)
     return this.save(user)
   }

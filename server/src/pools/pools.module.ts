@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 import { PoolsRepository } from '@/pools/domain/pools.repository'
 import { SavePoolService } from '@/pools/application/savePool/savePool'
@@ -8,7 +7,7 @@ import { FindPoolByCriteria } from '@/pools/application/findPoolByCriteria/findP
 import { FindPoolsByTokens } from './application/findPoolsByTokens/findPoolsByTokens'
 
 @Module({
-  imports: [HttpModule],
+  imports: [],
   controllers: [PoolsController],
   providers: [
     SavePoolService,

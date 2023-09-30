@@ -1,26 +1,24 @@
-import { appConfig } from '@/common/config/app.config'
 import { PagerMiddleware } from '@/common/middlewares/pager.middleware'
-import { dbProvider } from '@/common/providers/db.provider'
 import { TokensModule } from '@/tokens/tokens.module'
 import { UsersModule } from '@/users/users.module'
 import {
+  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
   RequestMethod
 } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { PoolsModule } from './pools/pools.module'
+import { DatabaseModule } from './database.module'
 import { LiquidityModule } from './liquidity/liquidity.module'
+import { PoolsModule } from './pools/pools.module'
 import { PositionsModule } from './staking/positions.module'
-
+import { HttpModule } from '@nestjs/axios'
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [appConfig]
-    }),
-    TypeOrmModule.forRootAsync({ ...dbProvider }),
+    HttpModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
     TokensModule,
     PoolsModule,
     UsersModule,
@@ -34,5 +32,9 @@ export class AppModule implements NestModule {
     consumer
       .apply(PagerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.GET })
+  }
+
+  constructor() {
+    Logger.log('process.env', process.env.JWT_SECRET)
   }
 }
