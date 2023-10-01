@@ -1,12 +1,12 @@
 'use client'
-import { StakeTokensModal } from '@/app/pools/components/StakeTokensModal'
+import { CreatePositionModal } from '@/app/pools/components/CreatePositionModal'
 import { Spinner } from '@/components/Spinner'
 import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRecoilValueLoadable } from 'recoil'
 import { PoolCard } from './PoolCard/PoolCard'
-import { StakingDetailsModal } from './PoolCard/StakingDetailsModal'
+import { RedeemRewardsModal } from './RedeemRewardsModal'
 import { RemoveLiquidityModal } from './RemoveLiquidityModal'
 import { SetStakeableModal } from './SetStakeableModal'
 
@@ -36,9 +36,9 @@ export const PoolTable = () => {
         </div>
       )}
 
-      <StakingDetailsModal />
+      <RedeemRewardsModal />
       <RemoveLiquidityModal />
-      <StakeTokensModal />
+      <CreatePositionModal />
       <SetStakeableModal />
     </div>
   )

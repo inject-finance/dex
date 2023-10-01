@@ -1,7 +1,7 @@
 'use client'
 import { Token } from '@/common/types/Token'
 import { ActionButton } from '@/components/buttons/ActionButton'
-import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import { getIsStakeablePoolSelector } from '@/features/staking/selectors/getIsStakeablePool.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
 import { toggleAddToStakingModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
@@ -11,12 +11,12 @@ interface Props {
   readonly tokenA: Token
   readonly tokenB: Token
 }
-export const OpenStakeModalButton = ({ tokenA, tokenB }: Props) => {
+export const OpenCreatePositionModal = ({ tokenA, tokenB }: Props) => {
   const { stakedAmount } = useRecoilValue(
     getUserStakingPoolInfoSelector({ tokenA, tokenB })
   )
   const isStakeable = useRecoilValue(
-    getIsStakedPoolSelector({ tokenA, tokenB })
+    getIsStakeablePoolSelector({ tokenA, tokenB })
   )
 
   if (isStakeable && !Number(stakedAmount)) {

@@ -3,8 +3,8 @@ import { stakePoolContractService } from '@/contracts/services/stake/StakePoolCo
 import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
 import { selectorFamily } from 'recoil'
 
-export const getIsStakedPoolSelector = selectorFamily({
-  key: 'getIsStakedPoolSelector',
+export const getIsStakeablePoolSelector = selectorFamily({
+  key: 'getIsStakeablePoolSelector',
   get:
     (payload: { tokenA: Token; tokenB: Token }) =>
     ({ get }) => {

@@ -2,7 +2,7 @@
 import { type Token } from '@/common/types/Token'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { authState } from '@/features/auth/auth.state'
-import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import { getIsStakeablePoolSelector } from '@/features/staking/selectors/getIsStakeablePool.selector'
 import { toggleSetStakingPoolModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import { useRecoilValue } from 'recoil'
@@ -12,10 +12,10 @@ interface Props {
   readonly tokenB: Token
 }
 
-export const OpenSetStakeableButton = ({ tokenA, tokenB }: Props) => {
+export const OpenSetStakeableModal = ({ tokenA, tokenB }: Props) => {
   const { account } = useRecoilValue(authState)
   const isStakeable = useRecoilValue(
-    getIsStakedPoolSelector({ tokenA, tokenB })
+    getIsStakeablePoolSelector({ tokenA, tokenB })
   )
 
   if (

@@ -1,8 +1,9 @@
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { poolState } from '@/features/pool/pool.state'
+import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { redeemRewards } from '@/features/staking/actions/redeemRewards/redeemRewards.action'
-import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import { getIsStakeablePoolSelector } from '@/features/staking/selectors/getIsStakeablePool.selector'
 import { getPositionFromApiByPoolAddressSelector } from '@/features/staking/selectors/getPositionDuration.selector'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
@@ -17,7 +18,7 @@ import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 
-export const StakingDetailsModal = dynamic(
+export const RedeemRewardsModal = dynamic(
   () =>
     Promise.resolve(() => {
       const { redeemRewardsModalVisibility } = useRecoilValue(uiState)
@@ -34,37 +35,19 @@ export const StakingDetailsModal = dynamic(
 
       const onRedeem = useRecoilCallback(({ refresh }) => async () => {
         try {
-          await redeemRewards({
-            tokenA,
-            tokenB
-          })
-
+          await redeemRewards({ tokenA, tokenB })
           toggleRedeemRewardsModalVisibilityVisibility()
         } finally {
-          refresh(
-            getIsStakedPoolSelector({
-              tokenA,
-              tokenB
-            })
-          )
-          refresh(
-            getSharesSelector({
-              tokenA,
-              tokenB
-            })
-          )
-          refresh(
-            getTotalRewardsSelector({
-              tokenA,
-              tokenB
-            })
-          )
-          refresh(
-            getUserStakingPoolInfoSelector({
-              tokenA,
-              tokenB
-            })
-          )
+          const selectors = [
+            getIsStakeablePoolSelector({ tokenA, tokenB }),
+            getSharesSelector({ tokenA, tokenB }),
+            getTotalRewardsSelector({ tokenA, tokenB }),
+            getUserStakingPoolInfoSelector({ tokenA, tokenB }),
+            getStoredPoolsSelector,
+            poolState
+          ]
+
+          selectors.forEach((selector) => refresh(selector))
         }
       })
 

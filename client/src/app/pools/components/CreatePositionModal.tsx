@@ -4,7 +4,7 @@ import { ActionButton } from '@/components/buttons/ActionButton'
 import { poolState } from '@/features/pool/pool.state'
 import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { stakeToken } from '@/features/staking/actions/stakeToken/stakeToken.action'
-import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import { getIsStakeablePoolSelector } from '@/features/staking/selectors/getIsStakeablePool.selector'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
 import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
@@ -19,7 +19,7 @@ import { PoolSelectorSection } from '../../positions/components/AddToStaking/Poo
 import { SharesSection } from '../../positions/components/AddToStaking/SharesSection'
 import { TimeSpanSection } from '../../positions/components/AddToStaking/TimeSpanSection'
 
-export const StakeTokensModal = () => {
+export const CreatePositionModal = () => {
   const { createPositionModalVisibility } = useRecoilValue(uiState)
   const { tokenA, tokenB, position } = useRecoilValue(poolState)
   const pathname = usePathname()
@@ -36,7 +36,7 @@ export const StakeTokensModal = () => {
     const selectors = [
       poolState,
       getStoredPoolsSelector,
-      getIsStakedPoolSelector({ tokenA, tokenB }),
+      getIsStakeablePoolSelector({ tokenA, tokenB }),
       getSharesSelector({ tokenA, tokenB }),
       getTotalRewardsSelector({ tokenA, tokenB }),
       getUserStakingPoolInfoSelector({ tokenA, tokenB })

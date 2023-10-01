@@ -10,7 +10,7 @@ interface Props {
   readonly tokenB: Token
 }
 
-export const OpenRemoveLiquidityButton = ({ tokenA, tokenB }: Props) => {
+export const OpenRemoveLiquidityModal = ({ tokenA, tokenB }: Props) => {
   const { shares } = useRecoilValue(getSharesSelector({ tokenA, tokenB }))
 
   if (Number(shares.toFixed(8))) {

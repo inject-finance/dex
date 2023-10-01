@@ -34,7 +34,7 @@ export const getStoredUserPoolsSelector = selector<Pool[]>({
   }
 })
 export const getStoredPoolsSelector = selector<Pool[]>({
-  key: 'getPoolsSelector',
+  key: 'getStoredPoolsSelector',
   get: async ({ get }) => {
     const { tokenName, myPoolsCheck } = get(getPoolsFilter)
 

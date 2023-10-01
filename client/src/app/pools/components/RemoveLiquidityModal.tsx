@@ -6,7 +6,7 @@ import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { removeLiquidity } from '@/features/liquidity/action/removeLiquidity/removeLiquidity.action'
 import { getRatioSelector } from '@/features/liquidity/selectors/getRatio.selector'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
+import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
 import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import {
@@ -62,12 +62,16 @@ export const RemoveLiquidityModal = dynamic(
               })
               toggleRemoveLiquidityModalVisibility()
             } finally {
-              refresh(getPoolDetailsSelector({ tokenA, tokenB }))
-              refresh(getRatioSelector)
-              refresh(getSharesSelector({ tokenA, tokenB }))
-              refresh(getBalanceSelector(tokenA))
-              refresh(getBalanceSelector(tokenB))
-              refresh(poolState)
+              const selectors = [
+                getRatioSelector,
+                getSharesSelector({ tokenA, tokenB }),
+                getBalanceSelector(tokenA),
+                getBalanceSelector(tokenB),
+                getStoredPoolsSelector,
+                poolState
+              ]
+
+              selectors.forEach((selector) => refresh(selector))
             }
           }
       )

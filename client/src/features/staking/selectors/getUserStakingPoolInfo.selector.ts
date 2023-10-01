@@ -3,7 +3,7 @@ import { stakePoolContractService } from '@/contracts/services/stake/StakePoolCo
 import { authState } from '@/features/auth/auth.state'
 import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
 import { selectorFamily } from 'recoil'
-import { getIsStakedPoolSelector } from './getIsStakedPool.selector'
+import { getIsStakeablePoolSelector } from './getIsStakeablePool.selector'
 
 export const getUserStakingPoolInfoSelector = selectorFamily({
   key: 'getUserStakingPoolInfoSelector',
@@ -20,7 +20,7 @@ export const getUserStakingPoolInfoSelector = selectorFamily({
       )
 
       const isStakeable = get(
-        getIsStakedPoolSelector({
+        getIsStakeablePoolSelector({
           tokenA: payload.tokenA,
           tokenB: payload.tokenB
         })

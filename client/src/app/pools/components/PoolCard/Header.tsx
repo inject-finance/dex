@@ -2,7 +2,7 @@
 import { type Token } from '@/common/types/Token'
 import { Spinner } from '@/components/Spinner'
 import { TokenIcon } from '@/components/TokenList/TokenIcon'
-import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
+import { getIsStakeablePoolSelector } from '@/features/staking/selectors/getIsStakeablePool.selector'
 import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
 import { faCoins, faLock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,7 +21,7 @@ export const Header = dynamic(
         getUserStakingPoolInfoSelector({ tokenA, tokenB })
       )
       const isStakeable = useRecoilValue(
-        getIsStakedPoolSelector({ tokenA, tokenB })
+        getIsStakeablePoolSelector({ tokenA, tokenB })
       )
 
       return (

@@ -17,7 +17,7 @@ export const PositionsTable = () => {
         Boolean(contents.pools.length) &&
         contents.pools.map((e) => (
           <Fragment key={e.id}>
-            <PositionPoolDetails tokenA={e.tokenA} tokenB={e.tokenB} />
+            <PositionPoolDetails pool={e} />
             <br />
           </Fragment>
         ))}

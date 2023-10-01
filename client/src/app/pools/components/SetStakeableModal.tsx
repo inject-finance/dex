@@ -6,9 +6,13 @@ import { CancelButton } from '@/components/buttons/CancelButton'
 import { Input } from '@/components/inputs/Input'
 import { formatQuantity } from '@/features/common/utils/formatQuantity'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolDetailsSelector } from '@/features/pool/selectors/getPoolDetails.selector'
+import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { setAsStakeable } from '@/features/staking/actions/setAsStakeablePool/setAsStakeablePool.action'
+import { getIsStakeablePoolSelector } from '@/features/staking/selectors/getIsStakeablePool.selector'
+import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
+import { getUserStakingPoolInfoSelector } from '@/features/staking/selectors/getUserStakingPoolInfo.selector'
 import { getBalanceSelector } from '@/features/tokens/selectors/getBalance.selector'
+import { getSharesSelector } from '@/features/tokens/selectors/getShares.selector'
 import { getTokenBySymbol } from '@/features/tokens/selectors/getTokenBySymbol.selector'
 import {
   toggleSetStakingPoolModalVisibility,
@@ -89,12 +93,16 @@ export const SetStakeableModal = dynamic(
               })
               toggleSetStakingPoolModalVisibility()
             } finally {
-              refresh(
-                getPoolDetailsSelector({
-                  tokenA,
-                  tokenB
-                })
-              )
+              const selectors = [
+                poolState,
+                getStoredPoolsSelector,
+                getIsStakeablePoolSelector({ tokenA, tokenB }),
+                getSharesSelector({ tokenA, tokenB }),
+                getTotalRewardsSelector({ tokenA, tokenB }),
+                getUserStakingPoolInfoSelector({ tokenA, tokenB })
+              ]
+
+              selectors.forEach((selector) => refresh(selector))
             }
           }
       )

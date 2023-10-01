@@ -19,20 +19,20 @@ export const InputA = () => {
     })
   })
 
-  const handleInputChange = useRecoilCallback(
-    () =>
-      ({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
-        const { value } = currentTarget
+  const handleInputChange = ({
+    currentTarget
+  }: ChangeEvent<HTMLInputElement>) => {
+    const { value } = currentTarget
 
-        if (isNaN(Number(value))) {
-          return
-        }
+    if (isNaN(Number(value))) {
+      return
+    }
 
-        setPoolState({
-          tokenA: { ...tokenA, amount: value }
-        })
-      }
-  )
+    setPoolState({
+      tokenA: { ...tokenA, amount: value }
+    })
+  }
+
   return (
     <div className="w-full">
       <div className="flex flex-col items-end justify-end gap-3 group">

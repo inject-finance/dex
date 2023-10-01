@@ -11,7 +11,7 @@ interface Props {
   readonly tokenB: Token
 }
 
-export const OpenStakingDetailsButton = ({ tokenA, tokenB }: Props) => {
+export const OpenRedeemRewardsModal = ({ tokenA, tokenB }: Props) => {
   const { stakedAmount } = useRecoilValue(
     getUserStakingPoolInfoSelector({ tokenA, tokenB })
   )

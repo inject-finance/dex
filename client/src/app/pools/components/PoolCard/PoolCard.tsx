@@ -6,10 +6,10 @@ import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRe
 import { useRecoilValue } from 'recoil'
 import { Details } from './Details'
 import { Header } from './Header'
-import { OpenRemoveLiquidityButton } from './OpenRemoveLiquidityButton'
-import { OpenSetStakeableButton } from './OpenSetStakeableButton'
-import { OpenStakeModalButton } from './OpenStakeModalButton'
-import { OpenStakingDetailsButton } from './OpenStakingDetailsButton'
+import { OpenRemoveLiquidityModal } from './OpenRemoveLiquidityModal'
+import { OpenSetStakeableModal } from './OpenSetStakeableModal'
+import { OpenCreatePositionModal } from './OpenCreatePositionModal'
+import { OpenRedeemRewardsModal } from './OpenRedeemRewardsModal'
 
 interface Props {
   readonly pool: Pool
@@ -40,10 +40,10 @@ export const PoolCard = ({ pool }: Props) => {
 
         {Boolean(isAuthenticated) && (
           <div className="flex flex-row items-center w-full gap-3 pt-5 md:w-auto">
-            <OpenStakeModalButton tokenA={tokenA} tokenB={tokenB} />
-            <OpenStakingDetailsButton tokenA={tokenA} tokenB={tokenB} />
-            <OpenRemoveLiquidityButton tokenA={tokenA} tokenB={tokenB} />
-            <OpenSetStakeableButton tokenA={tokenA} tokenB={tokenB} />
+            <OpenCreatePositionModal tokenA={tokenA} tokenB={tokenB} />
+            <OpenRedeemRewardsModal tokenA={tokenA} tokenB={tokenB} />
+            <OpenRemoveLiquidityModal tokenA={tokenA} tokenB={tokenB} />
+            <OpenSetStakeableModal tokenA={tokenA} tokenB={tokenB} />
           </div>
         )}
       </div>
