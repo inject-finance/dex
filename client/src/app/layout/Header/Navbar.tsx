@@ -33,7 +33,7 @@ export const Navbar = () => {
         </label>
       </div>
 
-      <div className="flex flex-row w-full gap-5">
+      <div className="flex w-full gap-5">
         <Link
           className="p-0 text-xl normal-case btn btn-ghost hover:bg-transparent"
           href="/"
@@ -45,7 +45,7 @@ export const Navbar = () => {
           />
         </Link>
         <div className="flex flex-col w-full h-[60px] justify-between relative z-10">
-          <div className="flex flex-row items-center justify-end h-full lg:justify-between">
+          <div className="flex items-center justify-end h-full lg:justify-between">
             <div className="z-50 hidden lg:inline-block drop-shadow-xl">
               <div className="flex">
                 {/* TRADE CONTENT */}
@@ -138,7 +138,7 @@ export const Navbar = () => {
                     </li> */}
                     <li>
                       <Link
-                        className="flex flex-row items-center active:bg-[var(--brand-blue)] rounded hover:cursor-pointer"
+                        className="flex items-center active:bg-[var(--brand-blue)] rounded hover:cursor-pointer"
                         href="/pools"
                       >
                         Pools
@@ -157,7 +157,7 @@ export const Navbar = () => {
               {pathname !== '/' ? (
                 <>
                   {isAuthenticated ? (
-                    <span className="flex flex-row items-center gap-1 h-auto p-0 min-h-[30px] group rounded py-1 px-5 truncate text-sm max-w-[170px] bg-[var(--green-black)] transition duration-300 ease-in-out opacity-40 group-hover:opacity-100">
+                    <span className="flex items-center gap-1 h-auto p-0 min-h-[30px] group rounded py-1 px-5 truncate text-sm max-w-[170px] bg-[var(--green-black)] transition duration-300 ease-in-out opacity-40 group-hover:opacity-100">
                       synced
                       <FontAwesomeIcon
                         className="text-green-600"

@@ -25,10 +25,10 @@ export const SwitchComponent = dynamic(
           id="switch-component"
           onClick={onClick}
         >
-          <div className="flex flex-row items-center justify-center gap-1">
+          <div className="flex justify-center gap-1 [&>img]:transition [&>img]:ease-in-out [&>img]:duration-75 ">
             <Image
               alt="swap_icon"
-              className="transition ease-in-out duration-75 group-hover:translate-y-[-3px]"
+              className="group-hover:translate-y-[-3px]"
               height={34}
               loading="lazy"
               src="/images/arrow_yellow.png"
@@ -36,7 +36,7 @@ export const SwitchComponent = dynamic(
             />
             <Image
               alt="swap_icon"
-              className="transition ease-in-out duration-75 group-hover:translate-y-[3px]"
+              className="group-hover:translate-y-[3px]"
               height={34}
               loading="lazy"
               src="/images/arrow_blue.png"

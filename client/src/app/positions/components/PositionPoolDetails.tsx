@@ -45,7 +45,7 @@ export const PositionPoolDetails = dynamic(
               />
             </div>
           )}
-          <div className="flex flex-row items-center justify-start gap-3 collapse-title text-md">
+          <div className="flex items-center justify-start gap-3 collapse-title text-md">
             <div className="relative flex mr-5">
               <span className="z-0">
                 <TokenIcon token={pool.tokenA} />

@@ -21,7 +21,7 @@ export const TimeSpanSection = () => {
   return (
     <div className="flex flex-col gap-3 pb-5">
       <div className="my-2">
-        <h4 className="flex flex-row items-center gap-1 mb-2 text-sm opacity-90">
+        <h4 className="flex items-center gap-1 mb-2 text-sm opacity-90">
           Time Span{' '}
           <FontAwesomeIcon
             className="text-[var(--light-blue)] opacity-60"

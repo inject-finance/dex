@@ -13,8 +13,8 @@ export default function Page() {
   return (
     <main className="max-w-[1024px] m-auto relative">
       <div className="flex flex-col gap-5 min-h-[520px] max-h-[520px] w-[380px] md:w-[560px] lg:w-[840px] p-5 rounded bg-[var(--green-black)] overflow-y-auto overflow-x-hidden">
-        <div className="flex flex-row justify-between">
-          <h2 className="flex flex-row items-center gap-3 text-2xl font-semibold">
+        <div className="flex justify-between">
+          <h2 className="flex items-center gap-3 text-2xl font-semibold">
             Pools
             <Image
               alt="liquidity_icon"

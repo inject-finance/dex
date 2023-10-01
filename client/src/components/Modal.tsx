@@ -31,7 +31,7 @@ export const Modal = ({ open, toggle, title, children, OpenButton }: Props) => {
             text={loading?.text}
           >
             <div className="p-5">
-              <div className="flex flex-row justify-between text-lg font-semibold xl:text-xl">
+              <div className="flex justify-between text-lg font-semibold xl:text-xl">
                 <h2>{title}</h2>
                 <label
                   className="btn btn-sm btn-circle text-white font-lig bg-transparent border-none hover:bg-[var(--bg-black)]"

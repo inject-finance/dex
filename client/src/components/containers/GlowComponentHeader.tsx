@@ -9,8 +9,8 @@ export const GlowComponentHeader = () => {
   const pathname = usePathname()
 
   return (
-    <div className="flex flex-row items-start justify-between w-full">
-      <h2 className="flex flex-row items-center gap-3 text-2xl font-semibold">
+    <div className="flex items-start justify-between w-full">
+      <h2 className="flex items-center gap-3 text-2xl font-semibold">
         {pathname === '/swap' && (
           <>
             Swap
@@ -44,7 +44,7 @@ export const GlowComponentHeader = () => {
           </>
         )}
       </h2>
-      <div className="flex flex-row items-center justify-end gap-1">
+      <div className="flex items-center justify-end gap-1">
         {pathname === '/swap' && <TradeSettings />}
       </div>
     </div>

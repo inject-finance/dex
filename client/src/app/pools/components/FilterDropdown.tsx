@@ -16,7 +16,7 @@ export const FilterDropdown = () => {
   return (
     <div className="dropdown dropdown-end">
       <label
-        className="flex flex-row items-center justify-center gap-2 rounded py-1 px-5 truncate max-w-[170px] bg-[var(--green-black)] hover:bg-[var(--brand-blue)] opacity-60 hover:opacity-100 hover:cursor-pointer transition ease-in-out duration-300"
+        className="flex items-center justify-center gap-2 rounded py-1 px-5 truncate max-w-[170px] bg-[var(--green-black)] hover:bg-[var(--brand-blue)] opacity-60 hover:opacity-100 hover:cursor-pointer transition ease-in-out duration-300"
         tabIndex={0}
       >
         Filter

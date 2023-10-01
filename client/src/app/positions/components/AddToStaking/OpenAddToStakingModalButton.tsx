@@ -9,7 +9,7 @@ export const OpenModalButton = () => (
     onClick={toggleAddToStakingModalVisibility}
   >
     <div
-      className="flex flex-row items-center justify-center py-1 px-2 w-full text-md rounded-full opacity-60 bg-gradient-to-br from-[var(--light-blue)] to-[var(--brand-yellow)] hover:opacity-100"
+      className="flex items-center justify-center py-1 px-2 w-full text-md rounded-full opacity-60 bg-gradient-to-br from-[var(--light-blue)] to-[var(--brand-yellow)] hover:opacity-100"
       id="createBtn"
     >
       <FontAwesomeIcon

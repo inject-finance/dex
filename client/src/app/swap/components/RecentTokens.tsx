@@ -25,7 +25,7 @@ export const RecentTokens = () => {
           icon={faClockRotateLeft}
         />
       </h3>
-      <ul className="flex flex-row items-center justify-start">
+      <ul className="flex items-center justify-start">
         {recentTokens?.map((e) => (
           <li key={e.id}>
             <button

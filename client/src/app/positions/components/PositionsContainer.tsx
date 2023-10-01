@@ -26,7 +26,7 @@ export const PositionsContainer = () => {
           />
         </div>
 
-        <div className="flex flex-row items-center justify-center w-1/5 lg:justify-end">
+        <div className="flex items-center justify-center w-1/5 lg:justify-end">
           <FilterDropdown />
           <SortDropdown />
         </div>

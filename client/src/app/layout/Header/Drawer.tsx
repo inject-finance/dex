@@ -122,7 +122,7 @@ export const Drawer = dynamic(
               </li> */}
               <li>
                 <Link
-                  className="flex flex-row items-center active:bg-[var(--brand-blue)]"
+                  className="flex items-center active:bg-[var(--brand-blue)]"
                   href="/pools"
                 >
                   Pools

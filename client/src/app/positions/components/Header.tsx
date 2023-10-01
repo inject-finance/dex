@@ -5,8 +5,8 @@ import { CreatePositionModal } from '../../pools/components/CreatePositionModal'
 import { OpenModalButton } from './AddToStaking/OpenAddToStakingModalButton'
 
 export const Header = () => (
-  <div className="flex flex-row justify-between">
-    <h2 className="flex flex-row items-center gap-3 text-2xl font-semibold">
+  <div className="flex justify-between">
+    <h2 className="flex items-center gap-3 text-2xl font-semibold">
       Positions
       <Image
         alt="liquidity_icon"

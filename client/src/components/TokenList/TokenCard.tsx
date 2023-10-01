@@ -44,7 +44,7 @@ export const TokenCard = ({ token }: Props) => {
         }`}
         onClick={handleOptionClick(token)}
       >
-        <label className="flex flex-row items-center justify-between w-full gap-3 cursor-pointer">
+        <label className="flex items-center justify-between w-full gap-3 cursor-pointer">
           <div className="flex items-center gap-2">
             <TokenIcon token={token} />
             <div className="flex flex-col items-start justify-end">

@@ -39,7 +39,7 @@ export const PoolCard = ({ pool }: Props) => {
         <Details pool={pool} />
 
         {Boolean(isAuthenticated) && (
-          <div className="flex flex-row items-center w-full gap-3 pt-5 md:w-auto">
+          <div className="flex items-center w-full gap-3 pt-5 md:w-auto">
             <OpenCreatePositionModal tokenA={tokenA} tokenB={tokenB} />
             <OpenRedeemRewardsModal tokenA={tokenA} tokenB={tokenB} />
             <OpenRemoveLiquidityModal tokenA={tokenA} tokenB={tokenB} />

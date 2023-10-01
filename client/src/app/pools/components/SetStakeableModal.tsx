@@ -173,7 +173,7 @@ export const SetStakeableModal = dynamic(
               register={register('minStakeAmount')}
             />
 
-            <div className="flex flex-row items-center justify-center gap-5 mt-5">
+            <div className="flex items-center justify-center gap-5 mt-5">
               <CancelButton
                 className="w-1/2"
                 title="Cancel"

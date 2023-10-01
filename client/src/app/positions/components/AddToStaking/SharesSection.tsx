@@ -39,7 +39,7 @@ export const SharesSection = () => {
     <>
       <div className="flex flex-col gap-3">
         <div>
-          <h4 className="flex flex-row items-center gap-1 mb-2 text-sm opacity-90">
+          <h4 className="flex items-center gap-1 mb-2 text-sm opacity-90">
             Shares{' '}
             <FontAwesomeIcon
               className="text-[var(--light-blue)] opacity-60"

@@ -25,7 +25,7 @@ export const Header = dynamic(
       )
 
       return (
-        <div className="flex flex-row items-center justify-start gap-3 collapse-title text-md">
+        <div className="flex items-center justify-start gap-3 collapse-title text-md">
           <div className="relative flex mr-5">
             <span className="z-0">
               <TokenIcon token={tokenA} />
@@ -39,7 +39,7 @@ export const Header = dynamic(
           </h4>
 
           {isStakeable && !Number(stakedAmount) ? (
-            <span className="flex flex-row items-center gap-2 border border-1 rounded-full border-[#FDD981]/60 text-xs opacity-80 py-1 px-2">
+            <span className="flex items-center gap-2 border border-1 rounded-full border-[#FDD981]/60 text-xs opacity-80 py-1 px-2">
               Stakeable Pool
               <FontAwesomeIcon
                 className="text-[var(--light-yellow)] opacity-80"
@@ -49,7 +49,7 @@ export const Header = dynamic(
           ) : null}
 
           {isStakeable && Number(stakedAmount) ? (
-            <span className="flex flex-row items-center gap-1 border border-1 rounded-full border-[#339EA8]/60 text-xs opacity-80 py-1 px-2">
+            <span className="flex items-center gap-1 border border-1 rounded-full border-[#339EA8]/60 text-xs opacity-80 py-1 px-2">
               Staking In Progress
               <FontAwesomeIcon
                 className="text-[var(--light-blue)] opacity-80"
