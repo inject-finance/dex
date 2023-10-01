@@ -1,4 +1,4 @@
-import { getTokensByNameFilter } from '@/features/tokens/selectors/getTokensFromApi.selector'
+import { getTokensByNameFilter } from '@/features/tokens/selectors/getStoredTokens.selector'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { type ChangeEvent } from 'react'

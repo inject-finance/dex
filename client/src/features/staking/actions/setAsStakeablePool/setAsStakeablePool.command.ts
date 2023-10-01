@@ -1,3 +1,4 @@
+import { Pool } from '@/common/types/Pool'
 import { injectTokenContractService } from '@/contracts/services/inject/InjectTokenContractService'
 import { IStakePoolContractService } from '@/contracts/services/stake/IStakePoolContractService'
 import { CommandsError } from '@/features/common/enums/CommandsError.enum'
@@ -7,7 +8,7 @@ import { processTransaction } from '@/features/common/utils/processTransaction'
 import { setIsLoading } from '@/features/ui/loading.state'
 
 export type SetStakingCommand = {
-  poolAddress?: string
+  pool: Pool
   initialDeposit: number
   minStakeAmount: number
   interestRate: number
@@ -16,7 +17,7 @@ export type SetStakingCommand = {
   stakePoolContractService: IStakePoolContractService
 }
 export const setStakingCommand: Command<SetStakingCommand> = async (state) => {
-  if (!state.poolAddress)
+  if (!state.pool?.address)
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
   if (state.initialDeposit < 10)
     throw new ValidationError('Minimal initial deposit is 10')
@@ -44,7 +45,7 @@ export const setStakingCommand: Command<SetStakingCommand> = async (state) => {
     interestRate: state.interestRate,
     minReserve: state.minReserve,
     minStakeAmount: state.minStakeAmount,
-    poolAddress: state.poolAddress
+    poolAddress: state.pool.address
   })
 
   setIsLoading('We are processing receipt')
@@ -56,7 +57,5 @@ export const setStakingCommand: Command<SetStakingCommand> = async (state) => {
   if (!contractReceipt)
     throw new Error(CommandsError.CONTRACT_RECEIPT_UNSUCCESSFUL)
 
-  state.transactionHash = contractReceipt.transactionHash
-
-  return state
+  return { ...state, transactionHash: contractReceipt.transactionHash }
 }

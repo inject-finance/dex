@@ -1,3 +1,5 @@
+import { PoolAddress } from '@/common/types/Pool'
+import { PositionDurationAndAmount } from '@/common/types/Position'
 import { ContractTransaction } from 'ethers'
 
 export interface IStakePoolContractService {
@@ -18,14 +20,12 @@ export interface IStakePoolContractService {
   }) => Promise<ContractTransaction | undefined>
 
   stakeToken: ({
-    shares,
-    poolAddress,
+    address,
+    amount,
     duration
-  }: {
-    shares: number
-    poolAddress: string
-    duration: number
-  }) => Promise<ContractTransaction | undefined>
+  }: PositionDurationAndAmount & PoolAddress) => Promise<
+    ContractTransaction | undefined
+  >
   claimRewards: (
     poolAddress: string
   ) => Promise<ContractTransaction | undefined>

@@ -12,7 +12,7 @@ import { ChangeEvent } from 'react'
 import { useRecoilValue } from 'recoil'
 
 export const SharesSection = () => {
-  const { staking, tokenA, tokenB } = useRecoilValue(poolState)
+  const { position, tokenA, tokenB } = useRecoilValue(poolState)
   const { shares, sharesInPercent } = useRecoilValue(
     getSharesSelector({ tokenA, tokenB })
   )
@@ -24,14 +24,14 @@ export const SharesSection = () => {
 
     if (Number(value) >= 0 && Number(value) <= sharesInPercent) {
       setPoolState({
-        staking: { ...staking, shares: value }
+        position: { ...position, amount: Number(value) }
       })
     }
   }
 
   const handleClickMax = () => {
     setPoolState({
-      staking: { ...staking, shares: String(sharesInPercent) }
+      position: { ...position, amount: Number(sharesInPercent) }
     })
   }
 
@@ -70,8 +70,8 @@ export const SharesSection = () => {
           </div>
           <div className="flex flex-col w-1/2 md:flex-row md:w-full bg-[var(--dark-green)] rounded-br-md rounded-tr-md md:rounded-tr-none md:rounded-bl-md">
             <div className="text-center p-1 md:w-1/2 border-b border-b-[var(--light-yellow)] md:border-b-0 h-[32px] max-h-[32px] truncate">
-              <span className="pl-2 opacity-80">
-                {sharesInPercent.toFixed(2)} %
+              <span className="opacity-80">
+                &nbsp;&nbsp;{sharesInPercent.toFixed(2)} %
               </span>
             </div>
             <div className="text-center p-1 md:w-1/2 md:border-l md:border-l-[var(--light-yellow)] h-[32px] max-h-[32px] truncate">
@@ -81,10 +81,10 @@ export const SharesSection = () => {
         </div>
 
         <div className="text-center opacity-60">
-          {Boolean(staking.shares) &&
-            `${Number(staking.shares).toFixed(2)}% = ${formatQuantity(
+          {Boolean(position.amount) &&
+            `${Number(position.amount).toFixed(2)}% = ${formatQuantity(
               (Number(shares) / Number(sharesInPercent)) *
-                Number(staking.shares)
+                Number(position.amount)
             )}`}
         </div>
 
@@ -98,7 +98,7 @@ export const SharesSection = () => {
             className="w-full pr-2 bg-transparent border-none input focus:outline-none placeholder:opacity-60 placeholder:text-left disabled:bg-transparen"
             onChange={handleInputChange}
             placeholder="Shares Percentage"
-            value={staking.shares}
+            value={position.amount}
           />
           <MaxButton handleClick={handleClickMax} />
         </div>
@@ -106,13 +106,12 @@ export const SharesSection = () => {
 
       <span className="my-2 text-xs opacity-60">
         <strong>
-          {' '}
           <FontAwesomeIcon
             className="text-[var(--light-yellow)]"
             icon={faExclamationCircle}
-          />{' '}
+          />
           Note:
-        </strong>{' '}
+        </strong>
         Rewards will be available to claim once the Time Span is completed
       </span>
     </>

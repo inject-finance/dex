@@ -3,13 +3,13 @@ import { IPoolFactoryContractService } from '@/contracts/services/factory/IPoolF
 import { ValidationError } from '@/features/common/errors/ValidationError'
 import { type Command } from '@/features/common/process/command'
 import { CommandsError } from '../enums/CommandsError.enum'
+import { Pool } from '@/common/types/Pool'
 
-export type GetPoolAddressCommand = TokenPair & {
+export type GetStoredPoolCommand = TokenPair & {
   poolFactoryContractService: IPoolFactoryContractService
-  poolAddress?: string
+  pool: Pool
 }
-
-export const getPoolAddressCommand: Command<GetPoolAddressCommand> = async (
+export const getStoredPoolCommand: Command<GetStoredPoolCommand> = async (
   state
 ) => {
   if (!state.tokenA.address)
@@ -17,10 +17,14 @@ export const getPoolAddressCommand: Command<GetPoolAddressCommand> = async (
   if (!state.tokenB.address)
     throw new ValidationError(CommandsError.TOKEN_B_ADDRESS_REQUIRED)
 
-  state.poolAddress = await state.poolFactoryContractService.getPoolAddress(
+  const address = await state.poolFactoryContractService.getPoolAddress(
     state.tokenA.address,
     state.tokenB.address
   )
 
-  return state
+  const pool: Pool = await fetch(
+    `/api/pools/criteria?key=address&value=${address}`
+  ).then((res) => res.json())
+
+  return { ...state, pool }
 }

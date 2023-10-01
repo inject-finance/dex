@@ -11,7 +11,7 @@ export const getPoolsFilter = atom({
   }
 })
 
-export const getUserPoolsSelector = selector<Pool[]>({
+export const getStoredUserPoolsSelector = selector<Pool[]>({
   key: 'getUserPoolsSelector',
   get: async ({ get }) => {
     const { account } = get(authState)
@@ -33,7 +33,7 @@ export const getUserPoolsSelector = selector<Pool[]>({
     return pools
   }
 })
-export const getPoolsSelector = selector<Pool[]>({
+export const getStoredPoolsSelector = selector<Pool[]>({
   key: 'getPoolsSelector',
   get: async ({ get }) => {
     const { tokenName, myPoolsCheck } = get(getPoolsFilter)
@@ -41,7 +41,7 @@ export const getPoolsSelector = selector<Pool[]>({
     let pools: Pool[]
 
     if (myPoolsCheck) {
-      pools = get(getUserPoolsSelector)
+      pools = get(getStoredUserPoolsSelector)
     } else {
       pools = await fetch(`/api/pools/tokens?key=name&value=${tokenName}`).then(
         (res) => res.json().catch(() => [])

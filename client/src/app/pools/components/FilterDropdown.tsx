@@ -1,5 +1,5 @@
 import { authState } from '@/features/auth/auth.state'
-import { getPoolsFilter } from '@/features/pool/selectors/getPoolsFromApi'
+import { getPoolsFilter } from '@/features/pool/selectors/getStoredPools.selector'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRecoilState, useRecoilValue } from 'recoil'

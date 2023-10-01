@@ -8,22 +8,19 @@ import { setIsLoading } from '../../../ui/loading.state'
 
 export type StoreLiquidityCommand = {
   account: User
-  poolAddress?: string
+  pool: Pool
 }
 
 export const storeLiquidityCommand: Command<StoreLiquidityCommand> = async (
   state
 ) => {
+  if (!state.pool?.id) throw new ValidationError(CommandsError.POOL_ID_REQUIRED)
   if (!state.account.id)
     throw new ValidationError(CommandsError.USER_ID_REQUIRED)
-  if (!state.poolAddress)
+  if (!state.pool?.address)
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
 
   setIsLoading('We are saving your entry')
-
-  const { id: poolId }: Pool = await fetch(
-    `/api/pools/criteria?key=address&value=${state.poolAddress}`
-  ).then((res) => res.json())
 
   await fetch(`/api/users/${state.account.id}/liquidity`, {
     method: 'POST',
@@ -33,7 +30,7 @@ export const storeLiquidityCommand: Command<StoreLiquidityCommand> = async (
     },
     body: JSON.stringify({
       userId: state.account.id,
-      poolId
+      poolId: state.pool?.id
     })
   }).then((res) => res.json())
 

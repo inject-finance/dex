@@ -10,6 +10,8 @@ import { StakePoolConstants } from '@/contracts/data/StakePool.constants'
 import { metamaskService } from '@/features/auth/services/metamask-service/MetamaskService'
 import { poolFactoryContractService } from '../factory/PoolFactoryContractService'
 import { TokenPair } from '@/common/types/Token'
+import { PositionAmount } from '@/common/types/Position'
+import { PoolAddress } from '@/common/types/Pool'
 
 export class DexPoolContractService implements IDexPoolContractService {
   private declare contract: DexPool | null
@@ -27,38 +29,24 @@ export class DexPoolContractService implements IDexPoolContractService {
     }
   }
 
-  public async approveAmountToStake({
-    sharesToStake,
-    poolAddress,
-    tokenA,
-    tokenB
-  }: {
-    sharesToStake: number
-    poolAddress: string
-    account: UserAddress
-  } & TokenPair): Promise<ContractTransaction | undefined> {
-    await this.init(poolAddress)
-    const shares = await this.getShares({ tokenA, tokenB })
-    const totalSupply = await this.totalSupply({ tokenA, tokenB })
-    const sharesInPercent = (shares / totalSupply) * 100
+  public async approvePositionAmount({
+    address,
+    amount
+  }: PositionAmount & PoolAddress): Promise<ContractTransaction | undefined> {
+    await this.init(address)
 
     return this.contract?.approve(
       StakePoolConstants.address,
-      utils.parseEther(
-        String((shares / sharesInPercent) * Number(sharesToStake))
-      )
+      utils.parseEther(String(amount))
     )
   }
 
-  /**
-   * Approves an amount of tokens to be spent by the DexRouter contract.
-   *
-   * @param {string} shares - The amount of tokens to approve, expressed as a string and should be parse to ether
-   * @returns {Promise<ContractTransaction> | undefined} - A promise that resolves with a ContractTransaction object if the contract is defined, or undefined otherwise.
-   */
-  public approveAmount(
-    shares: number
-  ): Promise<ContractTransaction> | undefined {
+  public async approveRemoveLiquidityAmount(
+    shares: number,
+    poolAddress: string
+  ) {
+    await this.init(poolAddress)
+
     return this.contract?.approve(
       DexRouterConstants.address,
       utils.parseEther(String(shares))

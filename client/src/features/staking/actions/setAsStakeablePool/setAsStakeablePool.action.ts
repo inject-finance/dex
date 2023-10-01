@@ -7,7 +7,8 @@ import {
   SetStakingCommand,
   setStakingCommand
 } from './setAsStakeablePool.command'
-import { getPoolAddressCommand } from '@/features/common/commands/getPoolAddress.command'
+import { getStoredPoolCommand } from '@/features/common/commands/getStoredPoolCommand.command'
+import { Pool } from '@/common/types/Pool'
 
 interface Props extends TokenPair {
   initialDeposit: number
@@ -28,11 +29,11 @@ export const setAsStakeable = async ({
     interestRate,
     minReserve,
     stakePoolContractService,
-    poolAddress: ''
+    pool: {} as Pool
   })
 
   await cStack
-    .add(getPoolAddressCommand)
+    .add(getStoredPoolCommand)
     .add(setStakingCommand)
     .run()
     .then((state) => showTransactionDetails(state))

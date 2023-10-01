@@ -6,9 +6,9 @@ import {
   getAccountCommand
 } from '@/features/common/commands/getAccount.command'
 import {
-  GetPoolAddressCommand,
-  getPoolAddressCommand
-} from '@/features/common/commands/getPoolAddress.command'
+  GetStoredPoolCommand,
+  getStoredPoolCommand
+} from '@/features/common/commands/getStoredPoolCommand.command'
 import { createCommandStack } from '@/features/common/process/create-command.stack'
 import { showTransactionDetails } from '@/features/common/utils/showTransactionDetails'
 import { setIsLoading } from '@/features/ui/loading.state'
@@ -21,25 +21,26 @@ import {
   storeRedeemRewardsCommand
 } from './storeRedeemRewards.command'
 import { poolFactoryContractService } from '@/contracts/services/factory/PoolFactoryContractService'
+import { Pool } from '@/common/types/Pool'
 
 export const redeemRewards = async ({ tokenA, tokenB }: TokenPair) => {
   const cStack = createCommandStack<
     ClaimRewardsCommand &
       StoreRedeemRewardsCommand &
       GetAccountCommand &
-      GetPoolAddressCommand
+      GetStoredPoolCommand
   >({
     tokenA,
     tokenB,
     stakePoolContractService,
     poolFactoryContractService,
     account: {} as User,
-    poolAddress: '',
-    transactionHash: ''
+    transactionHash: '',
+    pool: {} as Pool
   })
 
   await cStack
-    .add(getPoolAddressCommand)
+    .add(getStoredPoolCommand)
     .add(getAccountCommand)
     .add(claimRewardsCommand)
     .add(storeRedeemRewardsCommand)

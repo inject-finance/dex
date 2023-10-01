@@ -4,11 +4,11 @@ import { authState } from '@/features/auth/auth.state'
 import { setPoolState } from '@/features/pool/pool.state'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
 import { useRecoilValue } from 'recoil'
-import { OpenSetStakeableButton } from './OpenSetStakeableButton'
 import { Details } from './Details'
 import { Header } from './Header'
-import { OpenStakeModalButton } from './OpenStakeModalButton'
 import { OpenRemoveLiquidityButton } from './OpenRemoveLiquidityButton'
+import { OpenSetStakeableButton } from './OpenSetStakeableButton'
+import { OpenStakeModalButton } from './OpenStakeModalButton'
 import { OpenStakingDetailsButton } from './OpenStakingDetailsButton'
 
 interface Props {
@@ -16,14 +16,14 @@ interface Props {
 }
 
 export const PoolCard = ({ pool }: Props) => {
-  const { tokenA, tokenB, address } = pool
+  const { tokenA, tokenB } = pool
   const { isAuthenticated } = useRecoilValue(authState)
   const pendingRewards = useRecoilValue(
     getTotalRewardsSelector({ tokenA, tokenB })
   )
 
   const handleSelectPool = () => {
-    setPoolState({ tokenA, tokenB, poolAddress: address })
+    setPoolState({ tokenA, tokenB })
   }
 
   return (

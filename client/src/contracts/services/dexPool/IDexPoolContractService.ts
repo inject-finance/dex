@@ -1,20 +1,20 @@
+import { PoolAddress } from '@/common/types/Pool'
+import { PositionAmount } from '@/common/types/Position'
 import { TokenPair } from '@/common/types/Token'
-import { User, UserAddress } from '@/common/types/User'
+import { UserAddress } from '@/common/types/User'
 import { type ContractTransaction } from 'ethers'
 
 export interface IDexPoolContractService {
   init(address: string): Promise<void>
-  approveAmountToStake({
-    sharesToStake,
-    poolAddress,
-    account
-  }: {
-    sharesToStake: number
-    poolAddress: string
-    account: User
-  } & TokenPair): Promise<ContractTransaction | undefined>
+  approvePositionAmount({
+    amount,
+    address
+  }: PositionAmount & PoolAddress): Promise<ContractTransaction | undefined>
 
-  approveAmount(shares: number): Promise<ContractTransaction> | undefined
+  approveRemoveLiquidityAmount(
+    shares: number,
+    poolAddress: string
+  ): Promise<ContractTransaction | undefined>
 
   getAllowance({ address }: UserAddress): Promise<number>
 

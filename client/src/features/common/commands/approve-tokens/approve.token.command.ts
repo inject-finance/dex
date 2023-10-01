@@ -17,10 +17,10 @@ export type ApproveTokenCommand = {
 export const approveTokenCommand: Command<ApproveTokenCommand> = async (
   state
 ) => {
-  if (!state.token.amount) throw new ValidationError('Amount is required')
-  if (!state.token.address) throw new ValidationError('Address is required')
+  if (!state.token.amount) throw new ValidationError('Amount required')
+  if (!state.token.address) throw new ValidationError('Token address required')
   if (!state.account.address)
-    throw new ValidationError('Metamask address is required')
+    throw new ValidationError('Metamask address required')
   if (state.token.symbol === 'ETH') {
     return { ...state }
   }

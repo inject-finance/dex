@@ -8,7 +8,7 @@ import { setIsLoading } from '../../../ui/loading.state'
 
 export type StoreRemoveLiquidityCommand = {
   account: User
-  poolAddress?: string
+  pool: Pool
 }
 
 export const storeRemoveLiquidityCommand: Command<
@@ -16,16 +16,11 @@ export const storeRemoveLiquidityCommand: Command<
 > = async (state) => {
   if (!state.account.id)
     throw new ValidationError(CommandsError.USER_ID_REQUIRED)
-  if (!state.poolAddress)
-    throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
+  if (!state.pool?.id) throw new ValidationError(CommandsError.POOL_ID_REQUIRED)
 
   setIsLoading('We are saving your entry')
 
-  const { id: poolId }: Pool = await fetch(
-    `/api/pools/criteria?key=address&value=${state.poolAddress}`
-  ).then((res) => res.json())
-
-  await fetch(`/api/users/${state.account.id}/liquidity/${poolId}`, {
+  await fetch(`/api/users/${state.account.id}/liquidity/${state.pool.id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

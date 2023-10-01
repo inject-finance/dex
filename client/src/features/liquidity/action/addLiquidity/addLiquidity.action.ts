@@ -3,9 +3,9 @@ import { User } from '@/common/types/User'
 import { poolFactoryContractService } from '@/contracts/services/factory/PoolFactoryContractService'
 import { routerContractService } from '@/contracts/services/router/RouterContractService'
 import {
-  GetPoolAddressCommand,
-  getPoolAddressCommand
-} from '@/features/common/commands/getPoolAddress.command'
+  GetStoredPoolCommand,
+  getStoredPoolCommand
+} from '@/features/common/commands/getStoredPoolCommand.command'
 import { createCommandStack } from '@/features/common/process/create-command.stack'
 import { showTransactionDetails } from '@/features/common/utils/showTransactionDetails'
 import { setIsLoading } from '../../../ui/loading.state'
@@ -21,12 +21,13 @@ import {
   GetAccountCommand,
   getAccountCommand
 } from '@/features/common/commands/getAccount.command'
+import { Pool } from '@/common/types/Pool'
 
 type Props = TokenPair
 
 type AddLiquidityAction = AddLiquidityCommand &
   StoreLiquidityCommand &
-  GetPoolAddressCommand &
+  GetStoredPoolCommand &
   GetAccountCommand
 export const addLiquidityAction = async ({ tokenA, tokenB }: Props) => {
   const cStack = createCommandStack<AddLiquidityAction>({
@@ -35,13 +36,13 @@ export const addLiquidityAction = async ({ tokenA, tokenB }: Props) => {
     routerContractService,
     poolFactoryContractService,
     account: {} as User,
-    poolAddress: '',
-    transactionHash: ''
+    transactionHash: '',
+    pool: {} as Pool
   })
 
   await cStack
     .add(getAccountCommand)
-    .add(getPoolAddressCommand)
+    .add(getStoredPoolCommand)
     .add(addLiquidityCommand)
     .add(storeLiquidityCommand)
     .run()

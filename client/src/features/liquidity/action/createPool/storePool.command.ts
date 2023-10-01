@@ -4,10 +4,11 @@ import { ValidationError } from '@/features/common/errors/ValidationError'
 import { type Command } from '@/features/common/process/command'
 import { setIsLoading } from '../../../ui/loading.state'
 import { CommandsError } from '@/features/common/enums/CommandsError.enum'
+import { Pool } from '@/common/types/Pool'
 
 export type StorePoolCommand = TokenPair & {
   poolFactoryContractService: IPoolFactoryContractService
-  poolAddress?: string
+  pool: Pool
 }
 export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
   if (!state.tokenA.address)
@@ -16,11 +17,6 @@ export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
     throw new ValidationError(CommandsError.TOKEN_B_ADDRESS_REQUIRED)
 
   setIsLoading('We are saving your pair')
-
-  state.poolAddress = await state.poolFactoryContractService.getPoolAddress(
-    state.tokenA.address,
-    state.tokenB.address
-  )
 
   const resTokenA = await fetch(
     `/api/tokens/filter-one?property=symbol&value=${String(
@@ -40,7 +36,7 @@ export const storePoolCommand: Command<StorePoolCommand> = async (state) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      address: state.poolAddress,
+      address: state.pool.address,
       tokenAId: tokenA.id,
       tokenBId: tokenB.id
     })

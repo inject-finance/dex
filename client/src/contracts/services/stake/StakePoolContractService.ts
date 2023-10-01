@@ -1,6 +1,8 @@
 /* eslint-disable line-comment-position */
 /* eslint-disable no-inline-comments */
 import constants from '@/common/configuration/constants'
+import { PoolAddress } from '@/common/types/Pool'
+import { PositionDurationAndAmount } from '@/common/types/Position'
 import { StakePoolToken } from '@/contracts/types/StakePoolToken'
 import { utils } from 'ethers'
 import { StakePoolConstants } from '../../data/StakePool.constants'
@@ -36,7 +38,7 @@ export class StakePoolContractService implements IStakePoolContractService {
     interestRate: number
     initialDeposit: number // InjectToken,
     minReserve: number // Should be less than initial deposit
-    minStakeAmount: number // The minimum amount to do stacking is 10USD
+    minStakeAmount: number // The minimum amount to do staking is 10USD
   }) {
     await this.init()
     return this.contract?.setStakingPool(
@@ -49,17 +51,13 @@ export class StakePoolContractService implements IStakePoolContractService {
   }
 
   public async stakeToken({
-    shares,
-    poolAddress,
-    duration // Number in days [1,2,3]
-  }: {
-    shares: number
-    poolAddress: string
-    duration: number
-  }) {
+    amount: stakingAmount,
+    address: poolAddress,
+    duration
+  }: PositionDurationAndAmount & PoolAddress) {
     await this.init()
     return this.contract?.stakeToken(
-      utils.parseEther(String(shares)),
+      utils.parseEther(String(stakingAmount)),
       poolAddress,
       60 * 60 * 24 * duration
       // 60 * 10

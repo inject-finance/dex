@@ -20,13 +20,14 @@ import {
   getAccountCommand
 } from '@/features/common/commands/getAccount.command'
 import {
-  GetPoolAddressCommand,
-  getPoolAddressCommand
-} from '@/features/common/commands/getPoolAddress.command'
+  GetStoredPoolCommand,
+  getStoredPoolCommand
+} from '@/features/common/commands/getStoredPoolCommand.command'
+import { Pool } from '@/common/types/Pool'
 
 export type CreatePoolAction = AddLiquidityCommand &
   GetAccountCommand &
-  GetPoolAddressCommand &
+  GetStoredPoolCommand &
   CreatePoolCommand &
   StoreLiquidityCommand &
   StorePoolCommand
@@ -38,12 +39,12 @@ export const createPoolAction = async ({ tokenA, tokenB }: TokenPair) => {
     routerContractService,
     account: {} as User,
     transactionHash: '',
-    poolAddress: ''
+    pool: {} as Pool
   })
 
   await cStack
     .add(getAccountCommand)
-    .add(getPoolAddressCommand)
+    .add(getStoredPoolCommand)
     .add(createPoolCommand)
     .add(storePoolCommand)
     .add(addLiquidityCommand)

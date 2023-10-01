@@ -37,7 +37,5 @@ export const swapCommand: Command<SwapCommand> = async (state) => {
 
   const { transactionHash } = await processTransaction(transaction)
 
-  state.transactionHash = transactionHash
-
-  return state
+  return { ...state, transactionHash }
 }

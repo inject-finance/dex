@@ -1,7 +1,7 @@
 'use client'
 import { StakeTokensModal } from '@/app/pools/components/StakeTokensModal'
 import { Spinner } from '@/components/Spinner'
-import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
+import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRecoilValueLoadable } from 'recoil'
@@ -11,7 +11,7 @@ import { RemoveLiquidityModal } from './RemoveLiquidityModal'
 import { SetStakeableModal } from './SetStakeableModal'
 
 export const PoolTable = () => {
-  const { state, contents } = useRecoilValueLoadable(getPoolsSelector)
+  const { state, contents } = useRecoilValueLoadable(getStoredPoolsSelector)
 
   if (state === 'loading' || state !== 'hasValue') {
     return (

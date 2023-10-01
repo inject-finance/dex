@@ -1,3 +1,5 @@
+import { Pool } from '@/common/types/Pool'
+import { PositionDurationAndAmount } from '@/common/types/Position'
 import { TokenPair } from '@/common/types/Token'
 import { User } from '@/common/types/User'
 import { IDexPoolContractService } from '@/contracts/services/dexPool/IDexPoolContractService'
@@ -9,30 +11,33 @@ import { processTransaction } from '@/features/common/utils/processTransaction'
 import { setIsLoading } from '@/features/ui/loading.state'
 
 export type StakeTokenCommand = {
-  sharesToStake: number
-  poolAddress?: string
-  stakeDuration: number
+  position: PositionDurationAndAmount
   transactionHash?: string
   account: User
   stakePoolContractService: IStakePoolContractService
   dexPoolContractService: IDexPoolContractService
+  pool: Pool
 } & TokenPair
 export const stakeTokenCommand: Command<StakeTokenCommand> = async (state) => {
-  if (!state.sharesToStake)
-    throw new ValidationError('Shares to staking is required')
-  if (!state.poolAddress)
+  if (!state.position.amount)
+    throw new ValidationError(CommandsError.POSITION_AMOUNT_REQUIRED)
+  if (state.position.duration < 30)
+    throw new Error('The minimal duration is 30 days')
+  if (!state.pool?.address)
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
-  if (!state.stakeDuration) throw new ValidationError('Duration is required')
 
   setIsLoading('We are approving shares')
+  const shares = await state.dexPoolContractService.getShares(state)
+  const totalSupply = await state.dexPoolContractService.totalSupply(state)
+  const sharesInPercent = (shares / totalSupply) * 100
+
+  const stakingAmountCalculated =
+    (shares / sharesInPercent) * state.position.amount
 
   const transactionApproval =
-    await state.dexPoolContractService.approveAmountToStake({
-      sharesToStake: state.sharesToStake,
-      account: state.account,
-      poolAddress: state.poolAddress,
-      tokenA: state.tokenA,
-      tokenB: state.tokenB
+    await state.dexPoolContractService.approvePositionAmount({
+      amount: stakingAmountCalculated,
+      address: state.pool?.address
     })
 
   setIsLoading('Approving Transaction')
@@ -40,9 +45,9 @@ export const stakeTokenCommand: Command<StakeTokenCommand> = async (state) => {
 
   setIsLoading('We are staking shares')
   const transaction = await state.stakePoolContractService.stakeToken({
-    duration: state.stakeDuration,
-    poolAddress: state.poolAddress,
-    shares: state.sharesToStake
+    amount: stakingAmountCalculated,
+    duration: state.position.duration,
+    address: state.pool?.address
   })
 
   setIsLoading('We are processing your receipt')

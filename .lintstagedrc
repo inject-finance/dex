@@ -1,3 +1,7 @@
 {
-  "*.{js,jsx,ts,tsx}": ["yarn workspace server lint:fix"]
+  "*.{js,jsx,ts,tsx}": [
+    "yarn workspace client build",
+    "yarn workspace server build",
+    "yarn workspace server lint:fix"
+  ]
 }

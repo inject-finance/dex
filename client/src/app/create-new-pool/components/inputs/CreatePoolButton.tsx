@@ -10,7 +10,7 @@ import { createPoolAction } from '@/features/liquidity/action/createPool/createP
 import { getPairAllowanceSelector } from '@/features/liquidity/selectors/getAllowance.selector'
 import { poolState } from '@/features/pool/pool.state'
 import { getPoolAddressSelector } from '@/features/pool/selectors/getPoolAddress.selector'
-import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
+import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import {
   getHasReservesSelector,
   getReservesSelector
@@ -21,7 +21,7 @@ import { getSharesSelector } from '@/features/tokens/selectors/getShares.selecto
 import {
   getTokensInPoolSelector,
   getTokensWithoutPoolSelector
-} from '@/features/tokens/selectors/getTokensFromApi.selector'
+} from '@/features/tokens/selectors/getStoredTokens.selector'
 import { toggleConfirmationModalVisibility } from '@/features/ui/ui.state'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import dynamic from 'next/dynamic'
@@ -58,7 +58,7 @@ export const CreatePoolButton = dynamic(
                 refresh(getTokensWithoutPoolSelector)
                 refresh(getSharesSelector({ tokenA, tokenB }))
                 refresh(getPairAllowanceSelector)
-                refresh(getPoolsSelector)
+                refresh(getStoredPoolsSelector)
               }
             }
         )

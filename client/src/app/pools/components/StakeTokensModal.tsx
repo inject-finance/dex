@@ -2,7 +2,7 @@
 import { Modal } from '@/components/Modal'
 import { ActionButton } from '@/components/buttons/ActionButton'
 import { poolState } from '@/features/pool/pool.state'
-import { getPoolsSelector } from '@/features/pool/selectors/getPoolsFromApi'
+import { getStoredPoolsSelector } from '@/features/pool/selectors/getStoredPools.selector'
 import { stakeToken } from '@/features/staking/actions/stakeToken/stakeToken.action'
 import { getIsStakedPoolSelector } from '@/features/staking/selectors/getIsStakedPool.selector'
 import { getTotalRewardsSelector } from '@/features/staking/selectors/getTotalRewards.selector'
@@ -21,55 +21,28 @@ import { TimeSpanSection } from '../../positions/components/AddToStaking/TimeSpa
 
 export const StakeTokensModal = () => {
   const { createPositionModalVisibility } = useRecoilValue(uiState)
-  const { tokenA, tokenB, staking } = useRecoilValue(poolState)
+  const { tokenA, tokenB, position } = useRecoilValue(poolState)
   const pathname = usePathname()
 
   const onClick = useRecoilCallback(({ refresh }) => async () => {
-    try {
-      if (Number(staking.shares) < 0) {
-        throw new Error('The minimal shares is 0')
-      }
+    await stakeToken({
+      position,
+      tokenA,
+      tokenB
+    })
 
-      if (Number(staking.duration) < 30) {
-        throw new Error('The minimal duration is 30 days')
-      }
+    toggleAddToStakingModalVisibility()
 
-      await stakeToken({
-        sharesToStake: Number(staking.shares),
-        stakeDuration: staking.duration,
-        tokenA,
-        tokenB
-      })
+    const selectors = [
+      poolState,
+      getStoredPoolsSelector,
+      getIsStakedPoolSelector({ tokenA, tokenB }),
+      getSharesSelector({ tokenA, tokenB }),
+      getTotalRewardsSelector({ tokenA, tokenB }),
+      getUserStakingPoolInfoSelector({ tokenA, tokenB })
+    ]
 
-      toggleAddToStakingModalVisibility()
-    } finally {
-      refresh(poolState)
-      refresh(getPoolsSelector)
-      refresh(
-        getIsStakedPoolSelector({
-          tokenA,
-          tokenB
-        })
-      )
-      refresh(
-        getSharesSelector({
-          tokenA,
-          tokenB
-        })
-      )
-      refresh(
-        getTotalRewardsSelector({
-          tokenA,
-          tokenB
-        })
-      )
-      refresh(
-        getUserStakingPoolInfoSelector({
-          tokenA,
-          tokenB
-        })
-      )
-    }
+    selectors.forEach((selector) => refresh(selector))
   })
 
   if (!createPositionModalVisibility) {
@@ -91,7 +64,10 @@ export const StakeTokensModal = () => {
         <ActionButton
           className="w-full"
           disabled={
-            !(Boolean(staking.duration) && Boolean(Number(staking.shares) >= 0))
+            !(
+              Boolean(position.duration) &&
+              Boolean(Number(position.amount) >= 0)
+            )
           }
           icon={faCoins}
           onClick={onClick}

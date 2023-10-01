@@ -1,5 +1,5 @@
 'use client'
-import { getPoolsFilter } from '@/features/pool/selectors/getPoolsFromApi'
+import { getPoolsFilter } from '@/features/pool/selectors/getStoredPools.selector'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ChangeEvent, useEffect } from 'react'

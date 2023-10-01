@@ -6,14 +6,14 @@ import { ChangeEvent } from 'react'
 import { useRecoilCallback, useRecoilValue } from 'recoil'
 
 export const TimeSpanSection = () => {
-  const { staking } = useRecoilValue(poolState)
+  const { position } = useRecoilValue(poolState)
 
   const onChangeSelect = useRecoilCallback(
     ({ set }) =>
       (e: ChangeEvent<HTMLSelectElement>) => {
         set(poolState, (prev) => ({
           ...prev,
-          staking: { ...staking, duration: Number(e.currentTarget.value) }
+          position: { ...position, duration: Number(e.currentTarget.value) }
         }))
       }
   )
@@ -46,7 +46,7 @@ export const TimeSpanSection = () => {
       <select
         className="[&>option]:p-5 w-full rounded select opacity-60 hover:opacity-90 focus:opacity-90 focus:border-[var(--light-blue)] bg-[var(--dark-green)] transition ease-in-out duration-300"
         onChange={onChangeSelect}
-        value={staking.duration}
+        value={position.duration}
       >
         {/* <option disabled selected>
           Select Time Span

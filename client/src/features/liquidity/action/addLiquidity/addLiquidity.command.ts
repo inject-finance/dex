@@ -7,15 +7,12 @@ import { processTransaction } from '@/features/common/utils/processTransaction'
 import { setIsLoading } from '../../../ui/loading.state'
 
 export type AddLiquidityCommand = TokenPair & {
-  poolAddress?: string
   routerContractService: IRouterContractService
   transactionHash: string
 }
 export const addLiquidityCommand: Command<AddLiquidityCommand> = async (
   state
 ) => {
-  if (!state.poolAddress?.length)
-    throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
   if (!state.tokenA.amount)
     throw new ValidationError(CommandsError.TOKEN_A_AMOUNT_REQUIRED)
   if (!state.tokenA.address)
@@ -24,7 +21,6 @@ export const addLiquidityCommand: Command<AddLiquidityCommand> = async (
     throw new ValidationError(CommandsError.TOKEN_B_ADDRESS_REQUIRED)
 
   setIsLoading('We are Adding Liquidity')
-
   const transaction = await state.routerContractService.addLiquidity(
     state.tokenA,
     state.tokenB

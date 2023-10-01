@@ -1,4 +1,5 @@
 import { Pool } from '@/common/types/Pool'
+import { PositionDurationAndAmount } from '@/common/types/Position'
 import { TokenPair } from '@/common/types/Token'
 import { User } from '@/common/types/User'
 import { CommandsError } from '@/features/common/enums/CommandsError.enum'
@@ -8,14 +9,14 @@ import { setIsLoading } from '@/features/ui/loading.state'
 import dayjs from 'dayjs'
 
 export type StorePositionCommand = {
-  poolAddress?: string
   account: User
-  stakeDuration: number
+  position: PositionDurationAndAmount
+  pool: Pool
 } & TokenPair
 export const storePositionCommand: Command<StorePositionCommand> = async (
   state
 ) => {
-  if (!state.poolAddress)
+  if (!state.pool?.address)
     throw new ValidationError(CommandsError.POOL_ADDRESS_REQUIRED)
   if (!state.account.id)
     throw new ValidationError(CommandsError.ACCOUNT_ID_REQUIRED)
@@ -25,19 +26,16 @@ export const storePositionCommand: Command<StorePositionCommand> = async (
     throw new ValidationError(CommandsError.TOKEN_B_ADDRESS_REQUIRED)
 
   setIsLoading('We are saving your position')
-  const pool: Pool = await fetch(
-    `/api/pools/criteria?key=address&value=${state.poolAddress}`
-  ).then((res) => res.json())
 
   await fetch(`/api/positions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       userId: state.account.id,
-      poolId: pool.id,
+      poolId: state.pool?.id,
       start: dayjs().format('YYYY-MM-DD HH:mm:ss.SSSSSZ'),
       end: dayjs()
-        .add(state.stakeDuration, 'days')
+        .add(state.position.duration, 'days')
         .format('YYYY-MM-DD HH:mm:ss.SSSSSZ')
     })
   }).then((res) => res.json())
